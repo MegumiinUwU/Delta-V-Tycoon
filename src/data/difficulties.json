@@ -1,0 +1,35 @@
+[
+  {
+    "id": "cadet",
+    "name": "Cadet",
+    "budgetMult": 1.2,
+    "eventMult": 0.5,
+    "launchFailures": false,
+    "advancedUnlocked": false,
+    "hints": true,
+    "decisionTimerSec": 60,
+    "description": "Basic parts only, extra budget, fewer surprises, hints, and rockets never fail."
+  },
+  {
+    "id": "engineer",
+    "name": "Engineer",
+    "budgetMult": 1.0,
+    "eventMult": 1.0,
+    "launchFailures": true,
+    "advancedUnlocked": true,
+    "hints": false,
+    "decisionTimerSec": 40,
+    "description": "All parts, normal budget, real launch risk."
+  },
+  {
+    "id": "director",
+    "name": "Flight Director",
+    "budgetMult": 0.9,
+    "eventMult": 1.5,
+    "launchFailures": true,
+    "advancedUnlocked": true,
+    "hints": false,
+    "decisionTimerSec": 25,
+    "description": "Tight budget, more surprises, short decision timers. For experts."
+  }
+]

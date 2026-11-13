@@ -1,0 +1,419 @@
+[
+  {
+    "id": "orbit",
+    "term": "Orbit",
+    "category": "orbits",
+    "short": "The path a spacecraft follows around a planet.",
+    "long": "A spacecraft in orbit is always falling, but moving sideways so fast that it keeps missing the ground. Higher orbits are slower and take longer per lap.",
+    "example": "At 500 km one lap takes 95 minutes; at 35,786 km it takes a day.",
+    "related": [
+      "leo",
+      "geo",
+      "delta_v"
+    ]
+  },
+  {
+    "id": "leo",
+    "term": "Low Earth Orbit",
+    "category": "orbits",
+    "short": "Orbits a few hundred km up.",
+    "long": "Close to Earth: cheap to reach and great for detail, but thin air slowly drags spacecraft down.",
+    "example": "The International Space Station flies at about 400 km.",
+    "related": [
+      "orbit",
+      "sso",
+      "space_debris"
+    ]
+  },
+  {
+    "id": "sso",
+    "term": "Sun-synchronous orbit",
+    "category": "orbits",
+    "short": "A polar orbit that crosses each place at the same local time.",
+    "long": "Its tilt makes the orbit turn once a year with the Sun, so lighting is the same on every pass: ideal for comparing images over months.",
+    "example": "Many Earth-imaging satellites pass overhead around 10:30 every morning.",
+    "related": [
+      "leo",
+      "eclipse",
+      "ground_station"
+    ]
+  },
+  {
+    "id": "geo",
+    "term": "Geostationary orbit",
+    "category": "orbits",
+    "short": "One lap per day: hovers over one spot.",
+    "long": "At 35,786 km above the equator a satellite moves with Earth's rotation, so it watches the same region nonstop.",
+    "example": "Weather satellites watching Africa sit in GEO.",
+    "related": [
+      "orbit",
+      "delta_v",
+      "radiation"
+    ]
+  },
+  {
+    "id": "lagrange_point",
+    "term": "Lagrange point L2",
+    "category": "orbits",
+    "short": "A balance point 1.5 million km beyond Earth.",
+    "long": "At L2 the pull of the Sun and Earth lets a spacecraft keep pace with Earth. The Sun, Earth and Moon stay behind it, keeping telescopes cold and steady.",
+    "example": "Large infrared space telescopes orbit around L2.",
+    "related": [
+      "pointing",
+      "ground_station",
+      "light_delay"
+    ]
+  },
+  {
+    "id": "lunar_orbit",
+    "term": "Lunar orbit",
+    "category": "orbits",
+    "short": "Orbiting the Moon.",
+    "long": "Polar lunar orbits see the whole surface. The Moon's uneven gravity tugs on low orbits, so they need regular corrections.",
+    "example": "Lunar orbiters have mapped ice-rich craters near the south pole.",
+    "related": [
+      "delta_v",
+      "ground_station",
+      "instrument_science"
+    ]
+  },
+  {
+    "id": "delta_v",
+    "term": "Delta-v",
+    "category": "rockets",
+    "short": "The \"speed change budget\" of a spacecraft, in m/s.",
+    "long": "Every maneuver costs delta-v: entering an orbit, keeping it, avoiding debris, deorbiting. More delta-v needs more propellant.",
+    "example": "Circularizing a geostationary orbit costs about 1,500 m/s.",
+    "related": [
+      "rocket_equation",
+      "specific_impulse",
+      "payload_capacity"
+    ]
+  },
+  {
+    "id": "rocket_equation",
+    "term": "Rocket equation",
+    "category": "rockets",
+    "short": "Links delta-v, engine efficiency and propellant mass.",
+    "long": "Propellant needed grows exponentially with delta-v: doubling delta-v needs much more than double the propellant. That is why big maneuvers make spacecraft heavy.",
+    "example": "Our game uses it: propellant = dry mass × (e^(Δv / (Isp × 9.81)) − 1).",
+    "related": [
+      "delta_v",
+      "specific_impulse",
+      "mass_budget"
+    ]
+  },
+  {
+    "id": "specific_impulse",
+    "term": "Specific impulse (Isp)",
+    "category": "rockets",
+    "short": "How efficiently an engine uses propellant, in seconds.",
+    "long": "Higher Isp means more delta-v from the same propellant. Electric thrusters have very high Isp but tiny thrust.",
+    "example": "Cold gas: 65 s. Hydrazine: 220 s. Electric: 1,600 s.",
+    "related": [
+      "rocket_equation",
+      "delta_v"
+    ]
+  },
+  {
+    "id": "payload_capacity",
+    "term": "Payload capacity",
+    "category": "rockets",
+    "short": "How much mass a rocket can deliver to a destination.",
+    "long": "The farther or higher the destination, the less a rocket can carry there. Always keep a margin.",
+    "example": "A rocket that lifts 17,500 kg to low orbit may send only 2,500 kg toward Mars.",
+    "related": [
+      "mass_budget",
+      "delta_v",
+      "reliability"
+    ]
+  },
+  {
+    "id": "launch_window",
+    "term": "Launch window",
+    "category": "mission",
+    "short": "The period when a launch can reach its target efficiently.",
+    "long": "Planets move, so the cheapest path opens only at certain times. Mars windows come every 26 months.",
+    "example": "Missing a Mars window means waiting more than two years.",
+    "related": [
+      "mission_cost",
+      "mission_lifetime"
+    ]
+  },
+  {
+    "id": "reliability",
+    "term": "Reliability",
+    "category": "rockets",
+    "short": "The chance something works as planned.",
+    "long": "No rocket is perfect. A 98% reliable rocket still fails about 2 times in 100 launches. Reliability costs money.",
+    "example": "Engineers add backups (redundancy) to improve reliability.",
+    "related": [
+      "payload_capacity",
+      "mission_cost"
+    ]
+  },
+  {
+    "id": "mass_budget",
+    "term": "Mass budget",
+    "category": "spacecraft",
+    "short": "Adding up the mass of every part.",
+    "long": "Every gram must be launched. Engineers keep a margin because spacecraft always grow heavier during development.",
+    "example": "A 10% mass margin is a common minimum.",
+    "related": [
+      "payload_capacity",
+      "rocket_equation",
+      "trade_off"
+    ]
+  },
+  {
+    "id": "power_budget",
+    "term": "Power budget",
+    "category": "power",
+    "short": "Comparing power generated with power used.",
+    "long": "If parts use more power than the arrays produce on average, instruments must switch off. Keep a margin for aging and damage.",
+    "example": "Our game warns below 15% power margin.",
+    "related": [
+      "solar_power",
+      "eclipse",
+      "battery"
+    ]
+  },
+  {
+    "id": "solar_power",
+    "term": "Solar power",
+    "category": "power",
+    "short": "Electricity from sunlight.",
+    "long": "Solar arrays lose a little power every year, and sunlight gets weaker farther from the Sun.",
+    "example": "At Mars, sunlight is only 43% as strong as at Earth.",
+    "related": [
+      "power_budget",
+      "rtg",
+      "eclipse"
+    ]
+  },
+  {
+    "id": "eclipse",
+    "term": "Eclipse",
+    "category": "power",
+    "short": "Time spent in a planet's shadow.",
+    "long": "In shadow, solar arrays produce nothing, so a battery must carry the load. Low orbits enter shadow on every lap.",
+    "example": "In low Earth orbit an eclipse lasts about 36 minutes.",
+    "related": [
+      "battery",
+      "power_budget",
+      "leo"
+    ]
+  },
+  {
+    "id": "battery",
+    "term": "Battery and depth of discharge",
+    "category": "power",
+    "short": "How much of the battery you use each cycle.",
+    "long": "Using only part of the charge each eclipse lets batteries survive thousands of cycles. Our Li-ion battery uses 40%.",
+    "example": "A 350 Wh battery at 40% safely gives 140 Wh per eclipse.",
+    "related": [
+      "eclipse",
+      "power_budget"
+    ]
+  },
+  {
+    "id": "rtg",
+    "term": "Radioisotope power",
+    "category": "power",
+    "short": "Electricity from the heat of decaying plutonium.",
+    "long": "Works in darkness and dust, far from the Sun, for decades. Very expensive and heavy.",
+    "example": "Rovers and outer-planet probes have used them.",
+    "related": [
+      "solar_power",
+      "power_budget",
+      "mission_cost"
+    ]
+  },
+  {
+    "id": "data_rate",
+    "term": "Data rate and data volume",
+    "category": "data",
+    "short": "How fast data can be sent (Mbps) and how much is made per day (Gbit).",
+    "long": "If instruments make more data than the radio can send during contact time, data piles up and is eventually lost. Compression helps.",
+    "example": "150 Mbps for 24 minutes a day sends about 216 Gbit.",
+    "related": [
+      "ground_station",
+      "antenna_gain",
+      "instrument_science"
+    ]
+  },
+  {
+    "id": "ground_station",
+    "term": "Ground station",
+    "category": "data",
+    "short": "An antenna on Earth that talks to spacecraft.",
+    "long": "A spacecraft can only send data while a station can see it. Bigger dishes hear fainter signals from farther away.",
+    "example": "Deep-space networks use 34–70 m dishes on three continents.",
+    "related": [
+      "data_rate",
+      "antenna_gain",
+      "mission_segments"
+    ]
+  },
+  {
+    "id": "antenna_gain",
+    "term": "Antenna gain",
+    "category": "data",
+    "short": "How strongly an antenna focuses its beam.",
+    "long": "A dish concentrates power into a narrow beam, which multiplies the data rate but must be aimed precisely.",
+    "example": "Our 1.5 m dish multiplies the rate by 20.",
+    "related": [
+      "data_rate",
+      "pointing"
+    ]
+  },
+  {
+    "id": "light_delay",
+    "term": "Light delay",
+    "category": "data",
+    "short": "Radio signals travel at the speed of light, which takes time.",
+    "long": "Far from Earth, commands arrive minutes later, so the spacecraft must react to emergencies on its own.",
+    "example": "Mars is 3 to 22 light-minutes away.",
+    "related": [
+      "ground_station",
+      "radiation"
+    ]
+  },
+  {
+    "id": "pointing",
+    "term": "Pointing accuracy",
+    "category": "spacecraft",
+    "short": "How precisely the spacecraft can aim.",
+    "long": "Cameras, lasers, telescopes and dish antennas need steady pointing. Attitude control systems differ by 5,000×.",
+    "example": "A telescope may need ±0.001°: like aiming at a coin 1 km away.",
+    "related": [
+      "antenna_gain",
+      "instrument_science"
+    ]
+  },
+  {
+    "id": "radiation",
+    "term": "Space radiation",
+    "category": "spacecraft",
+    "short": "Energetic particles from the Sun and deep space.",
+    "long": "Particles can flip bits in computers or damage detectors. Far from Earth's magnetic field, radiation is stronger.",
+    "example": "Radiation-hardened computers resist bit flips.",
+    "related": [
+      "geo",
+      "light_delay"
+    ]
+  },
+  {
+    "id": "space_debris",
+    "term": "Space debris",
+    "category": "mission",
+    "short": "Dead satellites and fragments still in orbit.",
+    "long": "Debris moves at about 10 km/s, so even small pieces are dangerous. Responsible missions deorbit at end of life and dodge close approaches.",
+    "example": "Many agencies now require deorbiting within a few years of mission end.",
+    "related": [
+      "leo",
+      "delta_v"
+    ]
+  },
+  {
+    "id": "mission_cost",
+    "term": "Mission cost",
+    "category": "mission",
+    "short": "Hardware, integration, launch and years of operations.",
+    "long": "Integration and testing add about 20% to hardware cost. Operations and ground stations cost money every year. A reserve protects against surprises.",
+    "example": "Our game warns when the reserve drops below 5%.",
+    "related": [
+      "trade_off",
+      "mission_lifetime",
+      "reliability"
+    ]
+  },
+  {
+    "id": "mission_lifetime",
+    "term": "Mission lifetime",
+    "category": "mission",
+    "short": "How long the mission operates.",
+    "long": "Longer missions return more science but cost more to operate, need more propellant, and face more aging and surprises.",
+    "example": "Our scenarios set a minimum lifetime.",
+    "related": [
+      "mission_cost",
+      "delta_v",
+      "solar_power"
+    ]
+  },
+  {
+    "id": "mission_requirements",
+    "term": "Mission requirements",
+    "category": "mission",
+    "short": "What the mission must achieve to succeed.",
+    "long": "Requirements come from the science goal: which measurements, where, for how long, for how much. Every design choice must satisfy them.",
+    "example": "Ice Hunter requires a neutron spectrometer.",
+    "related": [
+      "instrument_science",
+      "mission_segments",
+      "concept_maturity"
+    ]
+  },
+  {
+    "id": "instrument_science",
+    "term": "Instruments and science",
+    "category": "spacecraft",
+    "short": "What each instrument can measure.",
+    "long": "Different instruments answer different questions. The right one for the goal beats a bigger, wrong one.",
+    "example": "Thermal infrared shows heat; multispectral shows plant health.",
+    "related": [
+      "mission_requirements",
+      "data_rate",
+      "pointing"
+    ]
+  },
+  {
+    "id": "concept_maturity",
+    "term": "Concept Maturity Level (CML)",
+    "category": "mission",
+    "short": "How far a mission idea has been worked out, from napkin sketch to point design.",
+    "long": "NASA's JPL rates concepts from CML 1 \"Cocktail Napkin\" through CML 2 \"Initial Feasibility\" and CML 3 \"Trade Space\" to CML 4 \"Point Design\". A level counts as reached when about 80% of its checklist is green.",
+    "example": "Our readiness review tells you which CML your design has reached.",
+    "related": [
+      "trade_space",
+      "mission_requirements"
+    ]
+  },
+  {
+    "id": "trade_space",
+    "term": "Trade space",
+    "category": "mission",
+    "short": "All the different designs that could meet the goal, and how they compare.",
+    "long": "Exploring the trade space means changing one thing at a time and watching how science, cost and risk respond, before picking one design. Skipping it gives weaker, costlier missions.",
+    "example": "The Trade-Space Explorer shows science vs battery size, rocket, radio and more.",
+    "related": [
+      "trade_off",
+      "concept_maturity"
+    ]
+  },
+  {
+    "id": "mission_segments",
+    "term": "Mission segments",
+    "category": "mission",
+    "short": "Launch, space, ground and user: the four parts of every mission.",
+    "long": "The launch segment gets you to space, the space segment collects data, the ground segment talks to the spacecraft, and the user segment is the people who use the data. Design all four together.",
+    "example": "In our game each role owns a segment; the scenario names its users.",
+    "related": [
+      "ground_station",
+      "mission_requirements"
+    ]
+  },
+  {
+    "id": "trade_off",
+    "term": "Trade-off",
+    "category": "mission",
+    "short": "Gaining one thing by giving up another.",
+    "long": "Every choice in mission design improves something and costs something else. There is rarely a single perfect design.",
+    "example": "A better camera means more mass, power, data and cost.",
+    "related": [
+      "trade_space",
+      "mass_budget",
+      "mission_cost"
+    ]
+  }
+]

@@ -1,0 +1,142 @@
+{
+  "launch_destination": {
+    "title": "Rocket can reach the orbit",
+    "pass": "The {vehicle} can deliver to {destination}.",
+    "fail": "The {vehicle} cannot fly to {orbit}. Each rocket can only reach certain destinations.",
+    "fixHint": "Pick a rocket that lists a capacity for {destination}."
+  },
+  "launch_capacity": {
+    "title": "Rocket can lift the spacecraft",
+    "pass": "{totalKg} kg on a rocket that lifts {capKg} kg to this orbit ({launchMargin}% margin).",
+    "warn": "Only {launchMargin}% margin ({totalKg} of {capKg} kg). Spacecraft usually get heavier during development.",
+    "fail": "Too heavy: {totalKg} kg, but the {vehicle} lifts only {capKg} kg to this orbit.",
+    "fixHint": "Choose a bigger rocket, a lighter bus, fewer instruments, or a more efficient engine (less propellant)."
+  },
+  "bus_mass": {
+    "title": "Bus can carry the load",
+    "pass": "{totalKg} kg is within the {busName}'s {busMaxKg} kg limit.",
+    "warn": "{totalKg} kg is close to the {busName}'s {busMaxKg} kg limit.",
+    "fail": "The {busName} is rated for {busMaxKg} kg but the spacecraft weighs {totalKg} kg.",
+    "fixHint": "Pick a bigger bus or remove mass."
+  },
+  "bus_slots": {
+    "title": "Room for instruments",
+    "pass": "{instrCount} of {slots} instrument slots used.",
+    "fail": "{instrCount} instruments, but the {busName} has only {slots} slots.",
+    "fixHint": "Remove an instrument or choose a bigger bus."
+  },
+  "power_balance": {
+    "title": "Enough power",
+    "pass": "Arrays give {genW} W on average; the spacecraft uses {loadW} W ({powerMargin}% margin).",
+    "warn": "Only {powerMargin}% power margin. Solar arrays lose power every year in space.",
+    "fail": "The spacecraft needs {loadW} W but the arrays average only {genW} W.",
+    "fixHint": "Add solar array watts, switch to GaAs panels, or remove power-hungry instruments."
+  },
+  "battery_eclipse": {
+    "title": "Battery lasts through the shadow",
+    "pass": "{batteryWh} Wh covers the {eclipseMin}-minute eclipse (needs {batteryReqWh} Wh).",
+    "warn": "The {eclipseMin}-minute eclipse needs {batteryReqWh} Wh; you have {batteryWh} Wh. Instruments will switch off in the shadow.",
+    "fail": "The battery ({batteryWh} Wh) is far too small for the {eclipseMin}-minute eclipse ({batteryReqWh} Wh needed).",
+    "fixHint": "Raise battery capacity to at least {batteryReqWh} Wh."
+  },
+  "deltav_capability": {
+    "title": "Enough delta-v",
+    "pass": "The engine provides {dvCapability} m/s for the {dvRequired} m/s this mission needs.",
+    "warn": "Only {dvCapability} of {dvRequired} m/s: the orbit is reachable but the mission will end early.",
+    "fail": "Reaching {orbit} takes {insertionDv} m/s, but the spacecraft can only provide {dvCapability} m/s.",
+    "fixHint": "Choose stronger propulsion (higher Isp needs less propellant) or raise the delta-v margin."
+  },
+  "electric_power": {
+    "title": "Electric thrusters have power",
+    "pass": "The arrays can drive the electric thrusters.",
+    "fail": "Electric thrusters need at least 1,000 W from the arrays at this distance from the Sun.",
+    "fixHint": "Increase the solar array or choose chemical propulsion."
+  },
+  "adcs_environment": {
+    "title": "Attitude control works here",
+    "pass": "{adcsName} works at {orbit}.",
+    "fail": "Magnetorquers push against Earth's magnetic field, which is far too weak at {orbit}.",
+    "fixHint": "Choose reaction wheels."
+  },
+  "pointing_quality": {
+    "title": "Instruments pointed precisely",
+    "pass": "{adcsName} (±{adcsDeg}°) meets every instrument's needs.",
+    "warn": "Blurred: {blurredList}. Your attitude control holds only ±{adcsDeg}°.",
+    "fixHint": "Choose a more precise attitude control system."
+  },
+  "hga_pointing": {
+    "title": "Dish antenna can be aimed",
+    "pass": "The dish antenna can be aimed precisely.",
+    "warn": "The dish needs ±0.1° pointing; {adcsName} only gives ±{adcsDeg}°, so the dish does nothing.",
+    "fixHint": "Choose reaction wheels or better."
+  },
+  "radio_range": {
+    "title": "Radio can reach Earth",
+    "pass": "{radio} via {ground}: {rateMbps} Mbps.",
+    "fail": "The {radio} through the {ground} cannot reach a spacecraft at {orbit}.",
+    "fixHint": "Beyond Earth orbit use the Deep-Space Network and an S, X or Ka-band radio."
+  },
+  "data_return": {
+    "title": "Data gets home",
+    "pass": "{downlink} Gbit/day of downlink for {generated} Gbit/day of data ({returnPct}% returned).",
+    "warn": "Only {returnPct}% of the data can be sent home ({downlink} of {generated} Gbit/day).",
+    "fail": "Almost nothing gets home: {returnPct}% ({downlink} of {generated} Gbit/day).",
+    "fixHint": "Faster radio, a dish antenna, a bigger ground network, or the compression computer."
+  },
+  "storage": {
+    "title": "Memory can buffer data",
+    "pass": "{storage} Gbit of memory is enough.",
+    "warn": "Data piles up faster than it can be sent; {storage} Gbit of memory fills within days.",
+    "fixHint": "Improve the downlink or choose the computer with more storage."
+  },
+  "budget_total": {
+    "title": "Within budget",
+    "pass": "Total {totalCost} of {budget} ({reservePct}% reserve).",
+    "warn": "Only {reservePct}% reserve. Surprises during the mission may push you over.",
+    "fail": "Total cost {totalCost} is over the {budget} budget.",
+    "fixHint": "Cheaper rocket, fewer instruments, shorter mission or cheaper ground network."
+  },
+  "role_allocation": {
+    "title": "{role} within allocation",
+    "pass": "{role} spends {roleCost} of {roleAlloc}.",
+    "warn": "{role} spends {roleCost}, over its {roleAlloc} allocation.",
+    "fixHint": "Request funds from another role, or cut costs in this role."
+  },
+  "launch_window": {
+    "title": "Ready for the launch window",
+    "pass": "Ready at month {launchMonth}; the window is month {window}.",
+    "warn": "Development takes until month {launchMonth}, but the window is month {window}: {delayMonths} months of delay costing {delayCost}.",
+    "fixHint": "Fewer advanced parts and simpler instruments shorten development."
+  },
+  "required_instruments": {
+    "title": "Mission objective covered",
+    "pass": "Every required instrument type is on board.",
+    "fail": "Missing a required instrument: {missingTags}.",
+    "fixHint": "Science Lead: add an instrument with that capability."
+  },
+  "orbit_fit": {
+    "title": "Orbit suits the mission",
+    "pass": "{orbit} is ideal for this mission.",
+    "warn": "{orbit} works at {fit}% effectiveness; {recommendedOrbit} is better.",
+    "fail": "{orbit} cannot achieve this objective.",
+    "fixHint": "Commander: choose {recommendedOrbit}."
+  },
+  "lifetime_min": {
+    "title": "Mission long enough",
+    "pass": "{lifetime} years planned (minimum {minLifetime}).",
+    "warn": "{lifetime} years is shorter than the required {minLifetime} years.",
+    "fixHint": "Extend the mission lifetime."
+  },
+  "debris_disposal": {
+    "title": "Clean end of life",
+    "pass": "{disposalDv} m/s is kept to dispose of the spacecraft.",
+    "warn": "No way to deorbit at end of life. Dead spacecraft in crowded orbits become dangerous debris.",
+    "fixHint": "Carry propulsion with enough delta-v for disposal."
+  },
+  "natural_lifetime": {
+    "title": "Orbit lasts long enough",
+    "pass": "The orbit is stable for the planned mission.",
+    "warn": "Without propulsion this orbit lasts only about {naturalLife} years, less than the planned {lifetime}.",
+    "fixHint": "Add propulsion or shorten the mission."
+  }
+}

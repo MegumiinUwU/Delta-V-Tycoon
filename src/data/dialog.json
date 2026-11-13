@@ -1,0 +1,224 @@
+{
+  "tutorial": [
+    {
+      "speaker": "hassan",
+      "expr": "happy",
+      "text": "Welcome to mission control! I'm Dr. Hassan Nasr, your flight director. Today we design a satellite to watch over the Nile Delta's farms and water."
+    },
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "These seven meters are your limits. Every choice moves several of them at once — that's real mission design.",
+      "target": "meter-mass"
+    },
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "Your Mission Commander picks the orbit, the mission length and the rocket. A sun-synchronous orbit gives the same lighting every day — perfect for comparing crops.",
+      "target": "tab-planner"
+    },
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "Each rocket lifts a certain mass to each orbit. Heavier spacecraft need bigger, pricier rockets.",
+      "target": "vehicle-cards"
+    },
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "The Science Lead chooses instruments. Each one adds science — and also mass, power, cost and data.",
+      "target": "tab-science"
+    },
+    {
+      "speaker": "hassan",
+      "expr": "happy",
+      "text": "Hover over the Thermal Infrared Imager. See the meters preview the change before you even click?",
+      "target": "instrument-cards"
+    },
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "The Spacecraft Engineer feeds the instruments: solar arrays for power, a battery for the shadow, propellant for keeping the orbit.",
+      "target": "tab-engineer"
+    },
+    {
+      "speaker": "hassan",
+      "expr": "worried",
+      "text": "If the load is higher than generation, instruments switch off. Keep at least 15% margin — arrays weaken every year.",
+      "target": "meter-power"
+    },
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "Data is worthless until it reaches Earth. The Comms Officer picks the radio and the ground stations.",
+      "target": "tab-comms"
+    },
+    {
+      "speaker": "hassan",
+      "expr": "worried",
+      "text": "Our starter S-band radio cannot keep up with the imager. Try the X-band transmitter and watch this turn green.",
+      "target": "meter-data"
+    },
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "When you're ready, open the readiness review. Red means NO-GO — read why, fix it, then sign off.",
+      "target": "review-button"
+    },
+    {
+      "speaker": "hassan",
+      "expr": "happy",
+      "text": "Then launch! Surprises will happen during the mission. Choose wisely — and remember, there's no single perfect design.",
+      "target": "launch-button"
+    }
+  ],
+  "intro_nile_watch": [
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "The Nile Delta feeds millions, and water is precious. A satellite that sees crop health can tell farmers where to irrigate."
+    },
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "We need a multispectral imager or a camera, at least two years in orbit. The budget is modest — spend wisely."
+    }
+  ],
+  "intro_storm_watch": [
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "Dust storms and flash floods can strike in hours. Forecasters need eyes that never blink."
+    },
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "Carry a sounder or a thermal imager and watch for five years. Which orbit lets you stare at one region all the time?"
+    }
+  ],
+  "intro_ice_hunter": [
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "Future crews will need water on the Moon — to drink, to breathe, even to make rocket fuel."
+    },
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "Bring a neutron spectrometer to sniff out hydrogen, plus an altimeter or thermal imager to map the craters. Deep-space comms are a must."
+    }
+  ],
+  "intro_red_relay": [
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "Two jobs at once: study the Martian air, and relay data for the rovers below."
+    },
+    {
+      "speaker": "hassan",
+      "expr": "worried",
+      "text": "Mars is far: weak sunlight, a 12-minute radio delay, and launch windows every 26 months. Miss it and we wait two years."
+    }
+  ],
+  "intro_first_light": [
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "We want light that left the first galaxies 13 billion years ago. It arrives as faint infrared heat."
+    },
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "An infrared telescope must be very cold and very steady. Somewhere far from Earth's warmth would be ideal…"
+    }
+  ],
+  "intro_sandbox": [
+    {
+      "speaker": "hassan",
+      "expr": "happy",
+      "text": "Sandbox mode: no limits. Build anything and see what happens."
+    },
+    {
+      "speaker": "hassan",
+      "expr": "happy",
+      "text": "Try extremes. No battery? A giant radar on a tiny bus? The report will tell you why."
+    }
+  ],
+  "council_solo": [
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "The agency gives you {budget}. Here is a suggested split between your four roles — adjust it if you like."
+    }
+  ],
+  "launch_nogo": [
+    {
+      "speaker": "hassan",
+      "expr": "worried",
+      "text": "We still have NO-GO items. Launching now will probably end badly. Are you sure?"
+    }
+  ],
+  "launch_go": [
+    {
+      "speaker": "hassan",
+      "expr": "happy",
+      "text": "All stations GO. Good luck, crew!"
+    }
+  ],
+  "report_success": [
+    {
+      "speaker": "hassan",
+      "expr": "happy",
+      "text": "Mission accomplished! Read the report — even a success has lessons."
+    }
+  ],
+  "report_partial": [
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "We got some science home, but not everything. Let's see what to change."
+    }
+  ],
+  "report_failure": [
+    {
+      "speaker": "hassan",
+      "expr": "worried",
+      "text": "Every space agency has lost missions. What matters is understanding why — let's read the report."
+    }
+  ],
+  "review_cml4": [
+    {
+      "speaker": "hassan",
+      "expr": "happy",
+      "text": "Point design reached: CML 4. This concept is mature enough to fly."
+    }
+  ],
+  "review_cml3": [
+    {
+      "speaker": "hassan",
+      "expr": "neutral",
+      "text": "We're still exploring the trade space. Turn the yellows green before we commit."
+    }
+  ],
+  "review_cml2": [
+    {
+      "speaker": "hassan",
+      "expr": "worried",
+      "text": "This is still an early feasibility sketch. Let's fix the red items first."
+    }
+  ],
+  "twin_intro": [
+    {
+      "speaker": "hassan",
+      "expr": "happy",
+      "text": "Your design is a close cousin of a real mission:"
+    }
+  ],
+  "priya_tip": [
+    {
+      "speaker": "priya",
+      "expr": "neutral",
+      "text": "Ground station here! We can only listen while your spacecraft is in view. A faster radio or a bigger network gets more of your data home."
+    }
+  ]
+}

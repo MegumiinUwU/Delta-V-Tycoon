@@ -1,0 +1,493 @@
+[
+  {
+    "id": "solar_storm",
+    "title": "Solar Storm!",
+    "ownerRole": "engineer",
+    "conceptId": "radiation",
+    "description": "The Sun just released a burst of energetic particles. They will reach your spacecraft within hours and can damage sensitive detectors.",
+    "options": [
+      {
+        "id": "safe_mode",
+        "label": "Enter safe mode",
+        "good": true,
+        "description": "Switch the instruments off and point the arrays at the Sun until the storm passes (3 days without science).",
+        "effects": [
+          {
+            "type": "loseScienceDays",
+            "days": 3
+          }
+        ],
+        "requires": {
+          "autonomyIfDelayOverSec": 60
+        },
+        "explanation": "Safe mode protected the instruments. Three days of lost data is a small price compared with a damaged detector."
+      },
+      {
+        "id": "keep_observing",
+        "label": "Keep observing",
+        "good": false,
+        "description": "Keep collecting data and trust the shielding.",
+        "effects": [],
+        "risk": {
+          "chance": 0.25,
+          "effects": [
+            {
+              "type": "scienceMult",
+              "value": 0.7
+            }
+          ],
+          "reductions": [
+            {
+              "ifInstrument": "det_particle",
+              "mult": 0.5
+            },
+            {
+              "ifComputer": "obc_adv",
+              "mult": 0.5
+            }
+          ]
+        },
+        "explanation": "Lucky! The storm passed without damage and you kept collecting data.",
+        "badExplanation": "A particle strike damaged a detector. Science output is permanently reduced by 30%."
+      }
+    ],
+    "defaultOptionId": "safe_mode"
+  },
+  {
+    "id": "micrometeoroid",
+    "title": "Micrometeoroid Strike",
+    "ownerRole": "engineer",
+    "conceptId": "power_budget",
+    "description": "A dust grain smaller than a grain of sand hit a solar panel at 10 km/s. The panel now gives 10% less power.",
+    "autoEffects": [
+      {
+        "type": "powerMult",
+        "value": 0.9
+      }
+    ],
+    "options": [
+      {
+        "id": "reduce_load",
+        "label": "Reduce instrument use",
+        "good": true,
+        "description": "Run instruments 15% less so the battery always stays charged.",
+        "effects": [
+          {
+            "type": "scienceMult",
+            "value": 0.85
+          }
+        ],
+        "explanation": "Cutting the load kept the power budget positive. Engineers keep margins for exactly this."
+      },
+      {
+        "id": "full_ops",
+        "label": "Keep full operations",
+        "good": false,
+        "description": "Keep everything on and accept deeper battery drain.",
+        "effects": [],
+        "risk": {
+          "chance": 0.05,
+          "chanceRule": "power_margin_after_hit",
+          "chanceIfRule": 0.6,
+          "effects": [
+            {
+              "type": "loseScienceDays",
+              "days": 10
+            }
+          ]
+        },
+        "explanation": "Your power margin absorbed the hit; full operations continued.",
+        "badExplanation": "Without enough power margin the battery ran flat in the shadow. The spacecraft rebooted and lost 10 days of science."
+      }
+    ],
+    "defaultOptionId": "reduce_load"
+  },
+  {
+    "id": "ground_outage",
+    "title": "Ground Station Outage",
+    "ownerRole": "comms",
+    "conceptId": "ground_station",
+    "description": "A storm over the ground station (or urgent maintenance) means no contact for 3 days. Data will pile up in onboard memory.",
+    "weightIfRadio": {
+      "radioId": "radio_kaband",
+      "weight": 2
+    },
+    "options": [
+      {
+        "id": "rent_backup",
+        "label": "Rent backup antenna time",
+        "good": true,
+        "description": "$1.5M to use a partner agency's antenna.",
+        "effects": [
+          {
+            "type": "costM",
+            "value": 1.5
+          }
+        ],
+        "explanation": "Renting backup time kept the data flowing. Real missions sign backup agreements for this reason."
+      },
+      {
+        "id": "wait",
+        "label": "Wait it out",
+        "good": false,
+        "description": "Store data onboard for 3 days.",
+        "effects": [
+          {
+            "type": "contactLossDays",
+            "days": 3
+          }
+        ],
+        "explanation": "Memory held the data until contact returned (if your memory was big enough)."
+      }
+    ],
+    "defaultOptionId": "wait"
+  },
+  {
+    "id": "wheel_failure",
+    "title": "Reaction Wheel Failure",
+    "ownerRole": "engineer",
+    "conceptId": "pointing",
+    "description": "One of the reaction wheels that turn the spacecraft has stopped spinning.",
+    "conditions": {
+      "adcsIn": [
+        "adcs_wheels",
+        "adcs_precision"
+      ]
+    },
+    "options": [
+      {
+        "id": "spare_wheel",
+        "label": "Switch to the spare wheel",
+        "good": true,
+        "description": "Larger buses carry a backup wheel.",
+        "effects": [],
+        "requires": {
+          "busSpareWheel": true
+        },
+        "explanation": "The spare took over. Carrying a backup (redundancy) saved the mission's pointing."
+      },
+      {
+        "id": "magnetorquer_mode",
+        "label": "Get help from magnetorquers",
+        "good": false,
+        "description": "Use Earth's magnetic field to assist (near Earth only). Pointing 5× worse.",
+        "effects": [
+          {
+            "type": "pointingMult",
+            "value": 5
+          }
+        ],
+        "requires": {
+          "nearEarth": true
+        },
+        "explanation": "The magnetorquers hold the spacecraft steady, but less precisely."
+      },
+      {
+        "id": "accept",
+        "label": "Accept degraded pointing",
+        "good": false,
+        "description": "Pointing 20× worse; precise instruments will blur.",
+        "effects": [
+          {
+            "type": "pointingMult",
+            "value": 20
+          }
+        ],
+        "explanation": "The spacecraft wobbles more now, so sharp instruments lose quality."
+      }
+    ],
+    "defaultOptionId": "accept"
+  },
+  {
+    "id": "budget_cut",
+    "title": "Budget Cut!",
+    "ownerRole": "planner",
+    "conceptId": "mission_cost",
+    "description": "Government funding was reduced. Finance asks your mission to give back 10% of its budget.",
+    "options": [
+      {
+        "id": "pay_reserve",
+        "label": "Pay from our reserve",
+        "good": true,
+        "description": "Give back 10% of the budget from the money you kept in reserve.",
+        "effects": [
+          {
+            "type": "costM",
+            "value": 10,
+            "reason": "pct_of_budget"
+          }
+        ],
+        "requires": {
+          "reservePctOfBudget": 10
+        },
+        "explanation": "Your reserve absorbed the cut. That is exactly why planners keep one."
+      },
+      {
+        "id": "shorten",
+        "label": "End the mission one year early",
+        "good": false,
+        "description": "Stop operations a year early to save operations money.",
+        "effects": [
+          {
+            "type": "lifetimeYearsDelta",
+            "value": -1
+          }
+        ],
+        "explanation": "Ending early saves operations money but costs a year of science."
+      },
+      {
+        "id": "cheaper_ground",
+        "label": "Switch to a cheaper ground network",
+        "good": false,
+        "description": "Move to the next cheaper ground network.",
+        "effects": [
+          {
+            "type": "downgradeGround"
+          }
+        ],
+        "explanation": "Cheaper ground stations save money but give fewer contact hours, so less data comes home."
+      }
+    ],
+    "defaultOptionId": "shorten"
+  },
+  {
+    "id": "computer_reset",
+    "title": "Computer Reset",
+    "ownerRole": "comms",
+    "conceptId": "radiation",
+    "description": "A cosmic ray flipped a bit in the computer's memory and it rebooted.",
+    "autoHandledByComputer": "obc_adv",
+    "autoHandledText": "A cosmic ray flipped a bit in memory, but the rad-hard computer fixed it automatically. No science lost.",
+    "options": [
+      {
+        "id": "reload",
+        "label": "Reload software from the ground",
+        "good": false,
+        "description": "Send the flight software up again (1 day of science and contact lost).",
+        "effects": [
+          {
+            "type": "loseScienceDays",
+            "days": 1
+          },
+          {
+            "type": "contactLossDays",
+            "days": 1
+          }
+        ],
+        "explanation": "The team reloaded the software; one day of science was lost."
+      },
+      {
+        "id": "patch",
+        "label": "Upload a protective patch",
+        "good": true,
+        "description": "$0.5M for a patch that adds memory error checking (2 days of science lost).",
+        "effects": [
+          {
+            "type": "costM",
+            "value": 0.5
+          },
+          {
+            "type": "loseScienceDays",
+            "days": 2
+          },
+          {
+            "type": "immunity",
+            "eventId": "computer_reset"
+          }
+        ],
+        "explanation": "The patch adds memory error checking, so this will not happen again."
+      }
+    ],
+    "defaultOptionId": "reload"
+  },
+  {
+    "id": "debris_conjunction",
+    "title": "Space Debris Close Approach",
+    "ownerRole": "planner",
+    "conceptId": "space_debris",
+    "description": "Tracking shows a piece of old rocket debris may pass within 200 metres of your spacecraft in 12 hours.",
+    "conditions": {
+      "orbits": [
+        "leo",
+        "sso",
+        "geo"
+      ]
+    },
+    "options": [
+      {
+        "id": "avoid",
+        "label": "Perform an avoidance burn",
+        "good": true,
+        "description": "Fire the thrusters for a 2 m/s dodge (1 day of science lost).",
+        "effects": [
+          {
+            "type": "deltaVUse",
+            "value": 2
+          },
+          {
+            "type": "loseScienceDays",
+            "days": 1
+          }
+        ],
+        "requires": {
+          "propulsion": true
+        },
+        "explanation": "A 2 m/s burn moved you safely aside. Operators perform thousands of these every year."
+      },
+      {
+        "id": "stay",
+        "label": "Stay on course",
+        "good": false,
+        "description": "Trust the odds and keep observing.",
+        "effects": [],
+        "risk": {
+          "chance": 0.02,
+          "effects": [
+            {
+              "type": "endMission",
+              "reason": "collision with space debris"
+            }
+          ]
+        },
+        "explanation": "The debris passed by. The odds were low, but not zero.",
+        "badExplanation": "The debris hit the spacecraft. The mission is over, and the collision created even more debris."
+      }
+    ],
+    "defaultOptionId": "avoid",
+    "defaultOptionIdIfNoPropulsion": "stay"
+  },
+  {
+    "id": "discovery",
+    "title": "Unexpected Discovery!",
+    "ownerRole": "science",
+    "conceptId": "instrument_science",
+    "description": "Your instruments spotted something unexpected: an unusual signal worth a closer look.",
+    "options": [
+      {
+        "id": "follow_up",
+        "label": "Follow up and send extra data",
+        "good": true,
+        "description": "Point the instruments at the signal for 5 days; it triples the data you make.",
+        "effects": [
+          {
+            "type": "scienceBonusPct",
+            "value": 15
+          },
+          {
+            "type": "dataMult",
+            "value": 3,
+            "days": 5
+          }
+        ],
+        "explanation": "The follow-up produced a bonus result. Flexible plans let missions chase surprises (if your downlink can handle the extra data)."
+      },
+      {
+        "id": "stick_to_plan",
+        "label": "Stick to the schedule",
+        "good": false,
+        "description": "Keep the planned observing schedule.",
+        "effects": [],
+        "explanation": "Routine continued. Safe, but the surprise stays a mystery."
+      }
+    ],
+    "defaultOptionId": "stick_to_plan"
+  },
+  {
+    "id": "dust_storm",
+    "title": "Global Dust Storm on Mars",
+    "ownerRole": "science",
+    "conceptId": "instrument_science",
+    "description": "A planet-wide dust storm is spreading across Mars. Rovers lose sunlight and go quiet, but the atmosphere is doing something scientists rarely see.",
+    "conditions": {
+      "orbits": [
+        "mars"
+      ]
+    },
+    "options": [
+      {
+        "id": "observe",
+        "label": "Observe the storm",
+        "good": true,
+        "description": "Turn every instrument to the storm for 30 days; relay traffic halves.",
+        "effects": [
+          {
+            "type": "scienceBonusPct",
+            "value": 25
+          },
+          {
+            "type": "relayMult",
+            "value": 0.5,
+            "days": 30
+          }
+        ],
+        "explanation": "Your orbiter recorded the storm from above: a rare dataset. The rovers were sending less anyway."
+      },
+      {
+        "id": "relay_focus",
+        "label": "Focus on relay duty",
+        "good": false,
+        "description": "Keep the relay channel ready for the rovers.",
+        "effects": [
+          {
+            "type": "scienceBonusPct",
+            "value": 5
+          }
+        ],
+        "explanation": "You kept the relay channel ready, but most rovers were asleep to save power."
+      }
+    ],
+    "defaultOptionId": "relay_focus"
+  },
+  {
+    "id": "battery_aging",
+    "title": "Battery Wearing Out",
+    "ownerRole": "engineer",
+    "conceptId": "battery",
+    "description": "After thousands of charge cycles the battery holds 20% less energy.",
+    "conditions": {
+      "needsEclipse": true
+    },
+    "autoEffects": [
+      {
+        "type": "batteryMult",
+        "value": 0.8
+      }
+    ],
+    "options": [
+      {
+        "id": "eclipse_saving",
+        "label": "Switch off some instruments in eclipse",
+        "good": true,
+        "description": "Run fewer instruments in the shadow (science −10%).",
+        "effects": [
+          {
+            "type": "scienceMult",
+            "value": 0.9
+          }
+        ],
+        "explanation": "Saving power in the shadow protects the aging battery."
+      },
+      {
+        "id": "push_on",
+        "label": "Keep everything on",
+        "good": false,
+        "description": "Keep full operations and hope the battery lasts.",
+        "effects": [],
+        "risk": {
+          "chance": 0.02,
+          "chanceRule": "battery_below_required",
+          "chanceIfRule": 0.3,
+          "effects": [
+            {
+              "type": "loseScienceDays",
+              "days": 15
+            }
+          ]
+        },
+        "explanation": "The battery still had enough capacity; operations continued.",
+        "badExplanation": "The battery ran out in eclipse and the spacecraft spent 15 days in emergency safe mode."
+      }
+    ],
+    "defaultOptionId": "eclipse_saving"
+  }
+]

@@ -1,0 +1,310 @@
+{
+  "buses": [
+    {
+      "id": "bus_cube",
+      "name": "CubeSat 12U Bus",
+      "tier": "basic",
+      "massKg": 6,
+      "costM": 1,
+      "baseLoadW": 8,
+      "instrumentSlots": 1,
+      "maxMassKg": 25,
+      "hasSpareWheel": false,
+      "description": "A shoebox-size satellite body. Tiny and cheap, fits one small instrument."
+    },
+    {
+      "id": "bus_small",
+      "name": "Small Bus",
+      "tier": "basic",
+      "massKg": 60,
+      "costM": 8,
+      "baseLoadW": 40,
+      "instrumentSlots": 2,
+      "maxMassKg": 300,
+      "hasSpareWheel": false,
+      "description": "A washing-machine-size body for focused missions with up to two instruments."
+    },
+    {
+      "id": "bus_medium",
+      "name": "Medium Bus",
+      "tier": "basic",
+      "massKg": 250,
+      "costM": 25,
+      "baseLoadW": 120,
+      "instrumentSlots": 4,
+      "maxMassKg": 2000,
+      "hasSpareWheel": true,
+      "description": "A car-size body with room for four instruments. Carries a spare reaction wheel."
+    },
+    {
+      "id": "bus_large",
+      "name": "Large Bus",
+      "tier": "advanced",
+      "massKg": 800,
+      "costM": 70,
+      "baseLoadW": 300,
+      "instrumentSlots": 6,
+      "maxMassKg": 8000,
+      "hasSpareWheel": true,
+      "description": "A bus-size body for flagship missions with six instruments. Carries a spare reaction wheel."
+    }
+  ],
+  "solarArrays": [
+    {
+      "id": "sa_si",
+      "name": "Silicon Solar Array",
+      "tier": "basic",
+      "wPerKg": 25,
+      "costMPerW": 0.001,
+      "degradationPerYear": 0.03,
+      "description": "Proven silicon cells. Cheap, but heavier and they lose 3% of their power every year."
+    },
+    {
+      "id": "sa_gaas",
+      "name": "Triple-Junction GaAs Array",
+      "tier": "advanced",
+      "wPerKg": 60,
+      "costMPerW": 0.002,
+      "degradationPerYear": 0.015,
+      "description": "High-efficiency multi-layer cells: more than twice the power per kilogram, slower aging, double the price."
+    }
+  ],
+  "rtg": {
+    "id": "rtg",
+    "name": "Radioisotope Power Unit",
+    "tier": "advanced",
+    "massKg": 45,
+    "powerW": 110,
+    "costM": 60,
+    "decayPerYear": 0.04,
+    "description": "Makes electricity from the heat of decaying plutonium. Works in darkness and dust, far from the Sun. Very expensive."
+  },
+  "batteries": [
+    {
+      "id": "bat_liion",
+      "name": "Li-ion Battery",
+      "tier": "basic",
+      "whPerKg": 150,
+      "costMPerWh": 0.0005,
+      "depthOfDischarge": 0.4,
+      "description": "Standard rechargeable battery. Use at most 40% of its charge each eclipse to make it last for years."
+    },
+    {
+      "id": "bat_liion_adv",
+      "name": "High-Energy Li-ion Battery",
+      "tier": "advanced",
+      "whPerKg": 250,
+      "costMPerWh": 0.001,
+      "depthOfDischarge": 0.5,
+      "description": "Lighter high-energy cells that tolerate deeper discharge (50%)."
+    }
+  ],
+  "computers": [
+    {
+      "id": "obc_basic",
+      "name": "Standard Flight Computer",
+      "tier": "basic",
+      "massKg": 1.5,
+      "powerW": 7,
+      "costM": 0.5,
+      "storageGbit": 512,
+      "compression": 1.0,
+      "autonomy": false,
+      "radHard": false,
+      "description": "A reliable flight computer with 64 GB of storage."
+    },
+    {
+      "id": "obc_adv",
+      "name": "Rad-Hard Computer with Compression",
+      "tier": "advanced",
+      "massKg": 5,
+      "powerW": 20,
+      "costM": 3,
+      "storageGbit": 4096,
+      "compression": 0.5,
+      "autonomy": true,
+      "radHard": true,
+      "description": "Radiation-hardened, handles emergencies on its own, compresses data to half its size, 512 GB of storage."
+    }
+  ],
+  "adcs": [
+    {
+      "id": "adcs_mag",
+      "name": "Magnetorquers + Sun Sensors",
+      "tier": "basic",
+      "massKg": 2,
+      "powerW": 3,
+      "costM": 0.3,
+      "pointingDeg": 5,
+      "nearEarthOnly": true,
+      "description": "Electromagnets push against Earth's magnetic field. Light and cheap, but only roughly accurate (±5°) and useless far from Earth."
+    },
+    {
+      "id": "adcs_wheels",
+      "name": "Reaction Wheels + Star Tracker",
+      "tier": "basic",
+      "massKg": 15,
+      "powerW": 40,
+      "costM": 4,
+      "pointingDeg": 0.05,
+      "nearEarthOnly": false,
+      "description": "Spinning wheels turn the spacecraft; a star camera tells it where it points. Accurate to ±0.05°."
+    },
+    {
+      "id": "adcs_precision",
+      "name": "Precision Pointing System",
+      "tier": "advanced",
+      "massKg": 35,
+      "powerW": 70,
+      "costM": 12,
+      "pointingDeg": 0.001,
+      "nearEarthOnly": false,
+      "description": "Fine-guidance sensors and ultra-smooth wheels for telescopes: ±0.001°."
+    }
+  ],
+  "propulsion": [
+    {
+      "id": "prop_none",
+      "name": "No Propulsion",
+      "tier": "basic",
+      "dryMassKg": 0,
+      "ispS": 0,
+      "costM": 0,
+      "powerW": 0,
+      "electric": false,
+      "description": "No engine. Light and simple — but you cannot change your orbit, avoid debris or deorbit."
+    },
+    {
+      "id": "prop_coldgas",
+      "name": "Cold-Gas Thrusters",
+      "tier": "basic",
+      "dryMassKg": 5,
+      "ispS": 65,
+      "costM": 0.5,
+      "powerW": 0,
+      "maxPropellantKg": 20,
+      "electric": false,
+      "description": "Puffs of compressed gas. Simple and safe but weak (Isp 65 s); holds at most 20 kg of gas."
+    },
+    {
+      "id": "prop_mono",
+      "name": "Hydrazine Monopropellant",
+      "tier": "basic",
+      "dryMassKg": 20,
+      "ispS": 220,
+      "costM": 3,
+      "powerW": 10,
+      "electric": false,
+      "description": "Hydrazine thrusters (Isp 220 s). The classic choice for keeping a satellite in its orbit."
+    },
+    {
+      "id": "prop_biprop",
+      "name": "Bipropellant Engine",
+      "tier": "basic",
+      "dryMassKg": 60,
+      "ispS": 315,
+      "costM": 8,
+      "powerW": 20,
+      "electric": false,
+      "description": "Fuel and oxidizer burn together (Isp 315 s). Strong enough for big orbit changes like reaching GEO or Mars orbit."
+    },
+    {
+      "id": "prop_electric",
+      "name": "Electric Hall Thrusters",
+      "tier": "advanced",
+      "dryMassKg": 40,
+      "ispS": 1600,
+      "costM": 12,
+      "powerW": 10,
+      "electric": true,
+      "description": "Ion-like thrusters use electricity to push gas out very fast (Isp 1600 s): tiny propellant mass, but weak thrust — reaching orbit takes months and needs 1,000 W of power."
+    }
+  ],
+  "radios": [
+    {
+      "id": "radio_uhf",
+      "name": "UHF Radio",
+      "tier": "basic",
+      "massKg": 1,
+      "powerW": 10,
+      "costM": 0.2,
+      "baseRateMbps": 0.0096,
+      "maxRateMbps": 0.0096,
+      "nearEarthOnly": true,
+      "rainFade": false,
+      "description": "A simple amateur-style radio. Very slow (9.6 kbps) and only works close to Earth."
+    },
+    {
+      "id": "radio_sband",
+      "name": "S-Band Transmitter",
+      "tier": "basic",
+      "massKg": 3,
+      "powerW": 20,
+      "costM": 1,
+      "baseRateMbps": 2,
+      "maxRateMbps": 10,
+      "nearEarthOnly": false,
+      "rainFade": false,
+      "description": "A dependable radio for commands and modest data rates."
+    },
+    {
+      "id": "radio_xband",
+      "name": "X-Band Transmitter",
+      "tier": "basic",
+      "massKg": 6,
+      "powerW": 45,
+      "costM": 3,
+      "baseRateMbps": 150,
+      "maxRateMbps": 800,
+      "nearEarthOnly": false,
+      "rainFade": false,
+      "description": "The standard science downlink: fast, works from Earth orbit to Mars."
+    },
+    {
+      "id": "radio_kaband",
+      "name": "Ka-Band Transmitter",
+      "tier": "advanced",
+      "massKg": 8,
+      "powerW": 70,
+      "costM": 6,
+      "baseRateMbps": 600,
+      "maxRateMbps": 2000,
+      "nearEarthOnly": false,
+      "rainFade": true,
+      "description": "Very high data rates, but heavy rain at the ground station can interrupt the signal."
+    }
+  ],
+  "hga": {
+    "id": "hga",
+    "name": "High-Gain Dish Antenna (1.5 m)",
+    "tier": "basic",
+    "massKg": 20,
+    "costM": 6,
+    "gain": 20,
+    "maxPointingDeg": 0.1,
+    "description": "A 1.5 m dish focuses the radio beam 20× more strongly. It must be aimed precisely (needs reaction wheels)."
+  },
+  "groundNetworks": [
+    {
+      "id": "campus",
+      "name": "University Ground Station (Cairo, 3 m dish)",
+      "gain": 1,
+      "costMPerYear": 0.5,
+      "description": "One small dish. Cheap, few minutes per pass, cannot reach beyond Earth orbit."
+    },
+    {
+      "id": "commercial",
+      "name": "Commercial Polar Network (several 5–7 m dishes)",
+      "gain": 3,
+      "costMPerYear": 3,
+      "description": "Stations near the poles see polar orbits on almost every pass."
+    },
+    {
+      "id": "deepspace",
+      "name": "Deep-Space Network (34–70 m dishes on 3 continents)",
+      "gain": 30,
+      "costMPerYear": 8,
+      "description": "Huge dishes that can hear spacecraft at the Moon, L2 and Mars. Time is shared, so you get scheduled hours."
+    }
+  ]
+}

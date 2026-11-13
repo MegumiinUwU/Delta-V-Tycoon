@@ -1,0 +1,535 @@
+[
+  {
+    "id": "nile_watch",
+    "name": "Eyes on the Nile",
+    "tagline": "Monitor crops and water across the Nile Delta so farmers can save water and spot crop stress early.",
+    "defaultDifficulty": "cadet",
+    "briefing": "The Nile Delta feeds tens of millions of people, and every drop of water counts. Design a satellite that watches crop health and water use, so farmers know where and when to irrigate. You have $120M, a 2-year minimum mission, and a launch slot in 3 years.",
+    "requiredTagGroups": [
+      [
+        "multispectral",
+        "optical",
+        "optical_hr"
+      ]
+    ],
+    "orbitFit": {
+      "sso": 1.0,
+      "leo": 0.8
+    },
+    "minLifetimeYears": 2,
+    "budgetM": 120,
+    "launchWindowMonths": 36,
+    "hardLaunchWindow": false,
+    "scienceTarget": 110,
+    "tagWeights": {
+      "multispectral": 1.0,
+      "radar": 0.9,
+      "thermal_ir": 0.8,
+      "optical_hr": 0.7,
+      "optical": 0.5
+    },
+    "defaultTagWeight": 0.1,
+    "eventPool": [
+      "solar_storm",
+      "ground_outage",
+      "debris_conjunction",
+      "discovery",
+      "micrometeoroid"
+    ],
+    "eventCount": 3,
+    "recommendedOrbit": "sso",
+    "learningGoals": [
+      "Match the orbit to the observation (same lighting every day)",
+      "Balance instrument data with your radio link",
+      "Size power for eclipses"
+    ],
+    "userSegment": "Farmers, irrigation engineers and water ministries across the Nile Delta",
+    "twins": [
+      {
+        "name": "Landsat 9",
+        "agency": "NASA / USGS",
+        "launchYear": 2021,
+        "orbit": "sso",
+        "keyTags": [
+          "multispectral",
+          "thermal_ir"
+        ],
+        "fact": "Images the whole Earth in visible, infrared and thermal bands; used worldwide to track crops and water."
+      },
+      {
+        "name": "Sentinel-2",
+        "agency": "ESA",
+        "launchYear": 2015,
+        "orbit": "sso",
+        "keyTags": [
+          "multispectral"
+        ],
+        "fact": "A pair of satellites revisiting every 5 days with 13 colour bands for vegetation monitoring."
+      }
+    ]
+  },
+  {
+    "id": "storm_watch",
+    "name": "Storm Watcher",
+    "tagline": "Watch dust storms and flash floods over Africa and the Middle East around the clock.",
+    "defaultDifficulty": "engineer",
+    "briefing": "Dust storms and flash floods can strike Africa and the Middle East within hours. Forecasters need an eye in the sky that never looks away. Watch continuously for at least 5 years.",
+    "requiredTagGroups": [
+      [
+        "sounder",
+        "thermal_ir"
+      ]
+    ],
+    "orbitFit": {
+      "geo": 1.0,
+      "sso": 0.4,
+      "leo": 0.3
+    },
+    "minLifetimeYears": 5,
+    "budgetM": 320,
+    "launchWindowMonths": 36,
+    "hardLaunchWindow": false,
+    "scienceTarget": 300,
+    "tagWeights": {
+      "sounder": 1.0,
+      "thermal_ir": 0.9,
+      "lightning": 0.8,
+      "optical": 0.4,
+      "particles": 0.3
+    },
+    "defaultTagWeight": 0.1,
+    "eventPool": [
+      "solar_storm",
+      "wheel_failure",
+      "budget_cut",
+      "computer_reset",
+      "discovery",
+      "battery_aging"
+    ],
+    "eventCount": 4,
+    "recommendedOrbit": "geo",
+    "learningGoals": [
+      "Why geostationary orbit stares at one region",
+      "Delta-v: the spacecraft must finish its own orbit raising",
+      "Long missions need margins for aging"
+    ],
+    "userSegment": "Weather forecasters, civil-protection agencies and airlines",
+    "twins": [
+      {
+        "name": "GOES-16",
+        "agency": "NASA / NOAA",
+        "launchYear": 2016,
+        "orbit": "geo",
+        "keyTags": [
+          "thermal_ir",
+          "lightning"
+        ],
+        "fact": "Watches the Americas from geostationary orbit; carried the first lightning mapper in GEO."
+      },
+      {
+        "name": "Meteosat Third Generation Imager-1",
+        "agency": "ESA / EUMETSAT",
+        "launchYear": 2022,
+        "orbit": "geo",
+        "keyTags": [
+          "thermal_ir",
+          "lightning"
+        ],
+        "fact": "Watches Europe and Africa from GEO with an imager and a lightning imager."
+      }
+    ]
+  },
+  {
+    "id": "ice_hunter",
+    "name": "Ice Hunter",
+    "tagline": "Map water ice in the Moon's permanently shadowed craters to choose landing sites for future crews.",
+    "defaultDifficulty": "engineer",
+    "briefing": "Future lunar crews need water for drinking, breathing and rocket fuel. It may be frozen in craters near the Moon's south pole that never see sunlight. Map it to help choose safe landing sites.",
+    "requiredTagGroups": [
+      [
+        "neutron"
+      ],
+      [
+        "altimeter",
+        "thermal_ir"
+      ]
+    ],
+    "orbitFit": {
+      "lunar": 1.0
+    },
+    "minLifetimeYears": 1,
+    "budgetM": 250,
+    "launchWindowMonths": 30,
+    "hardLaunchWindow": false,
+    "scienceTarget": 80,
+    "tagWeights": {
+      "neutron": 1.0,
+      "altimeter": 0.9,
+      "thermal_ir": 0.8,
+      "optical_hr": 0.7,
+      "optical": 0.6,
+      "particles": 0.4,
+      "magnetic": 0.3
+    },
+    "defaultTagWeight": 0.1,
+    "eventPool": [
+      "solar_storm",
+      "wheel_failure",
+      "computer_reset",
+      "discovery",
+      "budget_cut",
+      "battery_aging"
+    ],
+    "eventCount": 4,
+    "recommendedOrbit": "lunar",
+    "learningGoals": [
+      "Deep-space communications",
+      "How instruments detect ice indirectly",
+      "Trading rocket cost against launch margin"
+    ],
+    "userSegment": "Mission planners choosing safe, water-rich landing sites for future crews",
+    "twins": [
+      {
+        "name": "Lunar Prospector",
+        "agency": "NASA",
+        "launchYear": 1998,
+        "orbit": "lunar",
+        "keyTags": [
+          "neutron"
+        ],
+        "fact": "Its neutron spectrometer found signs of hydrogen, a hint of ice, at the lunar poles."
+      },
+      {
+        "name": "Lunar Reconnaissance Orbiter",
+        "agency": "NASA",
+        "launchYear": 2009,
+        "orbit": "lunar",
+        "keyTags": [
+          "altimeter",
+          "thermal_ir",
+          "neutron"
+        ],
+        "fact": "Maps the Moon with a laser altimeter, a thermal radiometer and a neutron detector."
+      }
+    ]
+  },
+  {
+    "id": "red_relay",
+    "name": "Red Relay",
+    "tagline": "Study methane and dust in the Martian atmosphere while relaying data home for rovers on the surface.",
+    "defaultDifficulty": "director",
+    "briefing": "Two jobs at once: study methane and dust in the Martian atmosphere, and relay data home for the rovers on the surface. Mars is unforgiving: weak sunlight, minutes of radio delay, and launch windows only every 26 months.",
+    "requiredTagGroups": [
+      [
+        "spectrometer"
+      ],
+      [
+        "relay"
+      ]
+    ],
+    "orbitFit": {
+      "mars": 1.0
+    },
+    "minLifetimeYears": 2,
+    "budgetM": 300,
+    "launchWindowMonths": 26,
+    "hardLaunchWindow": true,
+    "scienceTarget": 110,
+    "tagWeights": {
+      "spectrometer": 1.0,
+      "relay": 1.0,
+      "thermal_ir": 0.7,
+      "optical_hr": 0.6,
+      "optical": 0.5,
+      "particles": 0.4,
+      "magnetic": 0.4
+    },
+    "defaultTagWeight": 0.1,
+    "eventPool": [
+      "dust_storm",
+      "solar_storm",
+      "computer_reset",
+      "wheel_failure",
+      "discovery",
+      "budget_cut"
+    ],
+    "eventCount": 5,
+    "recommendedOrbit": "mars",
+    "learningGoals": [
+      "Solar power falls with distance from the Sun",
+      "Light delay demands onboard autonomy",
+      "Launch windows and schedule risk"
+    ],
+    "userSegment": "Planetary scientists and the rover teams whose data you relay",
+    "twins": [
+      {
+        "name": "Mars Reconnaissance Orbiter",
+        "agency": "NASA",
+        "launchYear": 2005,
+        "orbit": "mars",
+        "keyTags": [
+          "relay",
+          "optical_hr",
+          "spectrometer"
+        ],
+        "fact": "Studies Mars with a high-resolution camera and spectrometers, and relays rover data to Earth."
+      },
+      {
+        "name": "ExoMars Trace Gas Orbiter",
+        "agency": "ESA / Roscosmos",
+        "launchYear": 2016,
+        "orbit": "mars",
+        "keyTags": [
+          "spectrometer",
+          "relay"
+        ],
+        "fact": "Hunts for methane in the Martian air and relays data for surface missions."
+      },
+      {
+        "name": "MAVEN",
+        "agency": "NASA",
+        "launchYear": 2013,
+        "orbit": "mars",
+        "keyTags": [
+          "spectrometer",
+          "particles",
+          "magnetic",
+          "relay"
+        ],
+        "fact": "Studies how Mars lost its atmosphere, and also relays rover data."
+      }
+    ]
+  },
+  {
+    "id": "first_light",
+    "name": "First Light",
+    "tagline": "Fly an infrared telescope to see the first galaxies and the atmospheres of distant planets.",
+    "defaultDifficulty": "director",
+    "briefing": "Light from the first galaxies has travelled for over 13 billion years and arrives as faint infrared heat. Fly a telescope cold and steady enough to catch it.",
+    "requiredTagGroups": [
+      [
+        "telescope_ir"
+      ]
+    ],
+    "orbitFit": {
+      "l2": 1.0,
+      "geo": 0.5,
+      "leo": 0.3
+    },
+    "minLifetimeYears": 5,
+    "budgetM": 650,
+    "launchWindowMonths": 48,
+    "hardLaunchWindow": false,
+    "scienceTarget": 360,
+    "tagWeights": {
+      "telescope_ir": 1.0,
+      "spectrometer": 0.3,
+      "particles": 0.2
+    },
+    "defaultTagWeight": 0.1,
+    "eventPool": [
+      "solar_storm",
+      "micrometeoroid",
+      "wheel_failure",
+      "computer_reset",
+      "discovery",
+      "budget_cut"
+    ],
+    "eventCount": 4,
+    "recommendedOrbit": "l2",
+    "learningGoals": [
+      "Why some telescopes go to L2",
+      "Pointing precision",
+      "Big science, big budget: protecting the reserve"
+    ],
+    "userSegment": "Astronomers studying the first galaxies and the atmospheres of distant planets",
+    "twins": [
+      {
+        "name": "James Webb Space Telescope",
+        "agency": "NASA / ESA / CSA",
+        "launchYear": 2021,
+        "orbit": "l2",
+        "keyTags": [
+          "telescope_ir"
+        ],
+        "fact": "A 6.5 m gold-coated infrared telescope at L2, shaded by a tennis-court-size sunshield."
+      },
+      {
+        "name": "Herschel Space Observatory",
+        "agency": "ESA",
+        "launchYear": 2009,
+        "orbit": "l2",
+        "keyTags": [
+          "telescope_ir"
+        ],
+        "fact": "A far-infrared telescope at L2 that studied how stars and galaxies form."
+      }
+    ]
+  },
+  {
+    "id": "sandbox",
+    "name": "Sandbox",
+    "tagline": "No grades, no limits: build anything and watch what happens.",
+    "defaultDifficulty": "engineer",
+    "briefing": "No grades, no limits. Build anything and watch what happens.",
+    "requiredTagGroups": [],
+    "orbitFit": {
+      "leo": 1.0,
+      "sso": 1.0,
+      "geo": 1.0,
+      "lunar": 1.0,
+      "l2": 1.0,
+      "mars": 1.0
+    },
+    "minLifetimeYears": 1,
+    "budgetM": 2000,
+    "launchWindowMonths": 120,
+    "hardLaunchWindow": false,
+    "scienceTarget": 100,
+    "tagWeights": {},
+    "defaultTagWeight": 1.0,
+    "eventPool": [
+      "solar_storm",
+      "micrometeoroid",
+      "ground_outage",
+      "wheel_failure",
+      "budget_cut",
+      "computer_reset",
+      "debris_conjunction",
+      "discovery",
+      "dust_storm",
+      "battery_aging"
+    ],
+    "eventCount": 3,
+    "recommendedOrbit": "leo",
+    "learningGoals": [
+      "Explore extremes",
+      "Find several designs that work",
+      "Break things on purpose and read the report"
+    ],
+    "userSegment": "You",
+    "twins": [
+      {
+        "name": "Landsat 9",
+        "agency": "NASA / USGS",
+        "launchYear": 2021,
+        "orbit": "sso",
+        "keyTags": [
+          "multispectral",
+          "thermal_ir"
+        ],
+        "fact": "Images the whole Earth in visible, infrared and thermal bands; used worldwide to track crops and water."
+      },
+      {
+        "name": "Sentinel-2",
+        "agency": "ESA",
+        "launchYear": 2015,
+        "orbit": "sso",
+        "keyTags": [
+          "multispectral"
+        ],
+        "fact": "A pair of satellites revisiting every 5 days with 13 colour bands for vegetation monitoring."
+      },
+      {
+        "name": "GOES-16",
+        "agency": "NASA / NOAA",
+        "launchYear": 2016,
+        "orbit": "geo",
+        "keyTags": [
+          "thermal_ir",
+          "lightning"
+        ],
+        "fact": "Watches the Americas from geostationary orbit; carried the first lightning mapper in GEO."
+      },
+      {
+        "name": "Meteosat Third Generation Imager-1",
+        "agency": "ESA / EUMETSAT",
+        "launchYear": 2022,
+        "orbit": "geo",
+        "keyTags": [
+          "thermal_ir",
+          "lightning"
+        ],
+        "fact": "Watches Europe and Africa from GEO with an imager and a lightning imager."
+      },
+      {
+        "name": "Lunar Prospector",
+        "agency": "NASA",
+        "launchYear": 1998,
+        "orbit": "lunar",
+        "keyTags": [
+          "neutron"
+        ],
+        "fact": "Its neutron spectrometer found signs of hydrogen, a hint of ice, at the lunar poles."
+      },
+      {
+        "name": "Lunar Reconnaissance Orbiter",
+        "agency": "NASA",
+        "launchYear": 2009,
+        "orbit": "lunar",
+        "keyTags": [
+          "altimeter",
+          "thermal_ir",
+          "neutron"
+        ],
+        "fact": "Maps the Moon with a laser altimeter, a thermal radiometer and a neutron detector."
+      },
+      {
+        "name": "Mars Reconnaissance Orbiter",
+        "agency": "NASA",
+        "launchYear": 2005,
+        "orbit": "mars",
+        "keyTags": [
+          "relay",
+          "optical_hr",
+          "spectrometer"
+        ],
+        "fact": "Studies Mars with a high-resolution camera and spectrometers, and relays rover data to Earth."
+      },
+      {
+        "name": "ExoMars Trace Gas Orbiter",
+        "agency": "ESA / Roscosmos",
+        "launchYear": 2016,
+        "orbit": "mars",
+        "keyTags": [
+          "spectrometer",
+          "relay"
+        ],
+        "fact": "Hunts for methane in the Martian air and relays data for surface missions."
+      },
+      {
+        "name": "MAVEN",
+        "agency": "NASA",
+        "launchYear": 2013,
+        "orbit": "mars",
+        "keyTags": [
+          "spectrometer",
+          "particles",
+          "magnetic",
+          "relay"
+        ],
+        "fact": "Studies how Mars lost its atmosphere, and also relays rover data."
+      },
+      {
+        "name": "James Webb Space Telescope",
+        "agency": "NASA / ESA / CSA",
+        "launchYear": 2021,
+        "orbit": "l2",
+        "keyTags": [
+          "telescope_ir"
+        ],
+        "fact": "A 6.5 m gold-coated infrared telescope at L2, shaded by a tennis-court-size sunshield."
+      },
+      {
+        "name": "Herschel Space Observatory",
+        "agency": "ESA",
+        "launchYear": 2009,
+        "orbit": "l2",
+        "keyTags": [
+          "telescope_ir"
+        ],
+        "fact": "A far-infrared telescope at L2 that studied how stars and galaxies form."
+      }
+    ]
+  }
+]

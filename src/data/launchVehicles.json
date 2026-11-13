@@ -1,0 +1,81 @@
+[
+  {
+    "id": "spark",
+    "name": "Spark",
+    "tier": "basic",
+    "classNote": "small launcher",
+    "capacityKg": {
+      "LEO": 300,
+      "SSO": 200
+    },
+    "costM": 8,
+    "reliability": 0.93,
+    "description": "A small rocket built for small satellites. Cheap and flexible, but it cannot go beyond low orbits."
+  },
+  {
+    "id": "rideshare",
+    "name": "Rideshare Slot",
+    "tier": "basic",
+    "classNote": "shared ride on a medium rocket, SSO only, max 300 kg",
+    "capacityKg": {
+      "SSO": 300
+    },
+    "costM": 0,
+    "costPerKgM": 0.0065,
+    "minCostM": 0.5,
+    "reliability": 0.97,
+    "scheduleIntervalMonths": 4,
+    "description": "Book a seat on a medium rocket together with other satellites. Very cheap per kilogram, but only to sun-synchronous orbit and only when the shared rocket flies (every 4 months)."
+  },
+  {
+    "id": "arrow",
+    "name": "Arrow",
+    "tier": "basic",
+    "classNote": "light-medium launcher",
+    "capacityKg": {
+      "LEO": 2300,
+      "SSO": 1500,
+      "GTO": 900,
+      "TLI": 700,
+      "L2": 650,
+      "TMI": 400
+    },
+    "costM": 40,
+    "reliability": 0.94,
+    "description": "A light-medium launcher that can reach the Moon or Mars with small spacecraft. A good middle option when every dollar counts."
+  },
+  {
+    "id": "workhorse",
+    "name": "Workhorse",
+    "tier": "basic",
+    "classNote": "reusable medium-lift",
+    "capacityKg": {
+      "LEO": 17500,
+      "SSO": 13000,
+      "GTO": 5500,
+      "TLI": 3500,
+      "L2": 3000,
+      "TMI": 2500
+    },
+    "costM": 70,
+    "reliability": 0.98,
+    "description": "A reliable, reusable medium-lift rocket. The default choice for most missions — affordable and flies often."
+  },
+  {
+    "id": "titan",
+    "name": "Titan",
+    "tier": "advanced",
+    "classNote": "heavy-lift",
+    "capacityKg": {
+      "LEO": 60000,
+      "SSO": 45000,
+      "GTO": 22000,
+      "TLI": 15000,
+      "L2": 13000,
+      "TMI": 12000
+    },
+    "costM": 150,
+    "reliability": 0.96,
+    "description": "A heavy-lift rocket for big observatories and deep-space missions. Powerful and expensive."
+  }
+]

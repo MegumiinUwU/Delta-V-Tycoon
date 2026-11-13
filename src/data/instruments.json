@@ -1,0 +1,242 @@
+[
+  {
+    "id": "cam_wide",
+    "name": "Wide-Field Camera",
+    "tier": "basic",
+    "description": "Cheap, light and data-hungry. Good for context images.",
+    "massKg": 5,
+    "powerW": 10,
+    "costM": 2,
+    "dataGbitPerDay": 20,
+    "pointingReqDeg": 1.0,
+    "tags": [
+      "optical"
+    ],
+    "baseScience": 10,
+    "devMonths": 6,
+    "whatItMeasures": "Takes wide colour pictures of large areas: clouds, coastlines, big fields."
+  },
+  {
+    "id": "cam_hires",
+    "name": "High-Resolution Telescope Camera",
+    "tier": "advanced",
+    "description": "Needs very steady pointing and a fast downlink (200 Gbit/day).",
+    "massKg": 40,
+    "powerW": 60,
+    "costM": 25,
+    "dataGbitPerDay": 200,
+    "pointingReqDeg": 0.05,
+    "tags": [
+      "optical_hr",
+      "optical"
+    ],
+    "baseScience": 30,
+    "devMonths": 18,
+    "whatItMeasures": "Sees details down to about one metre: buildings, roads, single fields."
+  },
+  {
+    "id": "imager_ms",
+    "name": "Multispectral Imager",
+    "tier": "basic",
+    "description": "The workhorse of farming and water monitoring.",
+    "massKg": 25,
+    "powerW": 40,
+    "costM": 15,
+    "dataGbitPerDay": 80,
+    "pointingReqDeg": 0.1,
+    "tags": [
+      "multispectral"
+    ],
+    "baseScience": 25,
+    "devMonths": 12,
+    "whatItMeasures": "Sees several colours, including invisible near-infrared, which reveals plant health and water."
+  },
+  {
+    "id": "imager_tir",
+    "name": "Thermal Infrared Imager",
+    "tier": "basic",
+    "description": "Works day and night. Needs a cooler, so it uses 50 W.",
+    "massKg": 20,
+    "powerW": 50,
+    "costM": 12,
+    "dataGbitPerDay": 40,
+    "pointingReqDeg": 0.1,
+    "tags": [
+      "thermal_ir"
+    ],
+    "baseScience": 20,
+    "devMonths": 12,
+    "whatItMeasures": "Measures heat: soil dryness, cloud-top temperature, freezing dark craters."
+  },
+  {
+    "id": "radar_sar",
+    "name": "Synthetic Aperture Radar",
+    "tier": "advanced",
+    "description": "Powerful but heavy (150 kg) and power-hungry (400 W).",
+    "massKg": 150,
+    "powerW": 400,
+    "costM": 60,
+    "dataGbitPerDay": 400,
+    "pointingReqDeg": 0.1,
+    "tags": [
+      "radar"
+    ],
+    "baseScience": 40,
+    "devMonths": 24,
+    "whatItMeasures": "Sends radio pulses and builds images from the echoes; works at night and through clouds and dust."
+  },
+  {
+    "id": "sounder_atm",
+    "name": "Atmospheric Sounder",
+    "tier": "basic",
+    "description": "Best from an orbit that watches continuously.",
+    "massKg": 60,
+    "powerW": 120,
+    "costM": 30,
+    "dataGbitPerDay": 30,
+    "pointingReqDeg": 0.5,
+    "tags": [
+      "sounder"
+    ],
+    "baseScience": 30,
+    "devMonths": 18,
+    "whatItMeasures": "Measures temperature and humidity at different heights: the main input for weather forecasts."
+  },
+  {
+    "id": "lightning_map",
+    "name": "Lightning Mapper",
+    "tier": "basic",
+    "description": "Most useful staring at one region from far away.",
+    "massKg": 40,
+    "powerW": 70,
+    "costM": 20,
+    "dataGbitPerDay": 50,
+    "pointingReqDeg": 0.2,
+    "tags": [
+      "lightning"
+    ],
+    "baseScience": 20,
+    "devMonths": 15,
+    "whatItMeasures": "Detects lightning flashes day and night, a sign that storms are strengthening."
+  },
+  {
+    "id": "spec_neutron",
+    "name": "Neutron Spectrometer",
+    "tier": "basic",
+    "description": "Light, low power, tiny data; does not need precise pointing.",
+    "massKg": 12,
+    "powerW": 10,
+    "costM": 8,
+    "dataGbitPerDay": 0.5,
+    "pointingReqDeg": 5.0,
+    "tags": [
+      "neutron"
+    ],
+    "baseScience": 25,
+    "devMonths": 12,
+    "whatItMeasures": "Counts neutrons escaping from the ground. A dip means hydrogen: a strong hint of water ice."
+  },
+  {
+    "id": "lidar_alt",
+    "name": "Laser Altimeter",
+    "tier": "basic",
+    "description": "Needs ±0.05° pointing — use reaction wheels.",
+    "massKg": 15,
+    "powerW": 35,
+    "costM": 10,
+    "dataGbitPerDay": 5,
+    "pointingReqDeg": 0.05,
+    "tags": [
+      "altimeter"
+    ],
+    "baseScience": 20,
+    "devMonths": 12,
+    "whatItMeasures": "Fires laser pulses and times the echoes to map surface height very precisely."
+  },
+  {
+    "id": "magnetometer",
+    "name": "Magnetometer",
+    "tier": "basic",
+    "description": "Almost free in mass, power and data. Small science value.",
+    "massKg": 3,
+    "powerW": 4,
+    "costM": 1.5,
+    "dataGbitPerDay": 0.1,
+    "pointingReqDeg": 10,
+    "tags": [
+      "magnetic"
+    ],
+    "baseScience": 10,
+    "devMonths": 6,
+    "whatItMeasures": "Measures magnetic fields around the planet and in space."
+  },
+  {
+    "id": "spec_atm",
+    "name": "Atmospheric Spectrometer",
+    "tier": "basic",
+    "description": "Key for atmosphere studies on Earth and Mars.",
+    "massKg": 20,
+    "powerW": 30,
+    "costM": 14,
+    "dataGbitPerDay": 15,
+    "pointingReqDeg": 0.1,
+    "tags": [
+      "spectrometer"
+    ],
+    "baseScience": 25,
+    "devMonths": 15,
+    "whatItMeasures": "Splits light into colours to identify gases like methane, carbon dioxide and water vapour."
+  },
+  {
+    "id": "det_particle",
+    "name": "Radiation & Particle Detector",
+    "tier": "basic",
+    "description": "Halves the damage risk from solar storms.",
+    "massKg": 4,
+    "powerW": 5,
+    "costM": 2,
+    "dataGbitPerDay": 0.2,
+    "pointingReqDeg": 20,
+    "tags": [
+      "particles"
+    ],
+    "baseScience": 8,
+    "devMonths": 6,
+    "whatItMeasures": "Counts energetic particles from the Sun; gives early warning of radiation storms.",
+    "special": "particle_warning"
+  },
+  {
+    "id": "relay_uhf",
+    "name": "Rover Relay Radio",
+    "tier": "basic",
+    "description": "Counts as an instrument; essential for Red Relay.",
+    "massKg": 30,
+    "powerW": 100,
+    "costM": 15,
+    "dataGbitPerDay": 2,
+    "pointingReqDeg": 5,
+    "tags": [
+      "relay"
+    ],
+    "baseScience": 30,
+    "devMonths": 12,
+    "whatItMeasures": "Collects data from rovers and landers and forwards it to Earth."
+  },
+  {
+    "id": "tel_ir",
+    "name": "Cryogenic Infrared Telescope",
+    "tier": "advanced",
+    "description": "Huge (400 kg), $250M, needs ±0.001° pointing and a cold, stable orbit.",
+    "massKg": 400,
+    "powerW": 300,
+    "costM": 250,
+    "dataGbitPerDay": 60,
+    "pointingReqDeg": 0.001,
+    "tags": [
+      "telescope_ir"
+    ],
+    "baseScience": 80,
+    "devMonths": 30,
+    "whatItMeasures": "A super-cold infrared telescope that sees heat from the most distant galaxies and from planets around other stars."
+  }
+]

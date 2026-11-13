@@ -1,0 +1,227 @@
+[
+  {
+    "id": "leo",
+    "name": "Low Earth Orbit",
+    "destination": "LEO",
+    "altitudeKm": 500,
+    "periodMin": 95,
+    "sunFraction": 0.62,
+    "eclipseMin": 36,
+    "solarFactor": 1.0,
+    "insertionDvMs": 0,
+    "stationKeepingDvMsPerYear": 25,
+    "disposalDvMs": 60,
+    "naturalLifetimeYears": 4,
+    "commsFactor": 1.0,
+    "contactHours": {
+      "campus": 0.5,
+      "commercial": 2.0,
+      "deepspace": 1.0
+    },
+    "lightDelaySec": 0,
+    "radiation": 1.0,
+    "opsCostMPerYear": 2,
+    "cruiseMonths": 0,
+    "magnetorquersWork": true,
+    "isNearEarth": true,
+    "debrisRule": true,
+    "description": "500 km up, circles Earth every 95 minutes. Close = sharp images and cheap launches. But you only see a ground station for a few minutes per pass, you spend 36 min of every orbit in Earth's shadow, and thin air slowly drags you down, so you need fuel to stay up and to deorbit at the end (space-debris rule).",
+    "pros": [
+      "Sharp images",
+      "Cheapest to reach",
+      "Short radio distance"
+    ],
+    "cons": [
+      "Short contacts (~8 min per pass)",
+      "Drag needs fuel to stay up",
+      "Must deorbit at end of life"
+    ]
+  },
+  {
+    "id": "sso",
+    "name": "Sun-Synchronous Orbit",
+    "destination": "SSO",
+    "altitudeKm": 700,
+    "periodMin": 99,
+    "sunFraction": 0.65,
+    "eclipseMin": 35,
+    "solarFactor": 1.0,
+    "insertionDvMs": 0,
+    "stationKeepingDvMsPerYear": 10,
+    "disposalDvMs": 150,
+    "naturalLifetimeYears": 25,
+    "commsFactor": 1.0,
+    "contactHours": {
+      "campus": 0.4,
+      "commercial": 3.0,
+      "deepspace": 1.0
+    },
+    "lightDelaySec": 0,
+    "radiation": 1.2,
+    "opsCostMPerYear": 2,
+    "cruiseMonths": 0,
+    "magnetorquersWork": true,
+    "isNearEarth": true,
+    "debrisRule": true,
+    "description": "A polar orbit tilted so you pass over every place at the same local time: perfect lighting for comparing images over months. Passes over polar ground stations often. Needs fuel to deorbit at end of life.",
+    "pros": [
+      "Same lighting every pass — perfect for comparing images",
+      "Covers the whole globe",
+      "Frequent passes over polar ground stations"
+    ],
+    "cons": [
+      "Needs about 150 m/s to deorbit at end of life",
+      "Eclipse every orbit — needs a battery",
+      "Short contact with a single mid-latitude station"
+    ]
+  },
+  {
+    "id": "geo",
+    "name": "Geostationary Orbit",
+    "destination": "GTO",
+    "altitudeKm": 35786,
+    "periodMin": 1436,
+    "sunFraction": 0.99,
+    "eclipseMin": 72,
+    "solarFactor": 1.0,
+    "insertionDvMs": 1500,
+    "stationKeepingDvMsPerYear": 50,
+    "disposalDvMs": 11,
+    "naturalLifetimeYears": 999,
+    "commsFactor": 0.05,
+    "contactHours": {
+      "campus": 24,
+      "commercial": 24,
+      "deepspace": 24
+    },
+    "lightDelaySec": 0.12,
+    "radiation": 2.0,
+    "opsCostMPerYear": 2,
+    "cruiseMonths": 0.1,
+    "magnetorquersWork": false,
+    "isNearEarth": true,
+    "debrisRule": false,
+    "description": "35,786 km up; one orbit takes exactly one day, so you hover over the same spot — continuous weather watching and 24-hour contact with one station. Far away: blurry for small details, weaker radio signal, the rocket drops you in a transfer orbit and your spacecraft must burn 1,500 m/s to circularize.",
+    "pros": [
+      "Stares at one region all the time",
+      "24-hour contact with one station",
+      "Almost no eclipses"
+    ],
+    "cons": [
+      "Far = blurry details and weaker signal",
+      "Spacecraft must burn 1,500 m/s to circularize",
+      "Stronger radiation"
+    ]
+  },
+  {
+    "id": "lunar",
+    "name": "Low Lunar Polar Orbit",
+    "destination": "TLI",
+    "altitudeKm": 100,
+    "periodMin": 118,
+    "sunFraction": 0.6,
+    "eclipseMin": 47,
+    "solarFactor": 1.0,
+    "insertionDvMs": 900,
+    "stationKeepingDvMsPerYear": 100,
+    "disposalDvMs": 0,
+    "naturalLifetimeYears": 0.5,
+    "commsFactor": 0.002,
+    "contactHours": {
+      "campus": 0,
+      "commercial": 0,
+      "deepspace": 8
+    },
+    "lightDelaySec": 1.3,
+    "radiation": 2.5,
+    "opsCostMPerYear": 4,
+    "cruiseMonths": 0.2,
+    "magnetorquersWork": false,
+    "isNearEarth": false,
+    "debrisRule": false,
+    "description": "100 km over the Moon's poles: maps the whole surface, including dark craters near the poles. Needs a deep-space antenna network; the Moon's lumpy gravity disturbs the orbit, so station-keeping fuel is high; no magnetic field, so magnetorquers do not work.",
+    "pros": [
+      "Maps the entire Moon including polar craters",
+      "Close to future landing sites"
+    ],
+    "cons": [
+      "Needs the deep-space network",
+      "Lumpy lunar gravity costs 100 m/s per year",
+      "No magnetic field for magnetorquers"
+    ]
+  },
+  {
+    "id": "l2",
+    "name": "Sun-Earth L2 Halo Orbit",
+    "destination": "L2",
+    "altitudeKm": 1500000,
+    "periodMin": 259200,
+    "sunFraction": 1.0,
+    "eclipseMin": 0,
+    "solarFactor": 1.0,
+    "insertionDvMs": 50,
+    "stationKeepingDvMsPerYear": 3,
+    "disposalDvMs": 1,
+    "naturalLifetimeYears": 0.1,
+    "commsFactor": 0.0003,
+    "contactHours": {
+      "campus": 0,
+      "commercial": 0,
+      "deepspace": 4
+    },
+    "lightDelaySec": 5,
+    "radiation": 2.5,
+    "opsCostMPerYear": 4,
+    "cruiseMonths": 1,
+    "magnetorquersWork": false,
+    "isNearEarth": false,
+    "debrisRule": false,
+    "description": "1.5 million km from Earth on the side away from the Sun. The Sun, Earth and Moon are always behind you, so a telescope stays cold and steady with no eclipses. Far: deep-space network required, limited contact hours. The orbit is unstable, so small corrections are needed.",
+    "pros": [
+      "Cold, stable, no eclipses — ideal for telescopes",
+      "Sun and Earth always behind you"
+    ],
+    "cons": [
+      "1.5 million km away — deep-space network required",
+      "Limited contact hours"
+    ]
+  },
+  {
+    "id": "mars",
+    "name": "Mars Polar Orbit",
+    "destination": "TMI",
+    "altitudeKm": 300,
+    "periodMin": 113,
+    "sunFraction": 0.65,
+    "eclipseMin": 40,
+    "solarFactor": 0.43,
+    "insertionDvMs": 1100,
+    "stationKeepingDvMsPerYear": 15,
+    "disposalDvMs": 20,
+    "naturalLifetimeYears": 50,
+    "commsFactor": 2e-05,
+    "contactHours": {
+      "campus": 0,
+      "commercial": 0,
+      "deepspace": 6
+    },
+    "lightDelaySec": 750,
+    "radiation": 3.0,
+    "opsCostMPerYear": 4,
+    "cruiseMonths": 7,
+    "magnetorquersWork": false,
+    "isNearEarth": false,
+    "debrisRule": false,
+    "description": "Sunlight at Mars is only 43% as strong, so solar arrays must be larger. Radio signals take minutes to arrive (average 12.5 min one way), so the spacecraft must handle emergencies on its own. Getting there takes ~7 months and Mars launch windows open only every 26 months.",
+    "pros": [
+      "Global view of Mars",
+      "Can relay data for rovers"
+    ],
+    "cons": [
+      "Sunlight only 43%",
+      "Radio delay up to 22 minutes",
+      "Launch window only every 26 months",
+      "7-month cruise"
+    ]
+  }
+]

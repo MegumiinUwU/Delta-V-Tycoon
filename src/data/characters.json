@@ -1,0 +1,156 @@
+[
+  {
+    "id": "nour",
+    "name": "Nour El-Sayed",
+    "from": "Egypt",
+    "role": "planner",
+    "playable": true,
+    "title": "Mission Commander",
+    "bio": "Former air-traffic controller from Alexandria who loves a plan with a backup plan.",
+    "lines": {
+      "success": "Right on budget and on time. That's how it's done.",
+      "failure": "We'll plan smarter next time.",
+      "warning": "Our reserve is getting thin."
+    }
+  },
+  {
+    "id": "lucas",
+    "name": "Lucas Moreau",
+    "from": "France",
+    "role": "planner",
+    "playable": true,
+    "title": "Mission Commander",
+    "bio": "Ex-test pilot from Toulouse; calm under pressure, allergic to wasted money.",
+    "lines": {
+      "success": "Textbook mission.",
+      "failure": "Debrief time. What did we miss?",
+      "warning": "That rocket is costing us a fortune."
+    }
+  },
+  {
+    "id": "diaa",
+    "name": "Diaa El Awdi",
+    "from": "Egypt",
+    "role": "planner",
+    "playable": true,
+    "title": "Mission Commander",
+    "bio": "Seasoned leader from Cairo who turns bold ideas into missions that launch on time and on budget.",
+    "lines": {
+      "success": "Bold idea, solid plan, perfect launch. Well done, team.",
+      "failure": "Every great mission comes back stronger. Back to the drawing board.",
+      "warning": "Let's check the numbers before we commit."
+    }
+  },
+  {
+    "id": "omar",
+    "name": "Omar Farouk",
+    "from": "Egypt",
+    "role": "engineer",
+    "playable": true,
+    "title": "Spacecraft Engineer",
+    "bio": "Mechanical engineer from Aswan who builds satellites like puzzles.",
+    "lines": {
+      "success": "Every bolt held. Beautiful.",
+      "failure": "I'll find the weak part and fix it.",
+      "warning": "We're too close to the limit — I need margin!"
+    }
+  },
+  {
+    "id": "elena",
+    "name": "Elena Petrova",
+    "from": "Russia",
+    "role": "engineer",
+    "playable": true,
+    "title": "Spacecraft Engineer",
+    "bio": "Veteran propulsion engineer; has a rocket equation tattoo (on her coffee mug).",
+    "lines": {
+      "success": "Margins saved us. They always do.",
+      "failure": "The numbers told us. We should have listened.",
+      "warning": "Not enough delta-v. Physics does not negotiate."
+    }
+  },
+  {
+    "id": "amara",
+    "name": "Amara Okafor",
+    "from": "Nigeria",
+    "role": "science",
+    "playable": true,
+    "title": "Science Lead",
+    "bio": "Planetary scientist from Lagos who has mapped craters on two worlds.",
+    "lines": {
+      "success": "Look at this data! Papers for years.",
+      "failure": "We'll get the science next time.",
+      "warning": "We're missing the instrument we need for this goal."
+    }
+  },
+  {
+    "id": "hiroshi",
+    "name": "Hiroshi Tanaka",
+    "from": "Japan",
+    "role": "science",
+    "playable": true,
+    "title": "Science Lead",
+    "bio": "Astronomer from Sapporo who built telescopes before he could drive.",
+    "lines": {
+      "success": "A clear view. Wonderful.",
+      "failure": "The sky will wait for us.",
+      "warning": "My instrument needs steadier pointing."
+    }
+  },
+  {
+    "id": "kwame",
+    "name": "Kwame Mensah",
+    "from": "Ghana",
+    "role": "comms",
+    "playable": true,
+    "title": "Comms & Data Officer",
+    "bio": "Radio engineer from Accra who can hear a whisper across the Solar System.",
+    "lines": {
+      "success": "Every bit made it home.",
+      "failure": "Lost signal… we'll fix the link.",
+      "warning": "The radio can't keep up with the data."
+    }
+  },
+  {
+    "id": "layla",
+    "name": "Layla Al-Mansouri",
+    "from": "UAE",
+    "role": "comms",
+    "playable": true,
+    "title": "Comms & Data Officer",
+    "bio": "Network specialist from Abu Dhabi who schedules antennas like a chess game.",
+    "lines": {
+      "success": "Downlink complete — 100%.",
+      "failure": "We need a better link.",
+      "warning": "Data is piling up in memory."
+    }
+  },
+  {
+    "id": "hassan",
+    "name": "Dr. Hassan Nasr",
+    "from": "Egypt",
+    "role": "npc",
+    "playable": false,
+    "title": "Flight Director",
+    "bio": "Thirty years in mission control in Cairo. Has seen every kind of failure — and learned from all of them.",
+    "lines": {
+      "success": "Mission accomplished, crew.",
+      "failure": "Failure is a teacher. Let's read the lesson.",
+      "warning": "Check the readiness review before we go."
+    }
+  },
+  {
+    "id": "priya",
+    "name": "Priya Nair",
+    "from": "India",
+    "role": "npc",
+    "playable": false,
+    "title": "Ground Station Operator",
+    "bio": "Runs the antennas that listen to our spacecraft; knows every pass by heart.",
+    "lines": {
+      "success": "Signal strong and clear.",
+      "failure": "We lost contact.",
+      "warning": "Your spacecraft is only in view for minutes a day."
+    }
+  }
+]
