@@ -65,8 +65,6 @@ Disclosed as required by the NASA Space Apps code of ethics.
 
 _Names and roles: Team Lead · Programmer A (core & rooms) · Programmer B (UI & build) · Character Artist · Environment & Asset Artist · QA & Playtest._
 
-Diaa El Awdi appears in the game as a playable Mission Commander with his permission.
-
 ## Credits & licence
 
 See CREDITS.md. Code: MIT (see [LICENSE](LICENSE)).

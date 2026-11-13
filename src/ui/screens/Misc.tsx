@@ -195,13 +195,13 @@ export function SettingsScreen() {
 }
 
 export function Credits() {
-  const crew = getCatalog().characters;
+  const hidden = new Set(['diaa', 'miku', 'teto', 'neru']);
+  const crew = getCatalog().characters.filter((c) => !hidden.has(c.id));
   return (
     <Page title="Credits">
       <section className="panel col">
         <h2>Team</h2>
         <p>Team Lead · Programmer A (simulation core & online rooms) · Programmer B (UI, scenes & build) · Character Artist · Environment & Asset Artist · QA & Playtest.</p>
-        <p className="small muted">Diaa El Awdi appears in the game as a playable Mission Commander with his permission.</p>
       </section>
       <section className="panel col">
         <h2>Crew</h2>

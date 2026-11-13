@@ -6,7 +6,7 @@ Every asset in the game, who made it and how. Generative tools are disclosed as 
 
 | Assets | Made by | How |
 | --- | --- | --- |
-| `public/assets/characters/` (53 files, except the guest crew below): crew portraits, idle and spacesuit sprites | Team (character art) with Claude (Anthropic) | Pixel-by-pixel Python script from the written character sheets; Diaa El Awdi appears with his permission |
+| `public/assets/characters/` (53 files, except the guest crew below): crew portraits, idle and spacesuit sprites | Team (character art) with Claude (Anthropic) | Pixel-by-pixel Python script from the written character sheets |
 | `public/assets/characters/*_(teto\|miku\|neru)_*.png` (15): guest crew Kasane Teto, Hatsune Miku, Akita Neru | Team (chibi sprites) | The team's own chibi pixel art, recovered to its native pixels (`scripts/art/source/`) and placed by `scripts/art/exact_crew.py`; not on the ENDESGA palette. Hatsune Miku © Crypton Future Media, INC. (piapro.net, Piapro Character License); Kasane Teto © TWINDRILL; Akita Neru is a fan-created character |
 | `public/assets/items/` (52), `public/assets/icons/` (20), UI kit tiles | Team asset artist | Drawn by the artist; recovered to exact pixels and palette by `scripts/art/recover_previews.py`; UI tiles redrawn by `scripts/art/ui_kit.py` |
 | `public/assets/bg/`, `planets/`, `lv/`, `fx/`, `sc/`, `events/`, `scenarios/`, `ui/logo_deltav.png`, `ui/favicon.png`, `ui/og_image.png` | Team with Claude (Anthropic) | Procedural pixel art, `scripts/art/env_art.py`: code shapes, ordered dithering, palette only, no image-generation model. Earth coastlines are hand-traced coarse outlines of Africa, Arabia and Europe |
