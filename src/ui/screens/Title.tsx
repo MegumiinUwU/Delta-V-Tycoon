@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { bg, ui } from '../../assets';
 import { playMusic, playVoice } from '../../audio/sound';
 import { getCatalog } from '../../core';
@@ -11,6 +11,14 @@ export function Title() {
   useEffect(() => { playMusic('music_menu'); }, []);
   const online = onlineEnabled();
   const crew = getCatalog().characters.map((c) => c.id);
+  // the crew line is 68 px per character at 2x; drop to 1x when the window is too narrow, so nobody is cut off
+  const fits = () => typeof window === 'undefined' || window.innerWidth >= crew.length * 68 + 24;
+  const [big, setBig] = useState(fits);
+  useEffect(() => {
+    const onResize = () => setBig(fits());
+    addEventListener('resize', onResize);
+    return () => removeEventListener('resize', onResize);
+  }, [crew.length]);
   const items: [string, string, boolean?][] = [
     ['Play Solo', '/solo', true],
     ['Agency Career', '/career'],
@@ -36,7 +44,7 @@ export function Title() {
         </nav>
       </div>
       <div className="row center" style={{ gap: 4, alignItems: 'flex-end', paddingBottom: 8 }} aria-hidden>
-        {crew.map((id) => <span key={id} onMouseEnter={() => playVoice(id)}><IdleSprite id={id} scale={2} /></span>)}
+        {crew.map((id) => <span key={id} onMouseEnter={() => playVoice(id)}><IdleSprite id={id} scale={big ? 2 : 1} /></span>)}
       </div>
       <footer className="row between small" style={{ padding: '6px 12px', background: '#181425cc' }}>
         <span>NASA Space Apps Cairo 2026 · Space Mission Design Game challenge</span>

@@ -212,7 +212,7 @@ export function Credits() {
         <p><span className="gold">Hatsune Miku</span> © Crypton Future Media, INC. <a href="https://piapro.net" target="_blank" rel="noreferrer">www.piapro.net</a> — used under the Piapro Character License (non-commercial fan use).</p>
         <p><span className="gold">Kasane Teto</span> © TWINDRILL.</p>
         <p><span className="gold">Akita Neru</span> — fan-created character from the online community.</p>
-        <p className="small muted">Their in-game pixel art is the team's chibi sprites, used pixel for pixel at their own size and colours (no flight suits). Miku's hover sound is an original synthesised chime, not her voice.</p>
+        <p className="small muted">Their in-game pixel art is the team's chibi sprites, used pixel for pixel at their own size and colours (no flight suits). Their hover voices (“mi-ku”, “te-to”, “ne-ru”) are original sounds from a small formant synthesiser, not their voicebanks.</p>
       </section>
       <section className="panel col">
         <h2>Built with</h2>
