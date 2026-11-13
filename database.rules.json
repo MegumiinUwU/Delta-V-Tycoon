@@ -1,0 +1,37 @@
+{
+  "rules": {
+    "rooms": {
+      "$code": {
+        ".read": "auth != null",
+        "meta": {
+          ".write": "auth != null && (!data.exists() || data.child('hostUid').val() === auth.uid || (root.child('rooms/'+$code+'/players/'+auth.uid).exists() && newData.child('hostUid').val() === auth.uid))"
+        },
+        "players": { "$uid": { ".write": "auth != null && $uid === auth.uid" } },
+        "roles": { "$role": {
+          ".write": "auth != null && root.child('rooms/'+$code+'/players/'+auth.uid).exists() && (!data.exists() || data.val() === auth.uid || root.child('rooms/'+$code+'/meta/hostUid').val() === auth.uid)"
+        } },
+        "council":    { ".write": "auth != null && root.child('rooms/'+$code+'/players/'+auth.uid).exists()" },
+        "requests":   { ".write": "auth != null && root.child('rooms/'+$code+'/players/'+auth.uid).exists()" },
+        "design": { "$role": {
+          ".write": "auth != null && (root.child('rooms/'+$code+'/roles/'+$role).val() === auth.uid || (!data.exists() && root.child('rooms/'+$code+'/meta/hostUid').val() === auth.uid))"
+        } },
+        "signoffs":   { ".write": "auth != null && root.child('rooms/'+$code+'/players/'+auth.uid).exists()" },
+        "reviewDone": { ".write": "auth != null && root.child('rooms/'+$code+'/players/'+auth.uid).exists()" },
+        "decisions":  { "$i": { ".write": "auth != null && !data.exists() && root.child('rooms/'+$code+'/players/'+auth.uid).exists()" } },
+        "suggestions": { ".write": "auth != null && root.child('rooms/'+$code+'/players/'+auth.uid).exists()" },
+        "chat": { "$m": {
+          ".write": "auth != null && !data.exists() && root.child('rooms/'+$code+'/players/'+auth.uid).exists()",
+          ".validate": "newData.child('text').isString() && newData.child('text').val().length <= 200"
+        } },
+        "result": { ".write": "auth != null && root.child('rooms/'+$code+'/meta/hostUid').val() === auth.uid" }
+      }
+    },
+    "leaderboard": {
+      ".read": "auth != null",
+      "$scenario": { "$entry": {
+        ".write": "auth != null && !data.exists()",
+        ".validate": "newData.child('score').isNumber() && newData.child('score').val() <= 1000 && newData.child('teamName').isString() && newData.child('teamName').val().length <= 24"
+      } }
+    }
+  }
+}
