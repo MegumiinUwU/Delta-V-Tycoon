@@ -179,6 +179,13 @@ export function Credits() {
         <div className="row wrap">{crew.map((c) => <span key={c.id} className="row"><Portrait id={c.id} size={32} />{c.name}</span>)}</div>
       </section>
       <section className="panel col">
+        <h2>Guest crew</h2>
+        <p><span className="gold">Hatsune Miku</span> © Crypton Future Media, INC. <a href="https://piapro.net" target="_blank" rel="noreferrer">www.piapro.net</a> — used under the Piapro Character License (non-commercial fan use).</p>
+        <p><span className="gold">Kasane Teto</span> © TWINDRILL.</p>
+        <p><span className="gold">Akita Neru</span> — fan-created character from the online community.</p>
+        <p className="small muted">Their in-game pixel art is original fan art drawn in this game's style (flight suits, ENDESGA 32 palette). Miku's hover sound is an original synthesised chime, not her voice.</p>
+      </section>
+      <section className="panel col">
         <h2>Built with</h2>
         <p>React, TypeScript, Vite, Zustand, Recharts, Firebase Realtime Database, lz-string, Vitest.</p>
         <p>Fonts: Press Start 2P (CodeMan38) and VT323 (Peter Hull), SIL Open Font License, self-hosted via @fontsource.</p>

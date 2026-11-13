@@ -48,6 +48,32 @@ export function playMusic(name: Music | null): void {
   music = a;
 }
 
+/** Characters that have a voice clip in assets/audio/voice_<id>.(mp3|wav). */
+export const VOICED = new Set(['miku']);
+const voiceSrc = new Map<string, string>();
+let voicePlaying: HTMLAudioElement | null = null;
+
+/**
+ * Plays a character's voice clip (e.g. on hover). Prefers voice_<id>.mp3 and falls back to .wav, so a real clip can
+ * be dropped in later without code changes. Ignored when muted, before the first user gesture, or if no file exists.
+ */
+export function playVoice(id: string): void {
+  if (muted || !unlocked || !VOICED.has(id) || typeof Audio === 'undefined') return;
+  if (voicePlaying && !voicePlaying.paused) return;          // don't stack while one is still playing
+  const tryPlay = (src: string, fallback?: string) => {
+    const a = new Audio(src);
+    a.volume = volume;
+    a.addEventListener('error', () => { if (fallback) tryPlay(fallback); else voiceSrc.set(id, ''); }, { once: true });
+    a.addEventListener('canplay', () => voiceSrc.set(id, src), { once: true });
+    a.play().catch(() => {});
+    voicePlaying = a;
+  };
+  const known = voiceSrc.get(id);
+  if (known === '') return;
+  const base = audio(`voice_${id}`).replace(/\.mp3$/, '');
+  if (known) tryPlay(known); else tryPlay(`${base}.mp3`, `${base}.wav`);
+}
+
 /** Browsers only allow audio after a user gesture: called once from the first click. */
 export function unlockAudio(): void {
   if (unlocked) return;

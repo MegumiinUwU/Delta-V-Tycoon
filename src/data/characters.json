@@ -126,6 +126,48 @@
     }
   },
   {
+    "id": "teto",
+    "name": "Kasane Teto",
+    "from": "Japan",
+    "role": "engineer",
+    "playable": true,
+    "title": "Spacecraft Engineer",
+    "bio": "Spacecraft engineer who rebuilt her first satellite from spare parts, and swears it was on purpose.",
+    "lines": {
+      "success": "Every bolt held. Told you so!",
+      "failure": "Something gave way. I'll find it, and fix it.",
+      "warning": "This design has no room to breathe. Give me margin."
+    }
+  },
+  {
+    "id": "miku",
+    "name": "Hatsune Miku",
+    "from": "Japan",
+    "role": "comms",
+    "playable": true,
+    "title": "Comms & Data Officer",
+    "bio": "Comms officer who tunes every antenna like an instrument; her downlink never misses a beat.",
+    "lines": {
+      "success": "Every bit made it home. Perfect harmony!",
+      "failure": "Too much data, too little pipe.",
+      "warning": "The downlink can't keep up with the instruments."
+    }
+  },
+  {
+    "id": "neru",
+    "name": "Akita Neru",
+    "from": "Japan",
+    "role": "science",
+    "playable": true,
+    "title": "Science Lead",
+    "bio": "Science lead who reads the data feed faster than anyone can send a text.",
+    "lines": {
+      "success": "That's a dataset people will use for years.",
+      "failure": "The science slipped away from us this time.",
+      "warning": "We can't meet the science goal with these instruments."
+    }
+  },
+  {
     "id": "hassan",
     "name": "Dr. Hassan Nasr",
     "from": "Egypt",

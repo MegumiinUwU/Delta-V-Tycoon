@@ -7,7 +7,7 @@ import { PNG } from 'pngjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'assets');
 
-const characters = ['nour', 'lucas', 'diaa', 'omar', 'elena', 'amara', 'hiroshi', 'kwame', 'layla', 'hassan', 'priya'];
+const characters = ['nour', 'lucas', 'diaa', 'omar', 'elena', 'teto', 'amara', 'hiroshi', 'neru', 'kwame', 'layla', 'miku', 'hassan', 'priya'];
 const playable = characters.filter((c) => c !== 'hassan' && c !== 'priya');
 const exprs = ['neutral', 'happy', 'worried'];
 const events = ['solar_storm', 'micrometeoroid', 'ground_outage', 'wheel_failure', 'budget_cut', 'computer_reset',

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { bg, ui } from '../../assets';
-import { playMusic } from '../../audio/sound';
+import { playMusic, playVoice } from '../../audio/sound';
 import { getCatalog } from '../../core';
 import { navigate, onlineEnabled } from '../../router';
 import { IdleSprite } from '../components/common';
@@ -30,7 +30,7 @@ export function Title() {
         </nav>
       </div>
       <div className="row center" style={{ gap: 4, alignItems: 'flex-end', paddingBottom: 8 }} aria-hidden>
-        {crew.map((id) => <IdleSprite key={id} id={id} scale={2} />)}
+        {crew.map((id) => <span key={id} onMouseEnter={() => playVoice(id)}><IdleSprite id={id} scale={2} /></span>)}
       </div>
       <footer className="row between small" style={{ padding: '6px 12px', background: '#181425cc' }}>
         <span>NASA Space Apps Cairo 2026 · Space Mission Design Game challenge</span>
