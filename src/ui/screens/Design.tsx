@@ -12,7 +12,7 @@ import { SpacecraftPreview } from '../../scenes/SpacecraftPreview';
 import { useGame, useMyRoles } from '../../state/store';
 import { Dashboard } from '../components/Dashboard';
 import { orbitRules } from '../orbitRules';
-import { Help, Icon, Modal, Portrait, ROLE_COLOR, Speech, Stats, Term } from '../components/common';
+import { Help, Icon, Modal, Portrait, rangeFill, ROLE_COLOR, SlideMarker, Speech, Stats, TabPanel, Term } from '../components/common';
 import { ReviewPanel } from './Review';
 import { TradeSpace } from './TradeSpace';
 
@@ -43,19 +43,29 @@ function Slider<R extends Role>({ role, field, label, min, max, step, value, uni
   const preview = useGame((g) => g.previewDelta);
   const setHover = useGame((g) => g.setHover);
   const t = useRef<number>();
+  const frame = useRef<number>();
   useEffect(() => { setLocal(value); }, [value]);
+  useEffect(() => () => { clearTimeout(t.current); if (frame.current) cancelAnimationFrame(frame.current); }, []);
+  // The thumb follows your finger at once; the budget preview (a full recompute + dashboard redraw) runs at most once
+  // per screen frame, and the design is saved when you pause for 120 ms. Keeps dragging smooth on slow machines.
   const change = (v: number) => {
     setLocal(v);
-    setHover(preview(role, { [field]: v } as Partial<Design[R]>));
+    if (frame.current) cancelAnimationFrame(frame.current);
+    frame.current = requestAnimationFrame(() => { frame.current = undefined; setHover(preview(role, { [field]: v } as Partial<Design[R]>)); });
     clearTimeout(t.current);
-    t.current = window.setTimeout(() => { room?.updateDesign(role, { [field]: v } as Partial<Design[R]>); setHover(null); }, 100);
+    t.current = window.setTimeout(() => {
+      if (frame.current) { cancelAnimationFrame(frame.current); frame.current = undefined; }
+      room?.updateDesign(role, { [field]: v } as Partial<Design[R]>);
+      setHover(null);
+    }, 120);
   };
   const id = `sl-${role}-${field}`;
   return (
     <div className="slider-row">
       <label htmlFor={id}>{concept ? <Term id={concept}>{label}</Term> : label}</label>
       <div style={{ position: 'relative' }}>
-        <input id={id} type="range" min={min} max={max} step={step} value={local} disabled={disabled} onChange={(e) => change(+e.target.value)} />
+        <input id={id} type="range" min={min} max={max} step={step} value={local} disabled={disabled} style={rangeFill(local, min, max)}
+          onChange={(e) => change(+e.target.value)} />
         {marker != null && marker >= min && marker <= max && (
           <div title={markerLabel} style={{ position: 'absolute', top: -4, height: 6, width: 2, background: 'var(--gold)',
             left: `${((marker - min) / (max - min)) * 100}%` }} />
@@ -169,6 +179,7 @@ function EngineerTab({ can }: { can: boolean }) {
       <div className="section">
         <h3>Solar array <Help id="solar_power" /></h3>
         <div className="seg" role="radiogroup" aria-label="Solar array type">
+          <SlideMarker />
           {[{ id: 'none', name: 'None' }, ...k.solarArrays].map((a) => (
             <button key={a.id} aria-pressed={e.solarArrayId === a.id} disabled={!can || (a.id !== 'none' && !un(a.id))}
               {...hover('engineer', { solarArrayId: a.id })} onClick={() => edit('engineer', { solarArrayId: a.id })}>
@@ -194,6 +205,7 @@ function EngineerTab({ can }: { can: boolean }) {
       <div className="section">
         <h3>Battery <Help id="battery" /></h3>
         <div className="seg" role="radiogroup" aria-label="Battery type">
+          <SlideMarker />
           {k.batteries.map((x) => (
             <button key={x.id} aria-pressed={e.batteryId === x.id} disabled={!can || !un(x.id)} {...hover('engineer', { batteryId: x.id })}
               onClick={() => edit('engineer', { batteryId: x.id })}>{x.name}{!un(x.id) ? ' 🔒' : ''}</button>
@@ -411,14 +423,15 @@ export function DesignWorkshop() {
       <section className="col" style={{ minWidth: 0 }}>
         <div className="row between">
           <div className="seg" role="radiogroup" aria-label="Preview">
+          <SlideMarker />
             <button aria-pressed={view === 'craft'} onClick={() => setView('craft')}>Spacecraft</button>
             <button aria-pressed={view === 'orbit'} onClick={() => setView('orbit')}>Orbit view</button>
           </div>
           <button className="btn small" onClick={() => set({ tradeOpen: true })} title="Explore the trade space (CML 3)">Trade Space ▤</button>
         </div>
-        <div className="row center">
+        <TabPanel id={view} order={view === 'orbit' ? 1 : 0} className="row center">
           {view === 'craft' ? <SpacecraftPreview design={s.design} totalKg={b.mass.totalKg} scale={2} /> : <OrbitView orbitId={s.design.planner.orbitId} scale={2} />}
-        </div>
+        </TabPanel>
         <NextStep />
         {!can && <div className="banner">{holderName(active)} controls this tab</div>}
         <div className="panel dark" style={{ overflow: 'auto', maxHeight: 'calc(100vh - 420px)', minHeight: 260 }}>

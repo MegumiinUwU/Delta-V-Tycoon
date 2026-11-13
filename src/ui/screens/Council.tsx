@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { play } from '../../audio/sound';
 import { fmtM, getCatalog, ROLE_TITLES, ROLES, type BudgetSplit, type Role } from '../../core';
 import { useGame, useIsHost } from '../../state/store';
-import { Dialog, Portrait, ROLE_COLOR } from '../components/common';
+import { Dialog, Portrait, rangeFill, ROLE_COLOR } from '../components/common';
 
 export const ROLE_GOALS: Record<Role, string> = {
   planner: 'Total cost ≤ 90% of budget AND launch on time',
@@ -36,7 +36,8 @@ export function SplitSliders({ split, budgetM, onChange }: { split: BudgetSplit;
       {ROLES.map((r) => (
         <div key={r} className="slider-row">
           <label htmlFor={`split-${r}`}><span className="rolechip" style={{ background: ROLE_COLOR[r] }} />{ROLE_TITLES[r]}</label>
-          <input id={`split-${r}`} type="range" min={0} max={100} step={1} value={split[r]} onChange={(e) => onChange(rebalance(split, r, +e.target.value))} />
+          <input id={`split-${r}`} type="range" min={0} max={100} step={1} value={split[r]} style={rangeFill(split[r], 0, 100)}
+            onChange={(e) => onChange(rebalance(split, r, +e.target.value))} />
           <span>{split[r]}% · {fmtM((budgetM * split[r]) / 100)}</span>
         </div>
       ))}

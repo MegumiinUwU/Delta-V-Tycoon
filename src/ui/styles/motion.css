@@ -82,3 +82,62 @@ details.more[open] > :not(summary) { animation: enter .3s var(--ease-out) backwa
 
 /* printed reports never wait on an animation */
 @media print { * { animation: none !important; transition: none !important; } }
+
+/* ---- Animated tabs (after animate-ui's Tabs): a selection that slides on a spring, labels whose colour fades,
+   and panels that come in from a slight blur, sliding from the side you moved towards ---- */
+:root {
+  --spring-select: cubic-bezier(.19, 1, .22, 1); --spring-select-dur: .42s;  /* fallback for older browsers */
+  --ease-enter: cubic-bezier(.25, .1, .35, 1);
+}
+/* the real spring (stiffness 300, damping 30), sampled into a CSS curve: glides in, a hair past, settles in .53 s */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --spring-select: linear(0, 0.059, 0.188, 0.341, 0.489, 0.62, 0.727, 0.812, 0.875, 0.921, 0.953, 0.974, 0.988, 0.996,
+      1.001, 1.003, 1.004, 1.004, 1.004, 1.003, 1.002, 1.002, 1.001, 1.001, 1);
+    --spring-select-dur: .53s;
+  }
+}
+.slide-marker { position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none; background: #124e89; opacity: 0;
+  transition: transform var(--spring-select-dur) var(--spring-select), width var(--spring-select-dur) var(--spring-select),
+    height var(--spring-select-dur) var(--spring-select), opacity .2s ease; }
+.seg { position: relative; isolation: isolate; background: var(--panel-2); }
+.seg > button { position: relative; z-index: 1; transition: color .2s ease, background-color .2s ease, transform .2s var(--ease-out); }
+.seg:has(> .slide-marker) > button { background: transparent; }
+.seg > button:hover:not(:disabled):not([aria-pressed=true]) { color: #fff; }
+.seg > button:active:not(:disabled) { transform: scale(.97); transition-duration: .06s; }
+
+/* Phase bar as a tab list: a dark track, the current phase on a raised tile that slides along it */
+.stepper { position: relative; isolation: isolate; gap: 2px; padding: 3px; background: #181425; border: 2px solid var(--border); align-self: center; }
+.stepper .step { position: relative; z-index: 1; padding: 4px 10px; border-bottom: 0; transition: color .2s ease; }
+.stepper .step.on { color: var(--gold); }
+.stepper .step.done { color: var(--muted); }
+.stepper .slide-marker { background: #2f3554; box-shadow: inset 0 -3px 0 var(--gold), 0 0 0 1px #feae3440; }
+.stepper .step .cml { transition: color .2s ease; }
+
+/* A switched panel: in from a 4 px blur and a short slide from the side you moved towards */
+.tab-panel { animation: panel-in .3s var(--ease-enter) backwards; }
+.tab-panel[data-dir='1'] { --from-x: 16px; }
+.tab-panel[data-dir='-1'] { --from-x: -16px; }
+@keyframes panel-in { from { opacity: 0; filter: blur(4px); translate: var(--from-x, 0) 0; } }
+.tab-panel .page > *, .tab-panel .cards > * { animation: none; }   /* the panel moves as one piece, like a tab, not item by item */
+
+/* ---- Sliders: gold fill up to the value, a thumb that grows under your finger ---- */
+input[type=range] { -webkit-appearance: none; appearance: none; height: 20px; background: transparent; cursor: pointer; --p: 50%; }
+input[type=range]:disabled { cursor: not-allowed; opacity: .5; }
+input[type=range]::-webkit-slider-runnable-track { height: 6px; border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold) var(--p), #3a4466 var(--p)); }
+input[type=range]::-moz-range-track { height: 6px; border-radius: 3px; background: #3a4466; }
+input[type=range]::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--gold); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; margin-top: -5px; border-radius: 50%;
+  background: var(--gold); border: 2px solid #181425; transition: transform .25s var(--ease-spring), box-shadow .25s var(--ease-std); }
+input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--gold); border: 2px solid #181425;
+  transition: transform .25s var(--ease-spring), box-shadow .25s var(--ease-std); }
+input[type=range]:hover:not(:disabled)::-webkit-slider-thumb { transform: scale(1.15); box-shadow: 0 0 0 4px #feae3430; }
+input[type=range]:hover:not(:disabled)::-moz-range-thumb { transform: scale(1.15); box-shadow: 0 0 0 4px #feae3430; }
+input[type=range]:active:not(:disabled)::-webkit-slider-thumb { transform: scale(1.3); box-shadow: 0 0 0 7px #feae3440; }
+input[type=range]:active:not(:disabled)::-moz-range-thumb { transform: scale(1.3); box-shadow: 0 0 0 7px #feae3440; }
+input[type=range]:focus-visible { outline: none; }
+input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--blue); }
+input[type=range]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--blue); }
+.stepper.grow { flex: 0 1 auto; margin-right: auto; }
+.tab-panel.phase { display: flex; flex-direction: column; flex: 1; min-height: 0; }

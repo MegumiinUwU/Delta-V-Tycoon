@@ -1,4 +1,4 @@
-import { Component, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { Component, useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { icon, idleSprite, portrait, type Expr } from '../../assets';
 import { play } from '../../audio/sound';
 import { useVoice } from '../../audio/voice';
@@ -123,6 +123,61 @@ export function Dialog({ lines, onDone, doneLabel = 'Continue', fill: vars }: { 
     </div>
   );
 }
+
+const ACTIVE = ['[aria-pressed=true]', '[aria-current=step]'];
+
+/**
+ * A highlight that glides to the active item of its parent (the child with aria-pressed=true or aria-current=step),
+ * like ol.mr's tab pill. Put it inside a .seg toggle or the .stepper. It is one absolutely placed element that moves
+ * with a transform transition (no animation library). `bar` makes it a 3 px underline instead of a full pill.
+ */
+export function SlideMarker({ bar }: { bar?: boolean }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const placed = useRef(false);
+  const place = useCallback(() => {
+    const m = ref.current, parent = m?.parentElement;
+    if (!m || !parent) return;
+    const on = parent.querySelector<HTMLElement>(ACTIVE.map((a) => `:scope > ${a}`).join(','));
+    if (!on) { m.style.opacity = '0'; return; }
+    const h = bar ? 3 : on.offsetHeight;
+    m.style.width = `${on.offsetWidth}px`;
+    m.style.height = `${h}px`;
+    m.style.transform = `translate(${on.offsetLeft}px, ${on.offsetTop + on.offsetHeight - h}px)`;
+    m.style.opacity = '1';
+    if (!placed.current) {                       // first placement: jump there, don't slide in from the corner
+      placed.current = true;
+      m.style.transition = 'none';
+      void m.offsetWidth;
+      m.style.transition = '';
+    }
+  }, [bar]);
+  useLayoutEffect(place);                        // after every render of the owner (selection may have changed)
+  useEffect(() => {
+    const parent = ref.current?.parentElement;
+    if (!parent || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => place());  // fonts loading, wrapping, text scale
+    ro.observe(parent);
+    Array.from(parent.children).forEach((c) => ro.observe(c));
+    return () => ro.disconnect();
+  }, [place]);
+  return <span ref={ref} className={bar ? 'slide-marker bar' : 'slide-marker'} aria-hidden />;
+}
+
+/**
+ * Content that switches like a tab panel (see .tab-panel in motion.css): each time `id` changes it comes in from a
+ * slight blur, sliding from the right if `order` went up and from the left if it went down (no slide the first time).
+ * Enter-only and pure CSS, so it costs nothing while idle.
+ */
+export function TabPanel({ id, order, className = '', children }: { id: string; order: number; className?: string; children: ReactNode }) {
+  const last = useRef<{ id: string; order: number; dir: number } | null>(null);
+  if (!last.current) last.current = { id, order, dir: 0 };
+  else if (last.current.id !== id) last.current = { id, order, dir: Math.sign(order - last.current.order) };
+  return <div key={id} className={`tab-panel ${className}`} data-dir={last.current.dir}>{children}</div>;
+}
+
+/** Inline style for a range input so its gold "filled" part matches the value. */
+export const rangeFill = (value: number, min: number, max: number): CSSProperties =>
+  ({ '--p': `${max > min ? ((value - min) / (max - min)) * 100 : 0}%` } as CSSProperties);
 
 export function Modal({ children, onClose, label, wide }: { children: ReactNode; onClose?: () => void; label: string; wide?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);

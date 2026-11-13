@@ -4,6 +4,7 @@ import { play } from '../../audio/sound';
 import { decodeChallenge, getCatalog, type DifficultyId, type ScenarioId } from '../../core';
 import { navigate } from '../../router';
 import { useGame } from '../../state/store';
+import { SlideMarker } from '../components/common';
 import { CharacterSelect, CrewChip } from './CharacterSelect';
 
 const STARS: Record<string, string> = { cadet: '★', engineer: '★★', director: '★★★' };
@@ -31,6 +32,7 @@ export function DifficultyPicker({ value, onChange, locked }: { value: Difficult
   const diffs = getCatalog().difficulties;
   return (
     <div className="seg" role="radiogroup" aria-label="Difficulty">
+      <SlideMarker />
       {diffs.map((d) => (
         <button key={d.id} role="radio" aria-checked={d.id === value} aria-pressed={d.id === value} disabled={locked && d.id !== value}
           title={d.description} onClick={() => { play('sfx_click'); onChange(d.id); }}>{STARS[d.id]} {d.name}</button>
