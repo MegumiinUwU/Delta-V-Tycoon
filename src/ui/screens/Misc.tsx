@@ -8,7 +8,7 @@ import { navigate, onlineEnabled } from '../../router';
 import { KEYS, load, save, type SavedDesign } from '../../state/storage';
 import { useDiscoveries } from '../../state/discoveries';
 import { useGame } from '../../state/store';
-import { GlossaryCard, Portrait, Stars, Speech } from '../components/common';
+import { GlossaryCard, Portrait, rangeFill, SlideMarker, Stars, Speech } from '../components/common';
 
 function Page({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -40,10 +40,10 @@ export function Academy({ focus }: { focus?: string }) {
         <span className="small muted">Concepts are logged when a mission teaches them: a warning in the review, an event, or a lesson in the report. Everything here is open to read anytime.</span>
       </section>
       <div className="row wrap">
-        <div className="seg">{([['all', 'All'], ['found', 'Discovered'], ['new', 'Not yet']] as const).map(([id, label]) =>
+        <div className="seg"><SlideMarker />{([['all', 'All'], ['found', 'Discovered'], ['new', 'Not yet']] as const).map(([id, label]) =>
           <button key={id} aria-pressed={only === id} onClick={() => setOnly(id)}>{label}</button>)}</div>
         <input type="search" placeholder="Search terms…" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search the glossary" />
-        <div className="seg">{CATS.map(([id, label]) => <button key={id} aria-pressed={cat === id} onClick={() => setCat(id)}>{label}</button>)}</div>
+        <div className="seg"><SlideMarker />{CATS.map(([id, label]) => <button key={id} aria-pressed={cat === id} onClick={() => setCat(id)}>{label}</button>)}</div>
       </div>
       <div className="cards" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))' }}>
         {list.map((g) => <GlossaryCard key={g.id} id={g.id} onOpen={(id) => { setQ(''); setCat('all'); setTimeout(() => document.getElementById(`g-${id}`)?.scrollIntoView({ behavior: 'smooth' })); }} />)}
@@ -147,7 +147,7 @@ export function Leaderboard() {
   return (
     <Page title="Leaderboard">
       <div className="row wrap">
-        <div className="seg"><button aria-pressed={tab === 'local'} onClick={() => setTab('local')}>Local</button>
+        <div className="seg"><SlideMarker /><button aria-pressed={tab === 'local'} onClick={() => setTab('local')}>Local</button>
           {onlineEnabled() && <button aria-pressed={tab === 'online'} onClick={() => setTab('online')}>Online</button>}</div>
         <select value={scenario} onChange={(e) => setScenario(e.target.value as ScenarioId)} aria-label="Scenario">
           <option value="">All scenarios</option>{getCatalog().scenarios.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
@@ -180,11 +180,11 @@ export function SettingsScreen() {
   return (
     <Page title="Settings">
       <section className="panel col" style={{ maxWidth: 640 }}>
-        <label className="slider-row">Volume <input type="range" min={0} max={1} step={0.05} value={settings.volume} onChange={(e) => setSettings({ volume: +e.target.value })} /><span>{Math.round(settings.volume * 100)}%</span></label>
+        <label className="slider-row">Volume <input type="range" min={0} max={1} step={0.05} value={settings.volume} style={rangeFill(settings.volume, 0, 1)} onChange={(e) => setSettings({ volume: +e.target.value })} /><span>{Math.round(settings.volume * 100)}%</span></label>
         <label className="row"><input type="checkbox" checked={settings.muted} onChange={() => setSettings({ muted: !settings.muted })} /> Mute all sound</label>
         <label className="row"><input type="checkbox" checked={settings.voices} disabled={settings.muted} onChange={() => setSettings({ voices: !settings.voices })} /> Character voices</label>
         <div className="row">Text size
-          <div className="seg">{([1, 1.25, 1.5] as const).map((v) => <button key={v} aria-pressed={settings.textScale === v} onClick={() => setSettings({ textScale: v })}>{v * 100}%</button>)}</div>
+          <div className="seg"><SlideMarker />{([1, 1.25, 1.5] as const).map((v) => <button key={v} aria-pressed={settings.textScale === v} onClick={() => setSettings({ textScale: v })}>{v * 100}%</button>)}</div>
         </div>
         <label className="row"><input type="checkbox" checked={settings.reducedMotion} onChange={() => setSettings({ reducedMotion: !settings.reducedMotion })} /> Reduced motion</label>
         <button className="btn" onClick={() => { save(KEYS.tutorial, false); setReset(true); }}>{reset ? '✓ Tutorial will show again' : 'Reset tutorial'}</button>

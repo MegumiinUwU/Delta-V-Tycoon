@@ -5,7 +5,7 @@ import { hush, sayNow } from '../../audio/voice';
 import { decodeChallenge, getCatalog, type DifficultyId, type ScenarioId } from '../../core';
 import { navigate } from '../../router';
 import { useGame } from '../../state/store';
-import { Portrait } from '../components/common';
+import { Portrait, SlideMarker } from '../components/common';
 
 /** Names written family-name first: show the given name (last word) on cards and as the default player name. */
 const FAMILY_NAME_FIRST = new Set(['miku', 'teto', 'neru']);
@@ -62,6 +62,7 @@ export function DifficultyPicker({ value, onChange, locked }: { value: Difficult
   const diffs = getCatalog().difficulties;
   return (
     <div className="seg" role="radiogroup" aria-label="Difficulty">
+      <SlideMarker />
       {diffs.map((d) => (
         <button key={d.id} role="radio" aria-checked={d.id === value} aria-pressed={d.id === value} disabled={locked && d.id !== value}
           title={d.description} onClick={() => { play('sfx_click'); onChange(d.id); }}>{STARS[d.id]} {d.name}</button>

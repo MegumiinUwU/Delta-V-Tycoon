@@ -3,7 +3,7 @@ import { getCatalog } from '../../core';
 import { getDifficulty, getScenario } from '../../core/catalog';
 import { navigate } from '../../router';
 import { useGame, useIsHost } from '../../state/store';
-import { Modal, Portrait } from './common';
+import { Modal, Portrait, SlideMarker } from './common';
 
 const STEPS: { label: string; phases: Phase[]; cml?: string }[] = [
   { label: 'Need & Goals', phases: ['lobby'], cml: 'CML 1' },
@@ -54,6 +54,7 @@ export function TopBar() {
               </div>
             );
           })}
+          <SlideMarker bar />
         </nav>
         <button className="btn small" onClick={() => set({ requirementsOpen: true })}>Mission requirements</button>
         {pending.length > 0 && <span className="badge gold" title="Funds requests waiting for you">$ {pending.length}</span>}

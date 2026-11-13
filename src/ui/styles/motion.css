@@ -77,3 +77,37 @@ details.more[open] > :not(summary) { animation: enter .3s var(--ease-out) backwa
 
 /* printed reports never wait on an animation */
 @media print { * { animation: none !important; transition: none !important; } }
+
+/* ---- Gliding highlights (SlideMarker): toggle pills and the phase step underline ---- */
+.slide-marker { position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none; background: #124e89; opacity: 0;
+  transition: transform .42s var(--ease-out), width .42s var(--ease-out), height .42s var(--ease-out), opacity .2s var(--ease-std); }
+.seg { position: relative; isolation: isolate; background: var(--panel-2); }
+.seg > button { position: relative; z-index: 1; transition: color .25s var(--ease-std), background-color .25s var(--ease-std); }
+.seg:has(> .slide-marker) > button { background: transparent; }
+.seg > button:hover:not(:disabled):not([aria-pressed=true]) { color: var(--text, #fff); }
+.seg > button:active:not(:disabled) { transform: scale(.96); transition-duration: .06s; }
+.stepper { position: relative; }
+.stepper .step { transition: color .3s var(--ease-std); }
+.stepper:has(> .slide-marker) .step.on { border-bottom-color: transparent; }
+.stepper .step.on { animation: step-on .45s var(--ease-out); }
+@keyframes step-on { from { transform: translateY(3px); opacity: .6; } }
+.slide-marker.bar { background: var(--gold); box-shadow: 0 0 8px #feae3466; }
+
+/* ---- Sliders: gold fill up to the value, a thumb that grows under your finger ---- */
+input[type=range] { -webkit-appearance: none; appearance: none; height: 20px; background: transparent; cursor: pointer; --p: 50%; }
+input[type=range]:disabled { cursor: not-allowed; opacity: .5; }
+input[type=range]::-webkit-slider-runnable-track { height: 6px; border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold) var(--p), #3a4466 var(--p)); }
+input[type=range]::-moz-range-track { height: 6px; border-radius: 3px; background: #3a4466; }
+input[type=range]::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--gold); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; margin-top: -5px; border-radius: 50%;
+  background: var(--gold); border: 2px solid #181425; transition: transform .25s var(--ease-spring), box-shadow .25s var(--ease-std); }
+input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--gold); border: 2px solid #181425;
+  transition: transform .25s var(--ease-spring), box-shadow .25s var(--ease-std); }
+input[type=range]:hover:not(:disabled)::-webkit-slider-thumb { transform: scale(1.15); box-shadow: 0 0 0 4px #feae3430; }
+input[type=range]:hover:not(:disabled)::-moz-range-thumb { transform: scale(1.15); box-shadow: 0 0 0 4px #feae3430; }
+input[type=range]:active:not(:disabled)::-webkit-slider-thumb { transform: scale(1.3); box-shadow: 0 0 0 7px #feae3440; }
+input[type=range]:active:not(:disabled)::-moz-range-thumb { transform: scale(1.3); box-shadow: 0 0 0 7px #feae3440; }
+input[type=range]:focus-visible { outline: none; }
+input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--blue); }
+input[type=range]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--blue); }
