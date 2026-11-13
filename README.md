@@ -46,6 +46,7 @@ React, TypeScript, Vite, Zustand, Firebase Realtime Database, Recharts, lz-strin
 | `src/data/*.json` | All game content: orbits, rockets, parts, instruments, scenarios, events, checks, glossary, dialog, crew | Lead |
 | `public/assets/characters/` | 53 crew PNGs: 33 portraits (64×64), 11 idle strips (128×48), 9 spacesuit strips (64×48) | Character art |
 | `public/assets/voice/` | Character voice lines (mp3), one clip per speaker and line; `src/data/voice.json` lists them. Rebuild with `npm run voice` | Lead |
+| `src/lab/` | Idea Lab (`#/lab`): prototypes that try ideas from community feedback, kept apart from the game screens and the core contract. Crew cabin hub, orbit poem, crew shorts. Screenshots in `docs/lab/` | Lead |
 | `docs/GDD.md` | Short game design document | Lead |
 | `docs/SOURCES.md` | Every source and what we used it for | Lead |
 
