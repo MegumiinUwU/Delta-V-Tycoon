@@ -1,0 +1,13 @@
+[
+  { "id": "spark", "name": "Spark", "tier": "basic", "description": "Small launcher.", "classNote": "small launcher",
+    "capacityKg": { "LEO": 300, "SSO": 200 }, "costM": 8, "reliability": 0.93 },
+  { "id": "rideshare", "name": "Rideshare Slot", "tier": "basic", "description": "Shared ride on a medium rocket, SSO only, max 300 kg.",
+    "classNote": "shared ride on a medium rocket, SSO only, max 300 kg",
+    "capacityKg": { "SSO": 300 }, "costM": 0, "costPerKgM": 0.0065, "minCostM": 0.5, "scheduleIntervalMonths": 4, "reliability": 0.97 },
+  { "id": "arrow", "name": "Arrow", "tier": "basic", "description": "Light-medium launcher.", "classNote": "light-medium launcher",
+    "capacityKg": { "LEO": 2300, "SSO": 1500, "GTO": 900, "TLI": 700, "L2": 650, "TMI": 400 }, "costM": 40, "reliability": 0.94 },
+  { "id": "workhorse", "name": "Workhorse", "tier": "basic", "description": "Reusable medium-lift.", "classNote": "reusable medium-lift",
+    "capacityKg": { "LEO": 17500, "SSO": 13000, "GTO": 5500, "TLI": 3500, "L2": 3000, "TMI": 2500 }, "costM": 70, "reliability": 0.98 },
+  { "id": "titan", "name": "Titan", "tier": "advanced", "description": "Heavy-lift.", "classNote": "heavy-lift",
+    "capacityKg": { "LEO": 60000, "SSO": 45000, "GTO": 22000, "TLI": 15000, "L2": 13000, "TMI": 12000 }, "costM": 150, "reliability": 0.96 }
+]

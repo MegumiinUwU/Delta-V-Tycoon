@@ -1,0 +1,12 @@
+[
+  { "id": "nour", "name": "Nour El-Sayed", "from": "Egypt", "role": "planner", "playable": true, "title": "Mission Commander", "bio": "TODO (Lead)", "lines": { "success": "", "failure": "", "warning": "" } },
+  { "id": "lucas", "name": "Lucas Moreau", "from": "France", "role": "planner", "playable": true, "title": "Mission Commander", "bio": "TODO (Lead)", "lines": { "success": "", "failure": "", "warning": "" } },
+  { "id": "omar", "name": "Omar Farouk", "from": "Egypt", "role": "engineer", "playable": true, "title": "Spacecraft Engineer", "bio": "TODO (Lead)", "lines": { "success": "", "failure": "", "warning": "" } },
+  { "id": "elena", "name": "Elena Petrova", "from": "Russia", "role": "engineer", "playable": true, "title": "Spacecraft Engineer", "bio": "TODO (Lead)", "lines": { "success": "", "failure": "", "warning": "" } },
+  { "id": "amara", "name": "Amara Okafor", "from": "Nigeria", "role": "science", "playable": true, "title": "Science Lead", "bio": "TODO (Lead)", "lines": { "success": "", "failure": "", "warning": "" } },
+  { "id": "hiroshi", "name": "Hiroshi Tanaka", "from": "Japan", "role": "science", "playable": true, "title": "Science Lead", "bio": "TODO (Lead)", "lines": { "success": "", "failure": "", "warning": "" } },
+  { "id": "kwame", "name": "Kwame Mensah", "from": "Ghana", "role": "comms", "playable": true, "title": "Communications & Data Officer", "bio": "TODO (Lead)", "lines": { "success": "", "failure": "", "warning": "" } },
+  { "id": "layla", "name": "Layla Al-Mansouri", "from": "UAE", "role": "comms", "playable": true, "title": "Communications & Data Officer", "bio": "TODO (Lead)", "lines": { "success": "", "failure": "", "warning": "" } },
+  { "id": "hassan", "name": "Dr. Hassan Nasr", "from": "Egypt", "role": "npc", "playable": false, "title": "Flight Director", "bio": "TODO (Lead)", "lines": { "success": "", "failure": "", "warning": "" } },
+  { "id": "priya", "name": "Priya Nair", "from": "India", "role": "npc", "playable": false, "title": "Ground Station Operator", "bio": "TODO (Lead)", "lines": { "success": "", "failure": "", "warning": "" } }
+]

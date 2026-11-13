@@ -1,0 +1,45 @@
+{
+  "buses": [
+    { "id": "bus_cube", "name": "CubeSat 12U Bus", "tier": "basic", "description": "Tiny and cheap.", "massKg": 6, "costM": 1, "baseLoadW": 8, "instrumentSlots": 1, "maxMassKg": 25, "hasSpareWheel": false },
+    { "id": "bus_small", "name": "Small Bus", "tier": "basic", "description": "Small satellite structure.", "massKg": 60, "costM": 8, "baseLoadW": 40, "instrumentSlots": 2, "maxMassKg": 300, "hasSpareWheel": false },
+    { "id": "bus_medium", "name": "Medium Bus", "tier": "basic", "description": "Workhorse structure with a spare wheel.", "massKg": 250, "costM": 25, "baseLoadW": 120, "instrumentSlots": 4, "maxMassKg": 2000, "hasSpareWheel": true },
+    { "id": "bus_large", "name": "Large Bus", "tier": "advanced", "description": "Flagship structure.", "massKg": 800, "costM": 70, "baseLoadW": 300, "instrumentSlots": 6, "maxMassKg": 8000, "hasSpareWheel": true }
+  ],
+  "solarArrays": [
+    { "id": "sa_si", "name": "Silicon Solar Array", "tier": "basic", "description": "Cheap, heavier, ages faster.", "wPerKg": 25, "costMPerW": 0.001, "degradationPerYear": 0.03 },
+    { "id": "sa_gaas", "name": "Triple-Junction GaAs Array", "tier": "advanced", "description": "Light and durable.", "wPerKg": 60, "costMPerW": 0.002, "degradationPerYear": 0.015 }
+  ],
+  "rtg": { "id": "rtg", "name": "Radioisotope Power Unit", "tier": "advanced", "description": "Works in shadow and dust.", "massKg": 45, "powerW": 110, "costM": 60, "decayPerYear": 0.04 },
+  "batteries": [
+    { "id": "bat_liion", "name": "Li-ion Battery", "tier": "basic", "description": "Standard battery.", "whPerKg": 150, "costMPerWh": 0.0005, "depthOfDischarge": 0.4 },
+    { "id": "bat_liion_adv", "name": "High-Energy Li-ion Battery", "tier": "advanced", "description": "Lighter, deeper discharge.", "whPerKg": 250, "costMPerWh": 0.001, "depthOfDischarge": 0.5 }
+  ],
+  "computers": [
+    { "id": "obc_basic", "name": "Standard Flight Computer", "tier": "basic", "description": "Reliable basic computer.", "massKg": 1.5, "powerW": 7, "costM": 0.5, "storageGbit": 512, "compression": 1.0, "autonomy": false, "radHard": false },
+    { "id": "obc_adv", "name": "Rad-Hard Computer with Compression", "tier": "advanced", "description": "Halves data volume and reacts on its own.", "massKg": 5, "powerW": 20, "costM": 3, "storageGbit": 4096, "compression": 0.5, "autonomy": true, "radHard": true }
+  ],
+  "adcs": [
+    { "id": "adcs_mag", "name": "Magnetorquers + Sun Sensors", "tier": "basic", "description": "Cheap, coarse, near Earth only.", "massKg": 2, "powerW": 3, "costM": 0.3, "pointingDeg": 5, "nearEarthOnly": true },
+    { "id": "adcs_wheels", "name": "Reaction Wheels + Star Tracker", "tier": "basic", "description": "Good pointing anywhere.", "massKg": 15, "powerW": 40, "costM": 4, "pointingDeg": 0.05, "nearEarthOnly": false },
+    { "id": "adcs_precision", "name": "Precision Pointing System", "tier": "advanced", "description": "Telescope-grade pointing.", "massKg": 35, "powerW": 70, "costM": 12, "pointingDeg": 0.001, "nearEarthOnly": false }
+  ],
+  "propulsion": [
+    { "id": "prop_none", "name": "No Propulsion", "tier": "basic", "description": "No engine at all.", "dryMassKg": 0, "ispS": 0, "costM": 0, "powerW": 0, "electric": false },
+    { "id": "prop_coldgas", "name": "Cold-Gas Thrusters", "tier": "basic", "description": "Simple, low Isp, max 20 kg propellant.", "dryMassKg": 5, "ispS": 65, "costM": 0.5, "powerW": 0, "maxPropellantKg": 20, "electric": false },
+    { "id": "prop_mono", "name": "Hydrazine Monopropellant", "tier": "basic", "description": "Classic small-satellite engine.", "dryMassKg": 20, "ispS": 220, "costM": 3, "powerW": 10, "electric": false },
+    { "id": "prop_biprop", "name": "Bipropellant Engine", "tier": "basic", "description": "Big burns for orbit insertion.", "dryMassKg": 60, "ispS": 315, "costM": 8, "powerW": 20, "electric": false },
+    { "id": "prop_electric", "name": "Electric Hall Thrusters", "tier": "advanced", "description": "Very efficient, needs lots of power, slow.", "dryMassKg": 40, "ispS": 1600, "costM": 12, "powerW": 10, "electric": true }
+  ],
+  "radios": [
+    { "id": "radio_uhf", "name": "UHF Radio", "tier": "basic", "description": "Slow, near Earth only.", "massKg": 1, "powerW": 10, "costM": 0.2, "baseRateMbps": 0.0096, "maxRateMbps": 0.0096, "nearEarthOnly": true, "rainFade": false },
+    { "id": "radio_sband", "name": "S-Band Transmitter", "tier": "basic", "description": "Reliable workhorse radio.", "massKg": 3, "powerW": 20, "costM": 1, "baseRateMbps": 2, "maxRateMbps": 10, "nearEarthOnly": false, "rainFade": false },
+    { "id": "radio_xband", "name": "X-Band Transmitter", "tier": "basic", "description": "Fast science downlink.", "massKg": 6, "powerW": 45, "costM": 3, "baseRateMbps": 150, "maxRateMbps": 800, "nearEarthOnly": false, "rainFade": false },
+    { "id": "radio_kaband", "name": "Ka-Band Transmitter", "tier": "advanced", "description": "Fastest, sensitive to rain.", "massKg": 8, "powerW": 70, "costM": 6, "baseRateMbps": 600, "maxRateMbps": 2000, "nearEarthOnly": false, "rainFade": true }
+  ],
+  "hga": { "id": "hga", "name": "High-Gain Dish Antenna (1.5 m)", "tier": "basic", "description": "Gain x20 when pointed within 0.1 deg.", "massKg": 20, "costM": 6, "gain": 20, "maxPointingDeg": 0.1 },
+  "groundNetworks": [
+    { "id": "campus", "name": "University Ground Station (Cairo, 3 m dish)", "gain": 1, "costMPerYear": 0.5, "description": "One small dish. Cheap, few minutes per pass, cannot reach beyond Earth orbit." },
+    { "id": "commercial", "name": "Commercial Polar Network (several 5-7 m dishes)", "gain": 3, "costMPerYear": 3, "description": "Stations near the poles see polar orbits on almost every pass." },
+    { "id": "deepspace", "name": "Deep-Space Network (34-70 m dishes on 3 continents)", "gain": 30, "costMPerYear": 8, "description": "Huge dishes that can hear spacecraft at the Moon, L2 and Mars. Time is shared, so you get scheduled hours." }
+  ]
+}
