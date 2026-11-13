@@ -3,17 +3,8 @@ import { getCatalog } from '../../core';
 import { getDifficulty, getScenario } from '../../core/catalog';
 import { navigate } from '../../router';
 import { useGame, useIsHost } from '../../state/store';
+import { STEPS, PHASES as ORDER } from '../steps';
 import { Modal, Portrait, SlideMarker } from './common';
-
-const STEPS: { label: string; phases: Phase[]; cml?: string }[] = [
-  { label: 'Need & Goals', phases: ['lobby'], cml: 'CML 1' },
-  { label: 'Concept', phases: ['council'] },
-  { label: 'Requirements & Design', phases: ['design'], cml: 'CML 2–3' },
-  { label: 'Build & Verify', phases: ['launch'], cml: 'CML 4' },
-  { label: 'Implement', phases: ['ops'] },
-  { label: 'Results', phases: ['report'] },
-];
-const ORDER: Phase[] = ['lobby', 'council', 'design', 'launch', 'ops', 'report'];
 
 export function TopBar() {
   const state = useGame((g) => g.state);
@@ -46,11 +37,11 @@ export function TopBar() {
         <nav className="stepper grow" aria-label="Mission phase">
           {STEPS.map((s, i) => {
             const on = s.phases.includes(phase as Phase);
-            const stepIdx = ORDER.indexOf(s.phases[0]);
+            const done = ORDER.indexOf(s.phases[0]) < idx;
             const cml = s.label === 'Build & Verify' && idx >= 2 ? `CML ${m.cml}` : s.cml;
             return (
-              <div key={s.label} className={`step ${on ? 'on' : stepIdx < idx ? 'done' : ''}`} aria-current={on ? 'step' : undefined}>
-                {i + 1}. {s.label}{cml && <span className="cml">{cml}</span>}
+              <div key={s.label} className={`step ${on ? 'on' : done ? 'done' : ''}`} aria-current={on ? 'step' : undefined}>
+                {done ? <span className="tick" aria-label="done">✓</span> : `${i + 1}.`} {s.label}{cml && <span className="cml">{cml}</span>}
               </div>
             );
           })}

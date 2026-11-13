@@ -6,6 +6,8 @@ import { navigate, useRoute } from './router';
 import { startDiscoveryTracking } from './state/discoveries';
 import { useGame } from './state/store';
 import { ErrorBoundary, GlossaryDrawer, Loading, TabPanel, Toasts } from './ui/components/common';
+import { StepCurtain } from './ui/components/StepCurtain';
+import { installCardLight } from './ui/fx';
 import { Title } from './ui/screens/Title';
 
 // Only the title screen ships in the first download. Every other screen is its own small file, fetched in the
@@ -97,12 +99,14 @@ function PhaseShell({ code }: { code?: string }) {
         <Tutorial />
         <ChatDrawer />
       </Suspense>
+      <StepCurtain />
     </main>
   );
 }
 
 export function App() {
   useEffect(() => startDiscoveryTracking(), []);
+  useEffect(() => installCardLight(), []);
   const route = useRoute();
   const settings = useGame((g) => g.settings);
   const [loaded, setLoaded] = useState(0);

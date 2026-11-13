@@ -141,3 +141,65 @@ input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px va
 input[type=range]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--blue); }
 .stepper.grow { flex: 0 1 auto; margin-right: auto; }
 .tab-panel.phase { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+
+/* ---- Step change: a full-page sweep (StepCurtain.tsx). A gold sheet leads, a dark sheet follows with the next
+   step's number and name, then both lift away; 1.35 s in all, transform and opacity only ---- */
+.step-curtain { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; overflow: hidden; pointer-events: auto; }
+.sc-ghost { position: absolute; inset: 0; overflow: hidden; pointer-events: none; background: var(--bg, #181425); }
+.sc-ghost > * { animation: sc-ghost .46s cubic-bezier(.76, 0, .24, 1) both; transform-origin: 50% 0; }  /* the old page sinks back */
+.sc-sheet { position: absolute; inset: 0; will-change: transform; }
+.sc-sheet.gold { background: var(--gold); animation: sc-gold 1.35s both; }
+.sc-sheet.dark { background: #181425; border-top: 3px solid var(--border); animation: sc-dark 1.35s both;
+  display: flex; align-items: center; justify-content: center; }
+.curtain-on .tab-panel.phase { animation-play-state: paused; }   /* waits on its first frame under the sheets */
+@keyframes sc-ghost { to { transform: translateY(-40px) scale(.97); opacity: .35; } }
+@keyframes sc-gold {
+  0% { transform: translateY(100%); animation-timing-function: cubic-bezier(.76, 0, .24, 1); }
+  30% { transform: none; }
+  66% { transform: none; animation-timing-function: cubic-bezier(.76, 0, .24, 1); }
+  100% { transform: translateY(-100%); }
+}
+@keyframes sc-dark {
+  0%, 6% { transform: translateY(100%); animation-timing-function: cubic-bezier(.76, 0, .24, 1); }
+  34% { transform: none; }
+  58% { transform: none; animation-timing-function: cubic-bezier(.76, 0, .24, 1); }
+  88%, 100% { transform: translateY(-100%); }
+}
+.sc-title { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; padding: 16px;
+  animation: sc-title 1.35s both; }
+@keyframes sc-title {
+  0%, 30% { opacity: 0; transform: translateY(28px); animation-timing-function: var(--ease-out); }
+  42% { opacity: 1; transform: none; }
+  54% { opacity: 1; transform: none; animation-timing-function: cubic-bezier(.5, 0, .75, 0); }
+  62%, 100% { opacity: 0; transform: translateY(-18px); }
+}
+.sc-num { font-size: clamp(56px, 11vw, 128px); line-height: 1; color: var(--gold); }
+.sc-of { font-size: .28em; color: var(--muted); }
+.sc-label { font-size: clamp(20px, 3.6vw, 40px); color: #fff; }
+.sc-cml { color: var(--blue); }
+.sc-dots { display: flex; gap: 6px; margin-top: 8px; }
+.sc-dots i { width: 22px; height: 6px; background: #3a4466; position: relative; overflow: hidden; }
+.sc-dots i.done { background: var(--muted); }
+.sc-dots i.on::after { content: ''; position: absolute; inset: 0; background: var(--gold); transform-origin: 0 50%;
+  animation: sc-fill .3s .5s var(--ease-out) both; }
+@keyframes sc-fill { from { transform: scaleX(0); } }
+
+/* ---- Phase bar: finished steps tick off with a pop, the current tile breathes a soft glow ---- */
+.stepper .step .tick { display: inline-block; color: var(--pass); animation: tick-pop .42s var(--ease-spring) backwards; }
+@keyframes tick-pop { from { transform: scale(0) rotate(-30deg); opacity: 0; } }
+.stepper .slide-marker::after { content: ''; position: absolute; inset: 0; box-shadow: 0 0 12px 1px #feae3455;
+  opacity: .25; animation: breathe 2.4s ease-in-out infinite alternate; }
+@keyframes breathe { to { opacity: 1; } }
+.stepper .step.on { animation: step-on .5s var(--ease-out) backwards; }
+@keyframes step-on { from { opacity: .4; } }
+
+/* ---- Small helpers ---- */
+/* <Bump>: a value that just changed gives a quick pop so your eye catches it */
+.bump { display: inline-block; animation: bump .36s var(--ease-spring); }
+@keyframes bump { 0% { transform: scale(1.18); color: #fff; } }
+/* cards: a soft gold light follows the mouse (fx.ts sets --mx/--my on the card under the pointer) */
+.card { isolation: isolate; }
+.card::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0;
+  background: radial-gradient(140px circle at var(--mx, 50%) var(--my, 50%), #feae341f, transparent 70%);
+  transition: opacity .25s var(--ease-std); }
+.card:hover:not(:disabled)::before { opacity: 1; }
