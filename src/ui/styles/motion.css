@@ -48,6 +48,11 @@
 @keyframes slide-right { from { transform: translateX(48px); opacity: 0; } }
 @keyframes slide-left { from { transform: translateX(-48px); opacity: 0; } }
 
+/* Character select: the new character slides in from the side you pressed */
+.crew-hero.from-right { animation: slide-right .3s var(--ease-out) backwards; }
+.crew-hero.from-left { animation: slide-left .3s var(--ease-out) backwards; }
+.crew-line { animation: enter .3s var(--ease-out) backwards; }
+
 .toast { animation: toast-in .38s var(--ease-spring) backwards; }
 @keyframes toast-in { from { opacity: 0; transform: translateY(16px) scale(.96); } }
 

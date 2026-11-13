@@ -7,12 +7,13 @@ import { navigate } from '../../router';
 import { agencyRank, CAREER_ORDER, isUnlocked, reputation, REPUTATION_MAX, resetCareer, useCareer } from '../../state/career';
 import { useGame } from '../../state/store';
 import { Icon, Stars } from '../components/common';
-import { AvatarPicker } from './SoloSetup';
+import { CharacterSelect, CrewChip } from './CharacterSelect';
 
 export function Career() {
   const career = useCareer();
   const start = useGame((g) => g.startSolo);
   const set = useGame((g) => g.set);
+  const [step, setStep] = useState<'crew' | 'career'>('crew');
   const [characterId, setCharacterId] = useState('nour');
   const [name, setName] = useState('Nour');
   const rep = reputation(career);
@@ -23,9 +24,15 @@ export function Career() {
     start({ name: name.trim() || 'Crew', characterId, scenarioId, difficulty: sc.defaultDifficulty });
     set({ career: true });
   };
+  if (step === 'crew') {
+    return <CharacterSelect characterId={characterId} setCharacterId={setCharacterId} name={name} setName={setName}
+      onConfirm={() => setStep('career')} onBack={() => navigate('/')} confirmLabel="To the career ▶" />;
+  }
   return (
     <main className="screen"><div className="page col" style={{ gap: 12 }}>
-      <div className="row between"><h1>Agency career</h1><button className="btn" onClick={() => navigate('/')}>◀ Title</button></div>
+      <div className="row between"><h1>Agency career</h1>
+        <div className="row"><CrewChip characterId={characterId} name={name} onChange={() => setStep('crew')} />
+          <button className="btn" onClick={() => setStep('crew')}>◀ Back</button></div></div>
       <section className="panel dark col">
         <div className="row between">
           <span className="title" style={{ margin: 0 }}>{agencyRank(rep)}</span>
@@ -54,10 +61,6 @@ export function Career() {
           );
         })}
       </div>
-      <section className="panel col">
-        <h2>Your flight director</h2>
-        <AvatarPicker characterId={characterId} setCharacterId={setCharacterId} name={name} setName={setName} />
-      </section>
       <div className="row"><button className="btn small ghost" onClick={() => { if (confirm('Reset your career progress?')) resetCareer(); }}>Reset career</button></div>
     </div></main>
   );

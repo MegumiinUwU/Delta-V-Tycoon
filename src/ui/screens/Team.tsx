@@ -7,7 +7,8 @@ import { navigate } from '../../router';
 import { useGame, useIsHost } from '../../state/store';
 import { Portrait, ROLE_COLOR } from '../components/common';
 import { ROLE_GOALS, ROLE_OWNS } from './Council';
-import { AvatarPicker, DifficultyPicker } from './SoloSetup';
+import { CharacterSelect, CrewChip } from './CharacterSelect';
+import { DifficultyPicker } from './SoloSetup';
 
 const ERRORS: Record<string, string> = {
   NETWORK: "Can't reach the server. Check the Wi-Fi, or play Team Mode on one screen.",
@@ -19,14 +20,19 @@ const errText = (e: unknown) => ERRORS[e instanceof Error ? e.message : ''] ?? E
 
 export function CreateRoom() {
   const create = useGame((g) => g.createRoom);
+  const [step, setStep] = useState<'crew' | 'room'>('crew');
   const [characterId, setCharacterId] = useState('nour');
   const [name, setName] = useState('Nour');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  if (step === 'crew') {
+    return <CharacterSelect characterId={characterId} setCharacterId={setCharacterId} name={name} setName={setName}
+      onConfirm={() => setStep('room')} onBack={() => navigate('/')} confirmLabel="Next ▶" />;
+  }
   return (
     <main className="screen"><div className="page col" style={{ gap: 16, maxWidth: 900 }}>
-      <div className="row between"><h1>Create a team room</h1><button className="btn" onClick={() => navigate('/')}>◀ Back</button></div>
-      <section className="panel"><AvatarPicker characterId={characterId} setCharacterId={setCharacterId} name={name} setName={setName} /></section>
+      <div className="row between"><h1>Create a team room</h1><button className="btn" onClick={() => setStep('crew')}>◀ Back</button></div>
+      <section className="panel row wrap"><span className="muted">Playing as</span><CrewChip characterId={characterId} name={name} onChange={() => setStep('crew')} /></section>
       {error && <div className="panel fail" role="alert">{error} <button className="btn small" onClick={() => navigate('/solo')}>Play on one screen</button></div>}
       <button className="btn big gold" disabled={busy || !name.trim()} onClick={async () => {
         setBusy(true); setError('');
@@ -40,6 +46,7 @@ export function CreateRoom() {
 export function Join({ code: initial }: { code?: string }) {
   const join = useGame((g) => g.joinRoom);
   const [chars, setChars] = useState<string[]>(() => (initial ?? '').toUpperCase().slice(0, 5).padEnd(5, ' ').split('').map((c) => c.trim()));
+  const [step, setStep] = useState<'crew' | 'code'>('crew');
   const [characterId, setCharacterId] = useState('kwame');
   const [name, setName] = useState('Kwame');
   const [busy, setBusy] = useState(false);
@@ -56,9 +63,13 @@ export function Join({ code: initial }: { code?: string }) {
     if (clean && i < 4) boxes.current[i + 1]?.focus();
   };
   const valid = normalizeCode(code);
+  if (step === 'crew') {
+    return <CharacterSelect characterId={characterId} setCharacterId={setCharacterId} name={name} setName={setName}
+      onConfirm={() => setStep('code')} onBack={() => navigate('/')} confirmLabel="Next ▶" />;
+  }
   return (
     <main className="screen"><div className="page col" style={{ gap: 16, maxWidth: 900 }}>
-      <div className="row between"><h1>Join a room</h1><button className="btn" onClick={() => navigate('/')}>◀ Back</button></div>
+      <div className="row between"><h1>Join a room</h1><button className="btn" onClick={() => setStep('crew')}>◀ Back</button></div>
       <section className="panel col">
         <label htmlFor="code-0">Room code</label>
         <div className="row">
@@ -71,7 +82,7 @@ export function Join({ code: initial }: { code?: string }) {
         {code.length === 5 && !valid && <span className="warn">{BAD_CODE_MESSAGE}</span>}
         <span className="small dim">Letters and numbers from {CODE_ALPHABET}</span>
       </section>
-      <section className="panel"><AvatarPicker characterId={characterId} setCharacterId={setCharacterId} name={name} setName={setName} /></section>
+      <section className="panel row wrap"><span className="muted">Playing as</span><CrewChip characterId={characterId} name={name} onChange={() => setStep('crew')} /></section>
       {error && <div className="panel fail" role="alert">{error}</div>}
       <button className="btn big gold" disabled={busy || !valid || !name.trim()} onClick={async () => {
         setBusy(true); setError('');
