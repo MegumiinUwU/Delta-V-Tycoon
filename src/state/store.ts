@@ -5,7 +5,9 @@ import {
   computeBudgets, createSimulation, encodeDesign, previewPatch, runChecksWith, scoreMission, type Budgets, type Check,
   type Design, type DifficultyId, type Role, type ScenarioId, type ScoreReport, type LiveSimulation, type SimInput,
 } from '../core';
-import { createLocalRoom, createOnlineRoom, currentDecisions, joinOnlineRoom, type RoomApi, type RoomState } from '../net/roomApi';
+import {
+  createLocalRoom, createOnlineRoom, currentDecisions, joinOnlineRoom, replayDecisions, type RoomApi, type RoomState,
+} from '../net/roomApi';
 import { navigate } from '../router';
 import { recordCareerFlight } from './career';
 import { DEFAULT_SETTINGS, KEYS, load, save, type Attempt, type Settings } from './storage';
@@ -100,12 +102,22 @@ export const useGame = create<GameStore>((set, get) => {
     }
     // Phase transitions
     const phase = s.meta.phase;
-    if (phase === 'launch' && (!prev || prev.meta.phase !== 'launch')) {
+    const enteringLaunch = phase === 'launch' && (!prev || prev.meta.phase !== 'launch');
+    // Arrived while the flight is already under way (joined late, or reloaded the page): there is no simulation yet.
+    const lateArrival = (phase === 'ops' || phase === 'report') && !get().sim;
+    if (enteringLaunch || lateArrival) {
       const checks = patch.checks ?? get().checks;
       patch.failChecksAtLaunch = checks.filter((c) => c.severity === 'fail').length;
-      patch.sim = createSimulation({ scenarioId: s.meta.scenarioId, difficulty: s.meta.difficulty, seed: s.meta.seed, design: s.design, split: s.council.split });
+      const sim = createSimulation({ scenarioId: s.meta.scenarioId, difficulty: s.meta.difficulty, seed: s.meta.seed, design: s.design, split: s.council.split });
+      // The simulation is deterministic: replaying the room's decisions puts this screen where the crew already is.
+      if (lateArrival) replayDecisions(sim, s);
+      patch.sim = sim;
       patch.score = null; patch.reviewOpen = false;
     }
+    // The host has moved the room to the report while this screen was still flying (slower or background tab):
+    // finish the same flight here so the report can be shown.
+    const flight = patch.sim ?? get().sim;
+    if (phase === 'report' && flight && !flight.done) replayDecisions(flight, s, true);
     if ((phase === 'design' || phase === 'council' || phase === 'lobby') && get().sim) { patch.sim = null; patch.score = null; }
     if (phase === 'council' && prev && prev.meta.phase === 'lobby') patch.briefingDone = false;
     if (s.meta.opsSpeed && get().room?.mode === 'online') patch.simSpeed = s.meta.opsSpeed;
@@ -113,10 +125,22 @@ export const useGame = create<GameStore>((set, get) => {
     set(patch);
   };
 
+  // Buttons call the room without waiting for the answer. When an online call fails, say so instead of doing nothing.
+  let lastNetToast = 0;
+  if (typeof addEventListener === 'function') {
+    addEventListener('unhandledrejection', (e: PromiseRejectionEvent) => {
+      if (!(e.reason instanceof Error) || e.reason.message !== 'NETWORK' || Date.now() - lastNetToast < 4000) return;
+      lastNetToast = Date.now();
+      get().toast("That didn't reach the server. Check the connection and try again.", 'warn');
+    });
+  }
+
   const attach = (room: RoomApi) => {
     unsub?.();
+    const old = get().room;
+    if (old && old !== room) void old.leave().catch(() => {});   // never keep a second room connection alive
     memoKey = '';
-    set({ room, sim: null, score: null, briefingDone: false, activeRole: 'planner', reviewOpen: false, toasts: [], chatSeen: 0, career: false });
+    set({ room, state: null, sim: null, score: null, briefingDone: false, activeRole: 'planner', reviewOpen: false, toasts: [], chatSeen: 0, career: false });
     unsub = room.subscribe(onState);
   };
 
@@ -133,11 +157,14 @@ export const useGame = create<GameStore>((set, get) => {
       navigate('/play');
     },
     async createRoom(o) {
+      await get().leaveRoom();
       const room = await createOnlineRoom(o);
       attach(room);
       navigate(`/room/${room.getState().meta.code}`);
     },
     async joinRoom(code, o) {
+      // Leave first: joining the room you are still connected to would otherwise mark you as away again.
+      await get().leaveRoom();
       const room = await joinOnlineRoom(code, o);
       attach(room);
       navigate(`/room/${room.getState().meta.code}`);
@@ -179,9 +206,13 @@ export const useGame = create<GameStore>((set, get) => {
     async retry(design) {
       const room = get().room;
       if (!room) return;
-      if (design) for (const r of ['planner', 'engineer', 'science', 'comms'] as Role[]) await room.updateDesign(r, design[r]);
-      set({ sim: null, score: null });
-      await room.setMeta({ phase: 'design', attempt: (room.getState().meta.attempt ?? 0) + 1 });
+      try {
+        if (design) for (const r of ['planner', 'engineer', 'science', 'comms'] as Role[]) await room.updateDesign(r, design[r]);
+        // Going back to design clears the simulation and score for every screen (see onState).
+        await room.setMeta({ phase: 'design', attempt: (room.getState().meta.attempt ?? 0) + 1 });
+      } catch {
+        get().toast("Couldn't start the retry. Check the connection and try again.", 'warn');
+      }
     },
     toast(text, kind = 'info', action) {
       const id = ++toastId;

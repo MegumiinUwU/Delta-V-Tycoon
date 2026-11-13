@@ -4,16 +4,19 @@
       "$code": {
         ".read": "auth != null",
         "meta": {
-          ".write": "auth != null && (!data.exists() || data.child('hostUid').val() === auth.uid || (root.child('rooms/'+$code+'/players/'+auth.uid).exists() && newData.child('hostUid').val() === auth.uid))"
+          ".write": "auth != null && (!data.exists() || data.child('hostUid').val() === auth.uid)",
+          "hostUid": {
+            ".write": "auth != null && newData.val() === auth.uid && root.child('rooms/'+$code+'/players/'+auth.uid).exists() && root.child('rooms/'+$code+'/players/'+data.val()+'/connected').val() === false"
+          }
         },
-        "players": { "$uid": { ".write": "auth != null && $uid === auth.uid" } },
+        "players": { "$uid": { ".write": "auth != null && $uid === auth.uid && root.child('rooms/'+$code+'/meta').exists()" } },
         "roles": { "$role": {
           ".write": "auth != null && root.child('rooms/'+$code+'/players/'+auth.uid).exists() && (!data.exists() || data.val() === auth.uid || root.child('rooms/'+$code+'/meta/hostUid').val() === auth.uid)"
         } },
         "council":    { ".write": "auth != null && root.child('rooms/'+$code+'/players/'+auth.uid).exists()" },
         "requests":   { ".write": "auth != null && root.child('rooms/'+$code+'/players/'+auth.uid).exists()" },
         "design": { "$role": {
-          ".write": "auth != null && (root.child('rooms/'+$code+'/roles/'+$role).val() === auth.uid || (!data.exists() && root.child('rooms/'+$code+'/meta/hostUid').val() === auth.uid))"
+          ".write": "auth != null && (root.child('rooms/'+$code+'/roles/'+$role).val() === auth.uid || (root.child('rooms/'+$code+'/meta/hostUid').val() === auth.uid && (!data.exists() || root.child('rooms/'+$code+'/meta/phase').val() === 'lobby' || root.child('rooms/'+$code+'/meta/phase').val() === 'report')))"
         } },
         "signoffs":   { ".write": "auth != null && root.child('rooms/'+$code+'/players/'+auth.uid).exists()" },
         "reviewDone": { ".write": "auth != null && root.child('rooms/'+$code+'/players/'+auth.uid).exists()" },
@@ -28,7 +31,7 @@
     },
     "leaderboard": {
       ".read": "auth != null",
-      "$scenario": { "$entry": {
+      "$scenario": { ".indexOn": ["score"], "$entry": {
         ".write": "auth != null && !data.exists()",
         ".validate": "newData.child('score').isNumber() && newData.child('score').val() <= 1000 && newData.child('teamName').isString() && newData.child('teamName').val().length <= 24"
       } }

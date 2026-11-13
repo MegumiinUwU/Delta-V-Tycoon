@@ -13,6 +13,7 @@ import type { ChatMessage, FundsRequest, MetaPatch, PlayerState, RoomApi, RoomMe
 import { makeCode, normalizeCode } from './roomCodes';
 
 const HOST_TIMEOUT_MS = 30000;
+const HOST_CHECK_MS = 5000;
 const allFalse = (): Record<Role, boolean> => ({ planner: false, engineer: false, science: false, comms: false });
 
 /** Maps any SDK failure to the error codes B's UI knows. */
@@ -64,8 +65,16 @@ function connect(code: string, uid: string, first: RoomState): Promise<RoomApi> 
   const unsubs: Unsubscribe[] = [];
   let state = first;
   let migrating = false;
+  let clockOffset = 0;   // server time − this device's clock (lastSeen is a server timestamp)
+  let hostTimer: ReturnType<typeof setInterval> | undefined;
+  const stop = () => {
+    clearInterval(hostTimer);
+    for (const u of unsubs) u();
+    unsubs.length = 0;
+  };
 
   // Presence
+  unsubs.push(onValue(ref(db, '.info/serverTimeOffset'), (snap) => { clockOffset = Number(snap.val()) || 0; }));
   unsubs.push(onValue(ref(db, '.info/connected'), (snap) => {
     if (snap.val()) {
       onDisconnect(playerRef).update({ connected: false, lastSeen: serverTimestamp() });
@@ -76,13 +85,88 @@ function connect(code: string, uid: string, first: RoomState): Promise<RoomApi> 
   // Host migration (P1): earliest-joined connected player takes over after 30 s.
   const checkHost = (s: RoomState) => {
     const host = s.players[s.meta.hostUid];
-    if (!host || host.connected !== false || Date.now() - (host.lastSeen ?? 0) <= HOST_TIMEOUT_MS || migrating) return;
+    if (!host || host.connected !== false || migrating) return;
+    if (Date.now() + clockOffset - (host.lastSeen ?? 0) <= HOST_TIMEOUT_MS) return;
     const next = Object.values(s.players).filter((p) => p.connected).sort((a, b) => a.joinedAt - b.joinedAt)[0];
     if (next?.uid !== uid) return;
     migrating = true;
     const oldHost = s.meta.hostUid;
     runTransaction(ref(db, `rooms/${code}/meta/hostUid`), (cur) => (cur === oldHost ? uid : undefined))
       .catch(() => {}).finally(() => { migrating = false; });
+  };
+  // The room goes quiet when the host drops, so no data change would ever re-run the check: poll it.
+  hostTimer = setInterval(() => checkHost(state), HOST_CHECK_MS);
+
+  const path = (p: string) => ref(db, `rooms/${code}/${p}`);
+  // Built before the room listener is attached: that listener can fire during the onValue() call itself when the
+  // data is already cached, and it hands `api` to the caller.
+  const api: RoomApi = {
+    mode: 'online',
+    myUid: uid,
+    subscribe(cb) { subs.add(cb); cb(state); return () => { subs.delete(cb); }; },
+    getState: () => state,
+    async setMeta(patch: MetaPatch) {
+      const paths: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(patch)) paths[`meta/${k}`] = v;
+      // Lobby: the room was created with one mission's starter design; a different mission or difficulty needs its own.
+      const scenarioId = patch.scenarioId ?? state.meta.scenarioId;
+      const difficulty = patch.difficulty ?? state.meta.difficulty;
+      if (state.meta.phase === 'lobby' && (scenarioId !== state.meta.scenarioId || difficulty !== state.meta.difficulty)) {
+        const starter = defaultDesign(scenarioId, difficulty);
+        for (const r of ROLES) paths[`design/${r}`] = starter[r];
+      }
+      await net(update(roomRef, paths));
+    },
+    updateMe: (patch) => net(update(playerRef, patch)),
+    async claimRole(role) {
+      const r = await net(runTransaction(path(`roles/${role}`), (cur) => (cur === null || cur === uid ? uid : undefined)));
+      return r.committed;
+    },
+    releaseRole: (role) => net(set(path(`roles/${role}`), null)),
+    setSplit: (split: BudgetSplit) => net(update(roomRef, { 'council/split': split, 'council/agreed': null })),
+    setAgreed: (agreed) => net(set(path(`council/agreed/${uid}`), agreed ? true : null)),
+    async requestFunds(fromRole, toRole, amountM, reason) {
+      const r = push(path('requests'));
+      await net(set(r, { id: r.key, fromRole, toRole, amountM, reason: reason.slice(0, 120), status: 'pending', createdAt: Date.now() }));
+    },
+    async answerRequest(id, accept) {
+      const req = state.requests.find((x) => x.id === id);
+      if (!req || req.status !== 'pending') return;
+      if (state.roles[req.toRole] !== uid) throw new Error('NOT_OWNER');
+      if (accept) {
+        const points = (req.amountM / budgetOf(state)) * 100;
+        await net(runTransaction(path('council/split'), (cur: BudgetSplit | null) =>
+          moveSplit({ ...DEFAULT_SPLIT, ...(cur ?? {}) }, req.toRole, req.fromRole, points)));
+      }
+      await net(update(path(`requests/${id}`), { status: accept ? 'accepted' : 'declined' }));
+    },
+    async updateDesign<R extends Role>(role: R, patch: Partial<Design[R]>) {
+      const paths: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(patch)) paths[`design/${role}/${k}`] = Array.isArray(v) ? [...v] : v;
+      for (const r of ROLES) paths[`signoffs/${r}`] = false;
+      paths.reviewDone = false;
+      await net(update(roomRef, paths));
+    },
+    setSignoff: (role, value) => net(set(path(`signoffs/${role}`), value)),
+    setReviewDone: (value) => net(set(path('reviewDone'), value)),
+    async submitDecision(eventIndex, optionId) {
+      await net(runTransaction(path(`decisions/${eventIndex}`),
+        (cur) => (cur === null ? { optionId, byUid: uid, at: Date.now() } : undefined)));
+    },
+    suggest: (eventIndex, optionId) => net(set(path(`suggestions/${eventIndex}/${uid}`), optionId)),
+    async sendChat(text) {
+      const t = text.trim().slice(0, 200);
+      if (!t) return;
+      const r = push(path('chat'));
+      await net(set(r, { uid, name: state.players[uid]?.name ?? '?', text: t, at: Date.now() }));
+    },
+    setResult: (r) => net(set(path('result'), r)),
+    async leave() {
+      stop();
+      subs.clear();
+      await onDisconnect(playerRef).cancel().catch(() => {});
+      await update(playerRef, { connected: false, lastSeen: serverTimestamp() }).catch(() => {});
+    },
   };
 
   return new Promise((resolve, reject) => {
@@ -94,66 +178,10 @@ function connect(code: string, uid: string, first: RoomState): Promise<RoomApi> 
       for (const cb of [...subs]) cb(state);
       checkHost(state);
       if (!resolved) { resolved = true; resolve(api); }
-    }, (err) => { if (!resolved) { resolved = true; reject(new Error('NETWORK')); } console.warn('[room] listener', err); }));
-
-    const path = (p: string) => ref(db, `rooms/${code}/${p}`);
-    const api: RoomApi = {
-      mode: 'online',
-      myUid: uid,
-      subscribe(cb) { subs.add(cb); cb(state); return () => { subs.delete(cb); }; },
-      getState: () => state,
-      setMeta: (patch: MetaPatch) => net(update(path('meta'), patch)),
-      updateMe: (patch) => net(update(playerRef, patch)),
-      async claimRole(role) {
-        const r = await net(runTransaction(path(`roles/${role}`), (cur) => (cur === null || cur === uid ? uid : undefined)));
-        return r.committed;
-      },
-      releaseRole: (role) => net(set(path(`roles/${role}`), null)),
-      setSplit: (split: BudgetSplit) => net(update(roomRef, { 'council/split': split, 'council/agreed': null })),
-      setAgreed: (agreed) => net(set(path(`council/agreed/${uid}`), agreed ? true : null)),
-      async requestFunds(fromRole, toRole, amountM, reason) {
-        const r = push(path('requests'));
-        await net(set(r, { id: r.key, fromRole, toRole, amountM, reason: reason.slice(0, 120), status: 'pending', createdAt: Date.now() }));
-      },
-      async answerRequest(id, accept) {
-        const req = state.requests.find((x) => x.id === id);
-        if (!req || req.status !== 'pending') return;
-        if (state.roles[req.toRole] !== uid) throw new Error('NOT_OWNER');
-        if (accept) {
-          const points = (req.amountM / budgetOf(state)) * 100;
-          await net(runTransaction(path('council/split'), (cur: BudgetSplit | null) =>
-            moveSplit({ ...DEFAULT_SPLIT, ...(cur ?? {}) }, req.toRole, req.fromRole, points)));
-        }
-        await net(update(path(`requests/${id}`), { status: accept ? 'accepted' : 'declined' }));
-      },
-      async updateDesign<R extends Role>(role: R, patch: Partial<Design[R]>) {
-        const paths: Record<string, unknown> = {};
-        for (const [k, v] of Object.entries(patch)) paths[`design/${role}/${k}`] = Array.isArray(v) ? [...v] : v;
-        for (const r of ROLES) paths[`signoffs/${r}`] = false;
-        paths.reviewDone = false;
-        await net(update(roomRef, paths));
-      },
-      setSignoff: (role, value) => net(set(path(`signoffs/${role}`), value)),
-      setReviewDone: (value) => net(set(path('reviewDone'), value)),
-      async submitDecision(eventIndex, optionId) {
-        await net(runTransaction(path(`decisions/${eventIndex}`),
-          (cur) => (cur === null ? { optionId, byUid: uid, at: Date.now() } : undefined)));
-      },
-      suggest: (eventIndex, optionId) => net(set(path(`suggestions/${eventIndex}/${uid}`), optionId)),
-      async sendChat(text) {
-        const t = text.trim().slice(0, 200);
-        if (!t) return;
-        const r = push(path('chat'));
-        await net(set(r, { uid, name: state.players[uid]?.name ?? '?', text: t, at: Date.now() }));
-      },
-      setResult: (r) => net(set(path('result'), r)),
-      async leave() {
-        for (const u of unsubs) u();
-        subs.clear();
-        await onDisconnect(playerRef).cancel().catch(() => {});
-        await update(playerRef, { connected: false, lastSeen: serverTimestamp() }).catch(() => {});
-      },
-    };
+    }, (err) => {
+      console.warn('[room] listener', err);
+      if (!resolved) { resolved = true; stop(); reject(new Error('NETWORK')); }
+    }));
   });
 }
 

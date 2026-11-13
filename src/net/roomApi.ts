@@ -1,5 +1,6 @@
 // Room API contract (Part A §A14.3). Implementations: localRoom.ts (solo / same-screen)
 // and firebaseRoom.ts (online, loaded lazily).
+import { effectiveDefaultOptionId, type LiveSimulation } from '../core/sim';
 import type { BudgetSplit, Design, DifficultyId, Phase, Role, ScenarioId } from '../core/types';
 
 export interface PlayerState { uid: string; name: string; characterId: string; connected: boolean; joinedAt: number;
@@ -9,7 +10,9 @@ export interface FundsRequest { id: string; fromRole: Role; toRole: Role; amount
 export interface ChatMessage { id: string; uid: string; name: string; text: string; at: number }
 export interface RoomMeta { code: string | null; hostUid: string; createdAt: number; scenarioId: ScenarioId;
   difficulty: DifficultyId; seed: number; phase: Phase; teamName: string; version: 1; opsSpeed?: 1 | 2 | 4 | 8;
-  opsPaused?: boolean; attempt?: number }
+  opsPaused?: boolean; attempt?: number;
+  /** Counts the host's "Next event" presses during operations, so every screen skips ahead together. */
+  opsJump?: number }
 export interface RoomState {
   meta: RoomMeta; players: Record<string, PlayerState>; roles: Record<Role, string | null>;
   council: { split: BudgetSplit; agreed: Record<string, boolean> }; requests: FundsRequest[];
@@ -19,7 +22,7 @@ export interface RoomState {
   result: { score: number; stars: number; outcome: string; designCode: string; at: number } | null;
 }
 export type MetaPatch = Partial<Pick<RoomMeta, 'scenarioId' | 'difficulty' | 'phase' | 'teamName' | 'seed' | 'opsSpeed'
-  | 'opsPaused' | 'attempt'>>;
+  | 'opsPaused' | 'attempt' | 'opsJump'>>;
 
 /** Decisions and suggestions are keyed per attempt, so a retry never replays (or collides with) old choices. */
 export function decisionKey(s: RoomState, eventIndex: number): number {
@@ -32,6 +35,35 @@ export function currentDecisions(s: RoomState): Record<number, string> {
   for (const [k, v] of Object.entries(s.decisions)) { const i = Number(k) - base; if (i >= 0 && i < 100) out[i] = v.optionId; }
   return out;
 }
+
+const decidedCount = (sim: LiveSimulation): number => sim.result().events.filter((e) => e.optionId !== null).length;
+
+/**
+ * Every screen runs its own copy of the (deterministic) simulation. True when the room already holds a decision
+ * for an event this copy has not reached yet: a slow or background tab, or a player who joined mid-flight.
+ */
+export function simBehind(sim: LiveSimulation, s: RoomState): boolean {
+  return !sim.done && Object.keys(currentDecisions(s)).length > decidedCount(sim);
+}
+
+/**
+ * Fast-forwards a simulation through the decisions stored in the room, stopping at the first event nobody has
+ * decided yet. With `toEnd` it finishes the flight, answering any undecided event with its default: used once the
+ * host has moved the room to the report, so every screen can show the same result.
+ */
+export function replayDecisions(sim: LiveSimulation, s: RoomState, toEnd = false): void {
+  const decided = currentDecisions(s);
+  const want = Object.keys(decided).length;
+  let guard = 0;
+  while (!sim.done && guard++ < 100000 && (toEnd || decidedCount(sim) < want)) {
+    const p = sim.pendingEvent;
+    if (!p) { sim.step(1e9); continue; }   // runs to the next event that needs a decision, or to the end
+    if (decided[p.index] != null) sim.decide(decided[p.index]);
+    else if (toEnd) sim.decide(effectiveDefaultOptionId(p));
+    else break;
+  }
+}
+
 export interface RoomApi {
   readonly mode: 'local' | 'online';
   readonly myUid: string;

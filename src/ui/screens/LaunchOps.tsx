@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { CartesianGrid, Area, ComposedChart, Line, LineChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { eventArt, orbitIcon } from '../../assets';
 import { play, playMusic } from '../../audio/sound';
@@ -7,7 +7,7 @@ import { effectiveDefaultOptionId, findMissionTwin, fmtGbit, fmtNum, getCatalog,
 import { getDifficulty, getOrbit, getScenario, getVehicle } from '../../core/catalog';
 import { LaunchScene } from '../../scenes/LaunchScene';
 import { OrbitView } from '../../scenes/OrbitView';
-import { decisionKey } from '../../net/roomApi';
+import { decisionKey, simBehind } from '../../net/roomApi';
 import { useGame, useIsHost, useMyRoles } from '../../state/store';
 import { Icon, Modal, Portrait, ROLE_COLOR, Speech } from '../components/common';
 
@@ -96,17 +96,36 @@ export function OpsScreen() {
   const [result, setResult] = useState<{ text: string; bad: boolean; role: string } | null>(null);
   const seenLog = useRef(0);
   const lastPush = useRef(0);
+  const team = room.mode === 'online';
 
   useEffect(() => { playMusic('music_ops'); return () => playMusic(null); }, []);
+
+  /** Runs this screen's simulation forward to the next event that needs a decision (or to the end of the mission). */
+  const skipToEvent = useCallback(() => {
+    if (!sim || sim.done || sim.pendingEvent) return;
+    sim.step(1e9);
+    if (sim.pendingEvent) play('sfx_event');
+    bump();
+  }, [sim, bump]);
 
   // Main stepping loop: a full mission ≈ 60 s at 1×.
   useEffect(() => {
     if (!sim) return;
-    let raf = 0;
+    let raf = 0, last = 0, carry = 0;
     const loop = (now: number) => {
-      if (!sim.done && !sim.pendingEvent && !paused && !result) {
-        const perFrame = Math.max(1, Math.round((speed * sim.live.plannedDays) / 3600));
-        sim.step(perFrame);
+      // Mission days per second, not per drawn frame: every screen flies at the same pace whatever its refresh rate.
+      // A gap longer than a quarter second (hidden tab, stalled machine) is not flown: the mission waits for you.
+      const dt = last ? Math.min(250, now - last) : 1000 / 60;
+      last = now;
+      // Team: the room already holds a decision for an event this screen has not reached (slower or background
+      // tab). Skip straight to that event; the decision is then applied like any other.
+      const latest = useGame.getState().state;
+      if (team && latest && !sim.pendingEvent && simBehind(sim, latest)) { skipToEvent(); }
+      else if (!sim.done && !sim.pendingEvent && !paused && !result) {
+        carry += (Math.max(1, Math.round((speed * sim.live.plannedDays) / 3600)) * 60 * dt) / 1000;
+        const days = Math.floor(carry);
+        carry -= days;
+        if (days > 0) sim.step(days);
         if (sim.pendingEvent) { play('sfx_event'); bump(); }
       }
       // auto-handled events become toasts
@@ -120,7 +139,20 @@ export function OpsScreen() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [sim, speed, paused, result, bump]);
+  }, [sim, speed, paused, result, bump, team, skipToEvent]);
+
+  // Team: the host pressed "Next event" — every screen skips ahead with it, so nobody is left behind.
+  const jumpSeen = useRef(s.meta.opsJump ?? 0);
+  useEffect(() => {
+    const n = s.meta.opsJump ?? 0;
+    if (n <= jumpSeen.current) return;
+    jumpSeen.current = n;
+    skipToEvent();
+  }, [s.meta.opsJump, skipToEvent]);
+  const nextEvent = () => {
+    if (team) { jumpSeen.current = (s.meta.opsJump ?? 0) + 1; room.setMeta({ opsJump: jumpSeen.current }); }
+    skipToEvent();
+  };
 
   // Apply decisions as soon as they exist in the room (solo too, through LocalRoom).
   const pending = sim?.pendingEvent ?? null;
@@ -171,8 +203,7 @@ export function OpsScreen() {
                 {([1, 2, 4, 8] as const).map((v) => <button key={v} className={`btn small ${speed === v ? 'primary' : ''}`} onClick={() => setSpeed(v)}>{v}×</button>)}
                 <button className="btn small" onClick={togglePause}>{paused ? '▶ Resume' : '❚❚ Pause'}</button>
                 <button className="btn small gold" disabled={sim.done || !!sim.pendingEvent || !!result} title="Jump to the next decision"
-                  onClick={() => { let guard = 0; while (!sim.done && !sim.pendingEvent && guard++ < 20000) sim.step(5);
-                    if (sim.pendingEvent) play('sfx_event'); bump(); }}>Next event ⏩</button>
+                  onClick={nextEvent}>Next event ⏩</button>
               </>
             ) : <span className="small muted">Speed {speed}× · the host controls speed{paused ? ' · paused' : ''}</span>}
           </div>
@@ -245,6 +276,8 @@ function ResultModal({ r, onDone }: { r: { text: string; bad: boolean; role: str
   );
 }
 
+const OTHERS_GRACE_SEC = 15;
+
 function EventModal() {
   const room = useGame((g) => g.room)!;
   const s = useGame((g) => g.state)!;
@@ -256,17 +289,22 @@ function EventModal() {
   const owner = mine.includes(ev.ownerRole);
   const timerSec = getDifficulty(s.meta.difficulty).decisionTimerSec;
   const [left, setLeft] = useState(timerSec);
-  useEffect(() => {
-    if (!team) return;
-    setLeft(timerSec);
-    const t = setInterval(() => setLeft((x) => {
-      if (x <= 1) { clearInterval(t); room.submitDecision(decisionKey(s, p.index), effectiveDefaultOptionId(p)); return 0; }
-      return x - 1;
-    }), 1000);
-    return () => clearInterval(t);
-  }, [team, timerSec, p, room]); // eslint-disable-line react-hooks/exhaustive-deps
   const holderUid = s.roles[ev.ownerRole];
   const holder = holderUid ? s.players[holderUid] : null;
+  // The role holder's own screen sends the default answer when the timer runs out. Screens can reach an event a few
+  // seconds apart, so the others wait a little longer before stepping in — unless the holder is away.
+  const grace = owner || !holder?.connected ? 0 : OTHERS_GRACE_SEC;
+  useEffect(() => {
+    if (!team) return;
+    let x = timerSec;
+    setLeft(x);
+    const t = setInterval(() => {
+      x -= 1;
+      setLeft(Math.max(0, x));
+      if (x <= -grace) { clearInterval(t); room.submitDecision(decisionKey(s, p.index), effectiveDefaultOptionId(p)).catch(() => {}); }
+    }, 1000);
+    return () => clearInterval(t);
+  }, [team, timerSec, p, room, grace]); // eslint-disable-line react-hooks/exhaustive-deps
   const charId = holder && team ? holder.characterId : getCatalog().characters.find((c) => c.role === ev.ownerRole)?.id ?? 'hassan';
   const key = decisionKey(s, p.index);
   const sugg = s.suggestions[key] ?? {};
