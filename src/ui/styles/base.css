@@ -26,25 +26,34 @@ button, input, select, textarea { font-family: var(--font-body); font-size: inhe
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
 /* Panels */
-.panel { background: var(--panel); border: 2px solid var(--border); padding: 12px; }
-.panel.dark { background: var(--panel-2); }
+/* 9-slice art from the asset artist (8 px corners drawn at 2×). image-rendering keeps the pixels crisp. */
+.panel { border: 4px solid transparent; border-image: url('/assets/ui/ui_panel.png') 8 fill / 16px stretch; padding: 14px;
+  image-rendering: pixelated; background: none; }
+.panel.dark { border-image-source: url('/assets/ui/ui_panel_dark.png'); }
 .panel9 { border-style: solid; border-width: 24px; border-image: url('/assets/ui/ui_panel.png') 8 fill / 24px / 0 stretch; padding: 4px; }
 .panel9.dark { border-image-source: url('/assets/ui/ui_panel_dark.png'); }
 
 /* Buttons */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; padding: 4px 14px;
-  background: #3a4466; border: 2px solid #5a6988; border-bottom-width: 4px; color: var(--text); cursor: pointer; text-align: center; }
-.btn:hover:not(:disabled) { background: #5a6988; border-color: var(--muted-2); }
-.btn:active:not(:disabled) { border-bottom-width: 2px; margin-top: 2px; }
-.btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.btn.primary { background: #124e89; border-color: var(--blue); }
-.btn.primary:hover:not(:disabled) { background: var(--blue); }
+  background: none; border: 4px solid transparent; border-image: url('/assets/ui/ui_button.png') 8 fill / 16px stretch;
+  image-rendering: pixelated; color: var(--text); cursor: pointer; text-align: center; }
+.btn:hover:not(:disabled) { border-image-source: url('/assets/ui/ui_button_hover.png'); }
+.btn:active:not(:disabled) { border-image-source: url('/assets/ui/ui_button_pressed.png'); padding-top: 6px; padding-bottom: 2px; }
+.btn:disabled { border-image-source: url('/assets/ui/ui_button_disabled.png'); color: var(--muted-2); cursor: not-allowed; }
+.btn.primary:not(:disabled) { border-image-source: url('/assets/ui/ui_button_hover.png'); }
+.btn.primary:hover:not(:disabled) { filter: brightness(1.15); }
+.btn.primary:active:not(:disabled) { border-image-source: url('/assets/ui/ui_button_pressed.png'); filter: none; }
+/* Accent buttons keep a CSS frame so they read as "the important one" next to the tiles. */
+.btn.gold, .btn.danger, .btn.ghost { border-image: none; border-width: 2px 2px 4px; }
 .btn.gold { background: #733e39; border-color: var(--gold); color: var(--gold); }
 .btn.gold:hover:not(:disabled) { background: #be4a2f; color: #fff; }
 .btn.danger { background: #a22633; border-color: var(--fail); }
 .btn.ghost { background: transparent; border-color: var(--border); }
+.btn.gold:disabled, .btn.danger:disabled, .btn.ghost:disabled { opacity: 0.45; }
+.btn.gold:active:not(:disabled), .btn.danger:active:not(:disabled) { border-bottom-width: 2px; margin-top: 2px; }
 .btn.big { font-family: var(--font-title); font-size: 12px; min-height: 52px; padding: 8px 20px; }
-.btn.small { min-height: 28px; padding: 2px 8px; border-bottom-width: 2px; }
+.btn.small { min-height: 28px; padding: 2px 8px; border-width: 2px; border-image-width: 8px; }
+.btn.small.gold, .btn.small.danger, .btn.small.ghost { border-width: 2px; }
 .iconbtn { background: none; border: 2px solid transparent; color: var(--muted); cursor: pointer; padding: 2px 6px; min-height: 32px; }
 .iconbtn:hover { color: var(--gold); border-color: var(--border); }
 
@@ -81,8 +90,9 @@ input[type=range] { accent-color: var(--gold); width: 100%; }
 
 /* Design workshop grid */
 .workshop { display: grid; grid-template-columns: 230px minmax(0, 1fr) 330px; gap: 8px; padding: 8px; flex: 1; min-height: 0; }
-.roletab { display: flex; gap: 8px; align-items: center; padding: 6px; border: 2px solid var(--border); background: var(--panel); cursor: pointer; width: 100%; text-align: left; color: inherit; }
-.roletab[aria-selected=true] { border-color: var(--gold); background: #2f3554; }
+.roletab { display: flex; gap: 8px; align-items: center; padding: 8px 8px 6px; border: 4px solid transparent; background: none; cursor: pointer;
+  width: 100%; text-align: left; color: inherit; border-image: url('/assets/ui/ui_tab.png') 8 fill / 16px stretch; image-rendering: pixelated; }
+.roletab[aria-selected=true] { border-image-source: url('/assets/ui/ui_tab_active.png'); }
 .roletab .stripe { width: 4px; align-self: stretch; }
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 6px; }
 .card { position: relative; border: 2px solid var(--border); background: var(--panel-2); padding: 6px; cursor: pointer; text-align: left; color: inherit; display: flex; flex-direction: column; gap: 2px; }
