@@ -234,3 +234,15 @@ export function Loading({ label = 'Loading crew…', progress }: { label?: strin
     </div>
   );
 }
+
+/** Compact icon + value chips: replaces long key/value tables on cards. Full numbers go in the card tooltip. */
+export function Stats({ items }: { items: ([string, ReactNode] | false | null | undefined)[] }) {
+  return (
+    <span className="stats">
+      {items.filter(Boolean).map((it, i) => {
+        const [id, v] = it as [string, ReactNode];
+        return <span key={i} className="stat"><img src={icon(id)} width={16} height={16} alt="" />{v}</span>;
+      })}
+    </span>
+  );
+}

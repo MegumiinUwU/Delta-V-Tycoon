@@ -39,6 +39,7 @@ export function Report() {
   const isHost = useIsHost();
   const lead = room.mode === 'local' || isHost;
   const [copied, setCopied] = useState('');
+  const [full, setFull] = useState(false);
   useEffect(() => { if (!score) useGame.getState().finishMission(); }, [score]);
   useEffect(() => { if (score) play(score.outcomeClass === 'failure' ? 'sfx_fail' : 'sfx_success'); }, [score]);
   const fixes = useMemo(() => (sim?.done && input ? suggestFixes(input, sim.result()) : []), [sim, input?.seed]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -87,6 +88,21 @@ export function Report() {
           );
         })}
       </section>
+      <TwinCard />
+      {fixes.length > 0 && (
+        <section className="panel col">
+          <h2>Try next <span className="small dim">— one click applies the fix and flies again</span></h2>
+          {fixes.map((f, i) => (
+            <div key={i} className="row between">
+              <span>{i + 1}. {f.text}</span>
+              {lead && <button className="btn primary no-print" onClick={() => retry(f.design)}>Apply & retry</button>}
+            </div>
+          ))}
+        </section>
+      )}
+      <details className="more" open={full} onToggle={(e) => setFull((e.target as HTMLDetailsElement).open)}>
+        <summary>Full report: score breakdown, why, timeline, design</summary>
+        <div className="col" style={{ gap: 12 }}>
       <section className="panel col">
         <h2>Score breakdown</h2>
         {parts.map(([label, v, max]) => (
@@ -97,7 +113,6 @@ export function Report() {
         <h2>Role goals</h2>
         {ROLES.map((r) => <div key={r} className="row"><span className={score.roleGoals[r].met ? 'pass' : 'fail'}>{score.roleGoals[r].met ? '✓' : '✗'}</span>{score.roleGoals[r].text}</div>)}
       </section>
-      <TwinCard />
       <section className="panel">
         <h2>Why</h2>
         <div className="row wrap" style={{ alignItems: 'flex-start' }}>
@@ -110,17 +125,6 @@ export function Report() {
           ))}
         </div>
       </section>
-      {fixes.length > 0 && (
-        <section className="panel col">
-          <h2>Try next</h2>
-          {fixes.map((f, i) => (
-            <div key={i} className="row between">
-              <span>{i + 1}. {f.text}</span>
-              {lead && <button className="btn small primary no-print" onClick={() => retry(f.design)}>Apply & retry</button>}
-            </div>
-          ))}
-        </section>
-      )}
       <section className="panel">
         <h2>Mission timeline</h2>
         <table className="grid">
@@ -154,6 +158,8 @@ export function Report() {
           <tr><th>Science</th><td>{fmtNum(res.scienceReturned)} of {sc.scienceTarget} target</td></tr>
         </tbody></table>
       </section>
+        </div>
+      </details>
       <section className="row wrap no-print">
         {lead && <button className="btn primary" onClick={() => retry()}>Retry same design</button>}
         <button className="btn" onClick={async () => { await useGame.getState().leaveRoom(); navigate(room.mode === 'online' ? '/' : '/solo'); }}>New mission</button>
@@ -161,7 +167,7 @@ export function Report() {
         <button className="btn" onClick={() => { const list = load<SavedDesign[]>(KEYS.saved, []);
           save(KEYS.saved, [...list, { name: `${sc.name} — ${s.meta.teamName}`, code, at: Date.now(), score: score.total }]); setCopied('saved'); }}>
           {copied === 'saved' ? '✓ Saved' : 'Save design'}</button>
-        <button className="btn" onClick={() => window.print()}>Print / Save PDF</button>
+        <button className="btn" onClick={() => { setFull(true); setTimeout(() => window.print(), 50); }}>Print / Save PDF</button>
         <button className="btn gold" onClick={() => { addLocal(entry); postOnline(entry).catch(() => {}); setCopied('board'); }}>
           {copied === 'board' ? '✓ Added' : 'Add to leaderboard'}</button>
         <span className="small dim">Challenge code: DVT-{s.meta.scenarioId}-{s.meta.difficulty}-{(s.meta.seed >>> 0).toString(36)}

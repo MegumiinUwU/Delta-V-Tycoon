@@ -23,10 +23,15 @@ export function Title() {
         <p className="gold" style={{ textAlign: 'center', textShadow: '2px 2px 0 #181425' }}>
           Design, launch and fly a space mission. Every choice has a consequence.
         </p>
-        <nav className="col" style={{ width: 320 }} aria-label="Main menu">
-          {items.map(([label, path, primary]) => (
+        <nav className="col" style={{ width: 340, gap: 10 }} aria-label="Main menu">
+          {items.slice(0, online ? 3 : 2).map(([label, path, primary]) => (
             <button key={label} className={`btn big ${primary ? 'gold' : ''}`} onClick={() => navigate(path)}>{label}</button>
           ))}
+          <div className="row center wrap" style={{ gap: 4 }}>
+            {items.slice(online ? 3 : 2).map(([label, path]) => (
+              <button key={label} className="btn small" onClick={() => navigate(path)}>{label.replace('Mission ', '').replace(' & Compare', '')}</button>
+            ))}
+          </div>
         </nav>
       </div>
       <div className="row center" style={{ gap: 4, alignItems: 'flex-end', paddingBottom: 8 }} aria-hidden>

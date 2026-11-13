@@ -169,6 +169,9 @@ export function OpsScreen() {
               <>
                 {([1, 2, 4, 8] as const).map((v) => <button key={v} className={`btn small ${speed === v ? 'primary' : ''}`} onClick={() => setSpeed(v)}>{v}×</button>)}
                 <button className="btn small" onClick={togglePause}>{paused ? '▶ Resume' : '❚❚ Pause'}</button>
+                <button className="btn small gold" disabled={sim.done || !!sim.pendingEvent || !!result} title="Jump to the next decision"
+                  onClick={() => { let guard = 0; while (!sim.done && !sim.pendingEvent && guard++ < 20000) sim.step(5);
+                    if (sim.pendingEvent) play('sfx_event'); bump(); }}>Next event ⏩</button>
               </>
             ) : <span className="small muted">Speed {speed}× · the host controls speed{paused ? ' · paused' : ''}</span>}
           </div>

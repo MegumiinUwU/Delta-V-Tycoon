@@ -2,7 +2,7 @@
 
 Design, launch and fly a space mission, alone or with up to 3 friends online.
 
-**Play:** https://megumiinuwu.github.io/Delta-V-Tycoon/ (first build pending) · **Video:** _TBD_ · **Challenge:** NASA Space Apps 2026: Space Mission Design Game (NASA Space Apps Cairo 2026)
+**Play:** https://megumiinuwu.github.io/Delta-V-Tycoon/ · **Video:** _TBD_ · **Challenge:** NASA Space Apps 2026: Space Mission Design Game (NASA Space Apps Cairo 2026)
 
 ![The Delta-V crew](docs/art/crew_sheet.png)
 
@@ -53,8 +53,11 @@ React, TypeScript, Vite, Zustand, Firebase Realtime Database, Recharts, lz-strin
 Disclosed as required by the NASA Space Apps code of ethics.
 
 - **Claude (Anthropic), via Claude Code**: turned the team brief into the `src/data/*.json` content files and drafted README / GDD / SOURCES; wrote a Python + Pillow script that draws the crew sprites and portraits pixel by pixel on the 32-colour ENDESGA 32 palette (no image-generation model; every pixel is placed on the grid from the character sheets).
-- Python 3 + Pillow (art export and palette / size validation).
-- _Add every other tool the team uses (editors, Aseprite / LibreSprite / Piskel, OBS, video editor, music sources …)._
+- **Claude (Anthropic), via Claude Code** also wrote `scripts/art/env_art.py`, which draws the environment art procedurally (backgrounds, planets, rockets, effects, spacecraft parts, event and scenario illustrations, logo). Every pixel comes from code shapes and the ENDESGA 32 palette; no image-generation model was used. It also wrote `scripts/art/sfx.py`, which synthesises the sound effects from sine/square waves and noise (no samples). Claude also simplified the UI (fewer words, icon stats, GO/NO-GO poll), guided by the UX / game-design skills of [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) (MIT).
+- **ACE-Step 1.5** ([github.com/ace-step/ACE-Step-1.5](https://github.com/ace-step/ACE-Step-1.5), MIT): an open-source AI music model, set up to generate the background-music loops (`scripts/art/music_acestep.py`). Until those land, the music is the synthesised chiptune from `scripts/art/music_chip.py`; if the ACE-Step tracks are used, the music is AI-generated.
+- Item and UI icons: drawn by the team's asset artist; recovered to exact pixels and palette by `scripts/art/recover_previews.py`.
+- Python 3 + Pillow + NumPy (art generation and palette / size validation), ffmpeg (audio encoding).
+- _Add every other tool the team uses (editors, OBS, video editor, …)._
 
 ## Team
 
