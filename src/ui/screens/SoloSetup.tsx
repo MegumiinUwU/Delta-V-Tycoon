@@ -1,10 +1,17 @@
 import { useState } from 'react';
 import { scenarioArt } from '../../assets';
-import { play } from '../../audio/sound';
+import { play, playVoice } from '../../audio/sound';
 import { decodeChallenge, getCatalog, type DifficultyId, type ScenarioId } from '../../core';
 import { navigate } from '../../router';
 import { useGame } from '../../state/store';
 import { Portrait } from '../components/common';
+
+/** Names written family-name first: show the given name (last word) on cards and as the default player name. */
+const FAMILY_NAME_FIRST = new Set(['miku', 'teto', 'neru']);
+export const shortName = (c: { id: string; name: string }): string => {
+  const parts = c.name.split(' ');
+  return FAMILY_NAME_FIRST.has(c.id) ? parts[parts.length - 1] : parts[0];
+};
 
 /** Avatar row + name (shared by solo, create room and join). Portraits only; name/bio on hover. */
 export function AvatarPicker({ characterId, setCharacterId, name, setName, showName = true }:
@@ -16,8 +23,9 @@ export function AvatarPicker({ characterId, setCharacterId, name, setName, showN
       <div className="row" role="radiogroup" aria-label="Choose your avatar" style={{ gap: 2 }}>
         {crew.map((c) => (
           <button key={c.id} className="av" role="radio" aria-checked={c.id === characterId} title={`${c.name} · ${c.title}`}
-            onMouseEnter={() => setHover(c.id)} onMouseLeave={() => setHover(null)}
-            onClick={() => { play('sfx_click'); setCharacterId(c.id); setName(c.name.split(' ')[0]); }}>
+            onMouseEnter={() => { setHover(c.id); playVoice(c.id); }} onMouseLeave={() => setHover(null)}
+            onFocus={() => { setHover(c.id); playVoice(c.id); }} onBlur={() => setHover(null)}
+            onClick={() => { play('sfx_click'); setCharacterId(c.id); setName(shortName(c)); }}>
             <Portrait id={c.id} expr={hover === c.id || c.id === characterId ? 'happy' : 'neutral'} size={48} />
           </button>
         ))}
