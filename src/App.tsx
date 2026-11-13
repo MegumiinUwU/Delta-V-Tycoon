@@ -5,7 +5,6 @@ import { getCatalog } from './core';
 import { navigate, useRoute } from './router';
 import { startDiscoveryTracking } from './state/discoveries';
 import { useGame } from './state/store';
-import { Lab } from './lab/Lab';
 import { ErrorBoundary, GlossaryDrawer, Loading, Toasts } from './ui/components/common';
 import { Title } from './ui/screens/Title';
 
@@ -16,6 +15,7 @@ const load = {
   career: () => import('./ui/screens/Career'),
   council: () => import('./ui/screens/Council'),
   design: () => import('./ui/screens/Design'),
+  lab: () => import('./lab/Lab'),
   launchOps: () => import('./ui/screens/LaunchOps'),
   misc: () => import('./ui/screens/Misc'),
   report: () => import('./ui/screens/Report'),
@@ -29,6 +29,7 @@ const Council = lazy(() => load.council().then((m) => ({ default: m.Council })))
 const DesignWorkshop = lazy(() => load.design().then((m) => ({ default: m.DesignWorkshop })));
 const LaunchScreen = lazy(() => load.launchOps().then((m) => ({ default: m.LaunchScreen })));
 const OpsScreen = lazy(() => load.launchOps().then((m) => ({ default: m.OpsScreen })));
+const Lab = lazy(() => load.lab().then((m) => ({ default: m.Lab })));
 const Academy = lazy(() => load.misc().then((m) => ({ default: m.Academy })));
 const Credits = lazy(() => load.misc().then((m) => ({ default: m.Credits })));
 const Leaderboard = lazy(() => load.misc().then((m) => ({ default: m.Leaderboard })));
