@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { CartesianGrid, Area, ComposedChart, Line, LineChart, ReferenceLine, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { eventArt, orbitIcon } from '../../assets';
 import { play, playMusic } from '../../audio/sound';
+import { voiceSeconds } from '../../audio/voice';
 import { effectiveDefaultOptionId, findMissionTwin, fmtGbit, fmtNum, getCatalog, ROLE_TITLES, type Sample } from '../../core';
 import { getDifficulty, getOrbit, getScenario, getVehicle } from '../../core/catalog';
 import { LaunchScene } from '../../scenes/LaunchScene';
@@ -19,7 +20,7 @@ export function TwinCard() {
   if (!twin) return null;
   return (
     <div className="panel col" style={{ borderColor: 'var(--gold)' }}>
-      {intro && <Speech speaker={intro.speaker} expr={intro.expr} text={intro.text} size={48} typewriter={false} />}
+      {intro && <Speech speaker={intro.speaker} expr={intro.expr} text={intro.text} size={48} typewriter={false} voiceOnce={`twin:${s.meta.seed}:${s.meta.attempt ?? 0}`} />}
       <div className="row">
         <img src={orbitIcon(twin.orbit)} width={48} height={48} alt={`${twin.orbit} orbit`} />
         <div className="col" style={{ gap: 2 }}>
@@ -229,12 +230,16 @@ function ChartBox({ title, children }: { title: string; children: JSX.Element })
 function ResultModal({ r, onDone }: { r: { text: string; bad: boolean; role: string }; onDone: () => void }) {
   const s = useGame((g) => g.state)!;
   const room = useGame((g) => g.room)!;
-  useEffect(() => { const t = setTimeout(onDone, 3000); return () => clearTimeout(t); }, [onDone]);
+  const voiced = useGame((g) => g.settings.voices && !g.settings.muted);
   const holder = s.roles[r.role as keyof typeof s.roles];
-  const charId = holder && room.mode === 'online' ? s.players[holder]?.characterId : getCatalog().characters.find((c) => c.role === r.role)?.id;
+  const charId = (holder && room.mode === 'online' ? s.players[holder]?.characterId : getCatalog().characters.find((c) => c.role === r.role)?.id) ?? 'hassan';
+  const ms = Math.max(3000, voiced ? voiceSeconds(charId, r.text) * 1000 + 700 : 0);
+  const done = useRef(onDone);
+  done.current = onDone;
+  useEffect(() => { const t = setTimeout(() => done.current(), ms); return () => clearTimeout(t); }, [ms]);
   return (
     <Modal label="Event result" onClose={onDone}>
-      <Speech speaker={charId ?? 'hassan'} expr={r.bad ? 'worried' : 'happy'} text={r.text} />
+      <Speech speaker={charId} expr={r.bad ? 'worried' : 'happy'} text={r.text} />
       <div className="row center" style={{ marginTop: 8 }}><button className="btn primary" onClick={onDone}>Continue ▶</button></div>
     </Modal>
   );

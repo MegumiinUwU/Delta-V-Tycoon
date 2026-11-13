@@ -1,6 +1,7 @@
 import { Component, useEffect, useRef, useState, type ReactNode } from 'react';
 import { icon, idleSprite, portrait, type Expr } from '../../assets';
 import { play } from '../../audio/sound';
+import { useVoice } from '../../audio/voice';
 import { getCatalog, type DialogLine, type Role, type Severity } from '../../core';
 import { navigate } from '../../router';
 import { useDiscoveries } from '../../state/discoveries';
@@ -75,14 +76,26 @@ export function Typewriter({ text, cps = 45 }: { text: string; cps?: number }) {
   return <span onClick={() => setN(text.length)}>{text.slice(0, n)}{n < text.length && <span aria-hidden>▌</span>}</span>;
 }
 
-export function Speech({ speaker, expr = 'neutral', text, typewriter = true, size = 64 }:
-  { speaker: string; expr?: Expr; text: string; typewriter?: boolean; size?: number }) {
+/** Small speaker button: speaks a character's line (automatically too, unless `auto` is false). Hidden when there is no clip. */
+export function VoiceLine({ speaker, text, auto = true, onceKey }: { speaker: string; text: string; auto?: boolean; onceKey?: string }) {
+  const on = useGame((g) => g.settings.voices && !g.settings.muted);
+  const v = useVoice(speaker, text, { auto, onceKey });
+  if (!v.has || !on) return null;
+  return (
+    <button className={`iconbtn voice${v.speaking ? ' on' : ''}`} aria-label="Hear this line" title="Hear this line"
+      onClick={(e) => { e.stopPropagation(); v.replay(); }}>{v.speaking ? '🔊' : '🔈'}</button>
+  );
+}
+
+/** A character's line, spoken aloud when it appears. `voiceOnce`: do not repeat the same line under that key. */
+export function Speech({ speaker, expr = 'neutral', text, typewriter = true, size = 64, voiceOnce }:
+  { speaker: string; expr?: Expr; text: string; typewriter?: boolean; size?: number; voiceOnce?: string }) {
   const who = getCatalog().characters.find((c) => c.id === speaker);
   return (
     <div className="speech">
       <Portrait id={speaker} expr={expr} size={size} />
       <div className="bubble">
-        <div className="who">{who?.name ?? speaker}{who?.title ? ` · ${who.title}` : ''}</div>
+        <div className="who">{who?.name ?? speaker}{who?.title ? ` · ${who.title}` : ''}<VoiceLine speaker={speaker} text={text} onceKey={voiceOnce} /></div>
         <div aria-live="polite">{typewriter ? <Typewriter text={text} /> : text}</div>
       </div>
     </div>

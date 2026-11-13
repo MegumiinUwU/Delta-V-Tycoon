@@ -10,7 +10,7 @@ import { navigate } from '../../router';
 import { KEYS, load, save, type SavedDesign } from '../../state/storage';
 import { useDiscoveries } from '../../state/discoveries';
 import { useGame, useIsHost } from '../../state/store';
-import { Help, Portrait, ROLE_COLOR, Speech, Stars } from '../components/common';
+import { Help, Portrait, ROLE_COLOR, Speech, Stars, VoiceLine } from '../components/common';
 import { TwinCard } from './LaunchOps';
 import { CareerBanner } from './CareerBanner';
 import { Attempts } from './Attempts';
@@ -86,7 +86,7 @@ export function Report() {
               <Portrait id={roleChar(r)} expr={met ? 'happy' : 'worried'} size={48} />
               <div className="col" style={{ gap: 2 }}>
                 <span className="small" style={{ color: ROLE_COLOR[r] }}>{ROLE_TITLES[r]}</span>
-                <span className="small">"{met ? ch?.lines.success : ch?.lines.failure}"</span>
+                <span className="small">"{met ? ch?.lines.success : ch?.lines.failure}"{ch && <VoiceLine speaker={ch.id} text={met ? ch.lines.success : ch.lines.failure} />}</span>
               </div>
             </div>
           );

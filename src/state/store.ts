@@ -63,7 +63,7 @@ function changedField(a: Design, b: Design): { role: Role; field: string } | nul
 
 export const useGame = create<GameStore>((set, get) => {
   const settings = { ...DEFAULT_SETTINGS, ...load<Partial<Settings>>(KEYS.settings, {}) };
-  setAudioSettings(settings.volume, settings.muted);
+  setAudioSettings(settings.volume, settings.muted, settings.voices);
 
   /** Called on every room state change. */
   const onState = (s: RoomState) => {
@@ -192,7 +192,7 @@ export const useGame = create<GameStore>((set, get) => {
     setSettings(p) {
       const settings = { ...get().settings, ...p };
       save(KEYS.settings, settings);
-      setAudioSettings(settings.volume, settings.muted);
+      setAudioSettings(settings.volume, settings.muted, settings.voices);
       set({ settings });
     },
     set(p) { set(p); },

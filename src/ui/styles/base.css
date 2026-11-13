@@ -130,6 +130,10 @@ input[type=range] { accent-color: var(--gold); width: 100%; }
 .speech .bubble { background: var(--panel-2); border: 2px solid var(--border); padding: 8px 12px; flex: 1; min-height: 64px; position: relative; }
 .speech .who { color: var(--gold); font-size: 0.85em; }
 .portrait { image-rendering: pixelated; background: #3a4466; flex: none; }
+.iconbtn.voice { min-height: 0; padding: 0 4px; margin-left: 6px; border: 0; font-size: 0.9em; line-height: 1; vertical-align: baseline; }
+.iconbtn.voice.on { color: var(--gold); }
+:is(.speech, .panel.row):has(.voice.on) > .portrait { outline: 2px solid var(--gold); animation: talk .32s steps(2, jump-none) infinite; }
+@keyframes talk { from { transform: translateY(0); } to { transform: translateY(-2px); } }
 
 /* Tutorial spotlight */
 .tut-target { position: relative; z-index: 71 !important; outline: 3px solid var(--gold); box-shadow: 0 0 0 9999px rgba(24, 20, 37, 0.7); }

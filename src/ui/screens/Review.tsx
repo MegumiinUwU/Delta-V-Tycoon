@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { play } from '../../audio/sound';
+import { hush, sayNow } from '../../audio/voice';
 import { conceptMaturity, getCatalog, ROLE_TITLES, ROLES, type Role } from '../../core';
 import { useGame, useIsHost, useMyRoles } from '../../state/store';
 import { Help, Modal, Portrait, ROLE_COLOR, Speech, Status, Term } from '../components/common';
@@ -9,6 +10,7 @@ export function MaturityMeter() {
   const m = conceptMaturity(checks);
   const total = Math.max(1, checks.length);
   const line = getCatalog().dialog[`review_cml${m.cml}`]?.[0];
+  const mission = useGame((g) => `${g.state?.meta.seed}:${g.state?.meta.attempt ?? 0}`);
   return (
     <div className="panel dark col">
       <div className="row between">
@@ -23,7 +25,7 @@ export function MaturityMeter() {
         <div title="80% green needed for CML 4" style={{ position: 'absolute', left: '80%', top: -4, bottom: -4, width: 2, background: '#fff' }} />
       </div>
       <span className="small dim">{Math.round(m.greenPct)}% green{m.cml < 4 ? ' · 80% + no red = CML 4' : ''}</span>
-      {line && <Speech speaker={line.speaker} expr={line.expr} text={line.text} size={48} />}
+      {line && <Speech speaker={line.speaker} expr={line.expr} text={line.text} size={48} voiceOnce={`review:${mission}`} />}
     </div>
   );
 }
@@ -43,6 +45,7 @@ export function GoPoll() {
     const ts = [0, 1, 2, 3].map((i) => window.setTimeout(() => { setShown(i + 1); play(i === 3 ? 'sfx_signoff' : 'sfx_click'); }, 350 + i * 380));
     return () => ts.forEach(clearTimeout);
   }, [sig, reduced]);
+  useEffect(() => () => hush('poll'), []);
   const roleChar = (r: Role) => { const u = s.roles[r]; const p = u ? s.players[u] : null;
     return p && room.mode === 'online' ? p.characterId : chars.find((c) => c.role === r)?.id ?? 'hassan'; };
   return (
@@ -53,7 +56,10 @@ export function GoPoll() {
         const ch = chars.find((c) => c.id === roleChar(r));
         return (
           <div key={r} className="who" role="listitem" style={{ borderColor: ROLE_COLOR[r] }} title={sev === 'pass' ? ch?.lines.success : ch?.lines.warning}>
-            <Portrait id={roleChar(r)} expr={i < shown ? (sev === 'pass' ? 'happy' : 'worried') : 'neutral'} size={48} />
+            <button className="av" aria-label={`Hear ${ch?.name ?? r}`}
+              onClick={() => { if (ch) sayNow('poll', ch.id, sev === 'pass' ? ch.lines.success : ch.lines.warning); }}>
+              <Portrait id={roleChar(r)} expr={i < shown ? (sev === 'pass' ? 'happy' : 'worried') : 'neutral'} size={48} />
+            </button>
             <span className="small" style={{ color: ROLE_COLOR[r] }}>{ROLE_TITLES[r].split(' ')[0]}</span>
             <span className={`stamp ${sev} ${i < shown ? 'show' : ''}`}>{sev === 'pass' ? 'GO' : sev === 'warn' ? 'HOLD' : 'NO-GO'}</span>
           </div>
@@ -152,7 +158,7 @@ export function ReviewPanel() {
               onClick={() => (fails > 0 ? setConfirm(true) : launch())}>LAUNCH 🚀</button>
           : <span className="muted">The host launches once all four roles sign off.</span>}
         {!ready && <span className="small dim">Waiting for every role to sign off.</span>}
-        {fails === 0 && ready && dialog.launch_go?.[0] && <Speech speaker="hassan" expr="happy" text={dialog.launch_go[0].text} size={48} />}
+        {fails === 0 && ready && dialog.launch_go?.[0] && <Speech speaker="hassan" expr="happy" text={dialog.launch_go[0].text} size={48} voiceOnce={`go:${s.meta.seed}:${s.meta.attempt ?? 0}`} />}
       </div>
       {confirm && (
         <Modal label="NO-GO items present" onClose={() => setConfirm(false)}>

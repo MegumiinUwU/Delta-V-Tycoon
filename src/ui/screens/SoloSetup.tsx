@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { scenarioArt } from '../../assets';
 import { play, playVoice } from '../../audio/sound';
+import { hush, sayNow } from '../../audio/voice';
 import { decodeChallenge, getCatalog, type DifficultyId, type ScenarioId } from '../../core';
 import { navigate } from '../../router';
 import { useGame } from '../../state/store';
@@ -18,6 +19,7 @@ export function AvatarPicker({ characterId, setCharacterId, name, setName, showN
   { characterId: string; setCharacterId: (id: string) => void; name: string; setName: (n: string) => void; showName?: boolean }) {
   const [hover, setHover] = useState<string | null>(null);
   const crew = getCatalog().characters.filter((c) => c.playable);
+  useEffect(() => () => hush('avatar'), []);
   return (
     <div className="row wrap" style={{ gap: 6, alignItems: 'center' }}>
       <div className="row" role="radiogroup" aria-label="Choose your avatar" style={{ gap: 2 }}>
@@ -25,7 +27,7 @@ export function AvatarPicker({ characterId, setCharacterId, name, setName, showN
           <button key={c.id} className="av" role="radio" aria-checked={c.id === characterId} title={`${c.name} · ${c.title}`}
             onMouseEnter={() => { setHover(c.id); playVoice(c.id); }} onMouseLeave={() => setHover(null)}
             onFocus={() => { setHover(c.id); playVoice(c.id); }} onBlur={() => setHover(null)}
-            onClick={() => { play('sfx_click'); setCharacterId(c.id); setName(shortName(c)); }}>
+            onClick={() => { play('sfx_click'); sayNow('avatar', c.id, c.lines.success); setCharacterId(c.id); setName(shortName(c)); }}>
             <Portrait id={c.id} expr={hover === c.id || c.id === characterId ? 'happy' : 'neutral'} size={48} />
           </button>
         ))}
