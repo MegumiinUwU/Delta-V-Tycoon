@@ -12,7 +12,7 @@ import { SpacecraftPreview } from '../../scenes/SpacecraftPreview';
 import { useGame, useMyRoles } from '../../state/store';
 import { Dashboard } from '../components/Dashboard';
 import { orbitRules } from '../orbitRules';
-import { Help, Icon, Modal, Portrait, rangeFill, ROLE_COLOR, SlideMarker, Speech, Stats, Term } from '../components/common';
+import { Help, Icon, Modal, Portrait, rangeFill, ROLE_COLOR, SlideMarker, Speech, Stats, TabPanel, Term } from '../components/common';
 import { ReviewPanel } from './Review';
 import { TradeSpace } from './TradeSpace';
 
@@ -429,9 +429,9 @@ export function DesignWorkshop() {
           </div>
           <button className="btn small" onClick={() => set({ tradeOpen: true })} title="Explore the trade space (CML 3)">Trade Space ▤</button>
         </div>
-        <div className="row center">
+        <TabPanel id={view} order={view === 'orbit' ? 1 : 0} className="row center">
           {view === 'craft' ? <SpacecraftPreview design={s.design} totalKg={b.mass.totalKg} scale={2} /> : <OrbitView orbitId={s.design.planner.orbitId} scale={2} />}
-        </div>
+        </TabPanel>
         <NextStep />
         {!can && <div className="banner">{holderName(active)} controls this tab</div>}
         <div className="panel dark" style={{ overflow: 'auto', maxHeight: 'calc(100vh - 420px)', minHeight: 260 }}>

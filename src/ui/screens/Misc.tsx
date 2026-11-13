@@ -8,7 +8,7 @@ import { navigate, onlineEnabled } from '../../router';
 import { KEYS, load, save, type SavedDesign } from '../../state/storage';
 import { useDiscoveries } from '../../state/discoveries';
 import { useGame } from '../../state/store';
-import { GlossaryCard, Portrait, rangeFill, SlideMarker, Stars, Speech } from '../components/common';
+import { GlossaryCard, Portrait, rangeFill, SlideMarker, Speech, Stars, TabPanel } from '../components/common';
 
 function Page({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -45,9 +45,11 @@ export function Academy({ focus }: { focus?: string }) {
         <input type="search" placeholder="Search terms…" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search the glossary" />
         <div className="seg"><SlideMarker />{CATS.map(([id, label]) => <button key={id} aria-pressed={cat === id} onClick={() => setCat(id)}>{label}</button>)}</div>
       </div>
+      <TabPanel id={`${cat}-${only}`} order={CATS.findIndex(([id]) => id === cat) * 3 + ['all', 'found', 'new'].indexOf(only)}>
       <div className="cards" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))' }}>
-        {list.map((g) => <GlossaryCard key={g.id} id={g.id} onOpen={(id) => { setQ(''); setCat('all'); setTimeout(() => document.getElementById(`g-${id}`)?.scrollIntoView({ behavior: 'smooth' })); }} />)}
-      </div>
+          {list.map((g) => <GlossaryCard key={g.id} id={g.id} onOpen={(id) => { setQ(''); setCat('all'); setTimeout(() => document.getElementById(`g-${id}`)?.scrollIntoView({ behavior: 'smooth' })); }} />)}
+        </div>
+      </TabPanel>
     </Page>
   );
 }
@@ -159,16 +161,18 @@ export function Leaderboard() {
       </div>
       {tab === 'online' && !scenario && <p className="muted">Choose a scenario to load the online board (entries are verified by replaying the design).</p>}
       {err && <p className="warn">{err}</p>}
+      <TabPanel id={tab} order={tab === 'online' ? 1 : 0}>
       <table className="grid">
-        <thead><tr><th>#</th><th>Team</th><th>Score</th><th>Stars</th><th>Outcome</th><th>Scenario</th><th></th></tr></thead>
-        <tbody>
-          {rows.length === 0 && <tr><td colSpan={7} className="dim">No entries yet.</td></tr>}
-          {rows.map((e, i) => (
-            <tr key={`${e.at}-${i}`}><td>{i + 1}</td><td>{e.teamName}</td><td>{e.score}</td><td><Stars n={e.stars} size={16} /></td><td>{e.outcome}</td>
-              <td>{getScenario(e.scenarioId).name} · {e.difficulty}</td><td><button className="btn small" onClick={() => navigate(`/design/${e.designCode}`)}>View design</button></td></tr>
-          ))}
-        </tbody>
-      </table>
+          <thead><tr><th>#</th><th>Team</th><th>Score</th><th>Stars</th><th>Outcome</th><th>Scenario</th><th></th></tr></thead>
+          <tbody>
+            {rows.length === 0 && <tr><td colSpan={7} className="dim">No entries yet.</td></tr>}
+            {rows.map((e, i) => (
+              <tr key={`${e.at}-${i}`}><td>{i + 1}</td><td>{e.teamName}</td><td>{e.score}</td><td><Stars n={e.stars} size={16} /></td><td>{e.outcome}</td>
+                <td>{getScenario(e.scenarioId).name} · {e.difficulty}</td><td><button className="btn small" onClick={() => navigate(`/design/${e.designCode}`)}>View design</button></td></tr>
+            ))}
+          </tbody>
+        </table>
+      </TabPanel>
     </Page>
   );
 }

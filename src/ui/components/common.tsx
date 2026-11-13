@@ -163,6 +163,18 @@ export function SlideMarker({ bar }: { bar?: boolean }) {
   return <span ref={ref} className={bar ? 'slide-marker bar' : 'slide-marker'} aria-hidden />;
 }
 
+/**
+ * Content that switches like a tab panel (see .tab-panel in motion.css): each time `id` changes it comes in from a
+ * slight blur, sliding from the right if `order` went up and from the left if it went down (no slide the first time).
+ * Enter-only and pure CSS, so it costs nothing while idle.
+ */
+export function TabPanel({ id, order, className = '', children }: { id: string; order: number; className?: string; children: ReactNode }) {
+  const last = useRef<{ id: string; order: number; dir: number } | null>(null);
+  if (!last.current) last.current = { id, order, dir: 0 };
+  else if (last.current.id !== id) last.current = { id, order, dir: Math.sign(order - last.current.order) };
+  return <div key={id} className={`tab-panel ${className}`} data-dir={last.current.dir}>{children}</div>;
+}
+
 /** Inline style for a range input so its gold "filled" part matches the value. */
 export const rangeFill = (value: number, min: number, max: number): CSSProperties =>
   ({ '--p': `${max > min ? ((value - min) / (max - min)) * 100 : 0}%` } as CSSProperties);

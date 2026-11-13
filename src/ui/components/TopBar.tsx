@@ -54,7 +54,7 @@ export function TopBar() {
               </div>
             );
           })}
-          <SlideMarker bar />
+          <SlideMarker />
         </nav>
         <button className="btn small" onClick={() => set({ requirementsOpen: true })}>Mission requirements</button>
         {pending.length > 0 && <span className="badge gold" title="Funds requests waiting for you">$ {pending.length}</span>}

@@ -5,7 +5,7 @@ import { getCatalog } from './core';
 import { navigate, useRoute } from './router';
 import { startDiscoveryTracking } from './state/discoveries';
 import { useGame } from './state/store';
-import { ErrorBoundary, GlossaryDrawer, Loading, Toasts } from './ui/components/common';
+import { ErrorBoundary, GlossaryDrawer, Loading, TabPanel, Toasts } from './ui/components/common';
 import { Title } from './ui/screens/Title';
 
 // Only the title screen ships in the first download. Every other screen is its own small file, fetched in the
@@ -48,6 +48,9 @@ const whenIdle = (f: () => void): void => {
   else setTimeout(f, 300);
 };
 
+// the phases in mission order: moving forward slides the next phase in from the right
+const PHASE_ORDER = ['lobby', 'council', 'design', 'launch', 'ops', 'report'];
+
 /** Renders the current phase for #/play and #/room/:code. */
 function PhaseShell({ code }: { code?: string }) {
   const state = useGame((g) => g.state);
@@ -75,9 +78,10 @@ function PhaseShell({ code }: { code?: string }) {
     );
   }
   const phase = state.meta.phase;
+  const briefing = !briefingDone && (phase === 'council' || phase === 'design');
   let body: JSX.Element;
   if (phase === 'lobby') body = <Lobby />;
-  else if (!briefingDone && (phase === 'council' || phase === 'design')) body = <Briefing />;
+  else if (briefing) body = <Briefing />;
   else if (phase === 'council') body = <Council />;
   else if (phase === 'design') body = <DesignWorkshop />;
   else if (phase === 'launch') body = <LaunchScreen />;
@@ -87,7 +91,7 @@ function PhaseShell({ code }: { code?: string }) {
     <main className="screen">
       <Suspense fallback={null}>
         <TopBar />
-        {body}
+        <TabPanel className="phase" id={briefing ? 'briefing' : phase} order={PHASE_ORDER.indexOf(phase) * 2 + (briefing ? 0 : 1)}>{body}</TabPanel>
         <Tutorial />
         <ChatDrawer />
       </Suspense>
