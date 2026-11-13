@@ -10,7 +10,8 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "placeholders": "node scripts/make-placeholders.mjs",
-    "balance": "tsx scripts/balance.ts"
+    "balance": "tsx scripts/balance.ts",
+    "voice": "tsx scripts/voice-lines.ts && uv run scripts/art/voice_kokoro.py"
   },
   "dependencies": {
     "@fontsource/press-start-2p": "^5.3.0",

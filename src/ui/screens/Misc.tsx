@@ -154,6 +154,7 @@ export function SettingsScreen() {
       <section className="panel col" style={{ maxWidth: 640 }}>
         <label className="slider-row">Volume <input type="range" min={0} max={1} step={0.05} value={settings.volume} onChange={(e) => setSettings({ volume: +e.target.value })} /><span>{Math.round(settings.volume * 100)}%</span></label>
         <label className="row"><input type="checkbox" checked={settings.muted} onChange={() => setSettings({ muted: !settings.muted })} /> Mute all sound</label>
+        <label className="row"><input type="checkbox" checked={settings.voices} disabled={settings.muted} onChange={() => setSettings({ voices: !settings.voices })} /> Character voices</label>
         <div className="row">Text size
           <div className="seg">{([1, 1.25, 1.5] as const).map((v) => <button key={v} aria-pressed={settings.textScale === v} onClick={() => setSettings({ textScale: v })}>{v * 100}%</button>)}</div>
         </div>
@@ -189,6 +190,7 @@ export function Credits() {
           Full list in docs/SOURCES.md; asset sources and licences in CREDITS.md.</p>
         <h2>Tools used</h2>
         <p>Claude (Anthropic) via Claude Code helped write game code, content files and documentation; see README → "Tools used".</p>
+        <p>Character voices are AI-generated speech from Kokoro-82M (Apache-2.0), an open text-to-speech model, using its stock voices. No real person's voice was recorded or cloned.</p>
         <p className="small dim">NASA Space Apps Cairo 2026 · Space Mission Design Game challenge. Not endorsed by NASA or any agency.</p>
       </section>
     </Page>

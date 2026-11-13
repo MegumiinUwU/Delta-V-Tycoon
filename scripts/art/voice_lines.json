@@ -1,0 +1,1910 @@
+[
+ {
+  "id": "hassan_820ace1f",
+  "speaker": "hassan",
+  "text": "Welcome to mission control! I'm Dr. Hassan Nasr, your flight director. Today we design a satellite to watch over the Nile Delta's farms and water.",
+  "from": "dialog.tutorial[0]"
+ },
+ {
+  "id": "hassan_eec6c56c",
+  "speaker": "hassan",
+  "text": "These seven meters are your limits. Every choice moves several of them at once — that's real mission design.",
+  "from": "dialog.tutorial[1]"
+ },
+ {
+  "id": "hassan_8d0e7c78",
+  "speaker": "hassan",
+  "text": "Your Mission Commander picks the orbit, the mission length and the rocket. A sun-synchronous orbit gives the same lighting every day — perfect for comparing crops.",
+  "from": "dialog.tutorial[2]"
+ },
+ {
+  "id": "hassan_7b16a7e6",
+  "speaker": "hassan",
+  "text": "Each rocket lifts a certain mass to each orbit. Heavier spacecraft need bigger, pricier rockets.",
+  "from": "dialog.tutorial[3]"
+ },
+ {
+  "id": "hassan_36edc80e",
+  "speaker": "hassan",
+  "text": "The Science Lead chooses instruments. Each one adds science — and also mass, power, cost and data.",
+  "from": "dialog.tutorial[4]"
+ },
+ {
+  "id": "hassan_4185d859",
+  "speaker": "hassan",
+  "text": "Hover over the Thermal Infrared Imager. See the meters preview the change before you even click?",
+  "from": "dialog.tutorial[5]"
+ },
+ {
+  "id": "hassan_279e65f2",
+  "speaker": "hassan",
+  "text": "The Spacecraft Engineer feeds the instruments: solar arrays for power, a battery for the shadow, propellant for keeping the orbit.",
+  "from": "dialog.tutorial[6]"
+ },
+ {
+  "id": "hassan_abbff2a9",
+  "speaker": "hassan",
+  "text": "If the load is higher than generation, instruments switch off. Keep at least 15% margin — arrays weaken every year.",
+  "from": "dialog.tutorial[7]"
+ },
+ {
+  "id": "hassan_a9463ec8",
+  "speaker": "hassan",
+  "text": "Data is worthless until it reaches Earth. The Comms Officer picks the radio and the ground stations.",
+  "from": "dialog.tutorial[8]"
+ },
+ {
+  "id": "hassan_b74b6378",
+  "speaker": "hassan",
+  "text": "Our starter S-band radio cannot keep up with the imager. Try the X-band transmitter and watch this turn green.",
+  "from": "dialog.tutorial[9]"
+ },
+ {
+  "id": "hassan_6626cc28",
+  "speaker": "hassan",
+  "text": "When you're ready, open the readiness review. Red means NO-GO — read why, fix it, then sign off.",
+  "from": "dialog.tutorial[10]"
+ },
+ {
+  "id": "hassan_e8a22cca",
+  "speaker": "hassan",
+  "text": "Then launch! Surprises will happen during the mission. Choose wisely — and remember, there's no single perfect design.",
+  "from": "dialog.tutorial[11]"
+ },
+ {
+  "id": "hassan_f1c4d17f",
+  "speaker": "hassan",
+  "text": "The Nile Delta feeds millions, and water is precious. A satellite that sees crop health can tell farmers where to irrigate.",
+  "from": "dialog.intro_nile_watch[0]"
+ },
+ {
+  "id": "hassan_0457e7c7",
+  "speaker": "hassan",
+  "text": "We need a multispectral imager or a camera, at least two years in orbit. The budget is modest — spend wisely.",
+  "from": "dialog.intro_nile_watch[1]"
+ },
+ {
+  "id": "hassan_d5ed8abb",
+  "speaker": "hassan",
+  "text": "Dust storms and flash floods can strike in hours. Forecasters need eyes that never blink.",
+  "from": "dialog.intro_storm_watch[0]"
+ },
+ {
+  "id": "hassan_92b27cd4",
+  "speaker": "hassan",
+  "text": "Carry a sounder or a thermal imager and watch for five years. Which orbit lets you stare at one region all the time?",
+  "from": "dialog.intro_storm_watch[1]"
+ },
+ {
+  "id": "hassan_c3bbe818",
+  "speaker": "hassan",
+  "text": "Future crews will need water on the Moon — to drink, to breathe, even to make rocket fuel.",
+  "from": "dialog.intro_ice_hunter[0]"
+ },
+ {
+  "id": "hassan_f50173b2",
+  "speaker": "hassan",
+  "text": "Bring a neutron spectrometer to sniff out hydrogen, plus an altimeter or thermal imager to map the craters. Deep-space comms are a must.",
+  "from": "dialog.intro_ice_hunter[1]"
+ },
+ {
+  "id": "hassan_444aebd1",
+  "speaker": "hassan",
+  "text": "Two jobs at once: study the Martian air, and relay data for the rovers below.",
+  "from": "dialog.intro_red_relay[0]"
+ },
+ {
+  "id": "hassan_4efd94da",
+  "speaker": "hassan",
+  "text": "Mars is far: weak sunlight, a 12-minute radio delay, and launch windows every 26 months. Miss it and we wait two years.",
+  "from": "dialog.intro_red_relay[1]"
+ },
+ {
+  "id": "hassan_7048bbb4",
+  "speaker": "hassan",
+  "text": "We want light that left the first galaxies 13 billion years ago. It arrives as faint infrared heat.",
+  "from": "dialog.intro_first_light[0]"
+ },
+ {
+  "id": "hassan_a39217f0",
+  "speaker": "hassan",
+  "text": "An infrared telescope must be very cold and very steady. Somewhere far from Earth's warmth would be ideal…",
+  "from": "dialog.intro_first_light[1]"
+ },
+ {
+  "id": "hassan_3b96ea47",
+  "speaker": "hassan",
+  "text": "Sandbox mode: no limits. Build anything and see what happens.",
+  "from": "dialog.intro_sandbox[0]"
+ },
+ {
+  "id": "hassan_4bac82b0",
+  "speaker": "hassan",
+  "text": "Try extremes. No battery? A giant radar on a tiny bus? The report will tell you why.",
+  "from": "dialog.intro_sandbox[1]"
+ },
+ {
+  "id": "hassan_0e746f0b",
+  "speaker": "hassan",
+  "text": "The agency gives you $144M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] nile_watch/cadet"
+ },
+ {
+  "id": "hassan_083c3d5d",
+  "speaker": "hassan",
+  "text": "The agency gives you $120M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] nile_watch/engineer"
+ },
+ {
+  "id": "hassan_bacd9ecb",
+  "speaker": "hassan",
+  "text": "The agency gives you $108M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] nile_watch/director"
+ },
+ {
+  "id": "hassan_dc759999",
+  "speaker": "hassan",
+  "text": "The agency gives you $384M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] storm_watch/cadet"
+ },
+ {
+  "id": "hassan_fe6ae43b",
+  "speaker": "hassan",
+  "text": "The agency gives you $320M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] storm_watch/engineer"
+ },
+ {
+  "id": "hassan_1381f3d8",
+  "speaker": "hassan",
+  "text": "The agency gives you $288M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] storm_watch/director"
+ },
+ {
+  "id": "hassan_de6b2f75",
+  "speaker": "hassan",
+  "text": "The agency gives you $300M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] ice_hunter/cadet"
+ },
+ {
+  "id": "hassan_b49f143f",
+  "speaker": "hassan",
+  "text": "The agency gives you $250M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] ice_hunter/engineer"
+ },
+ {
+  "id": "hassan_8336f313",
+  "speaker": "hassan",
+  "text": "The agency gives you $225M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] ice_hunter/director"
+ },
+ {
+  "id": "hassan_7f2219cf",
+  "speaker": "hassan",
+  "text": "The agency gives you $360M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] red_relay/cadet"
+ },
+ {
+  "id": "hassan_60b2e499",
+  "speaker": "hassan",
+  "text": "The agency gives you $270M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] red_relay/director"
+ },
+ {
+  "id": "hassan_fd4f9729",
+  "speaker": "hassan",
+  "text": "The agency gives you $780M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] first_light/cadet"
+ },
+ {
+  "id": "hassan_148ea963",
+  "speaker": "hassan",
+  "text": "The agency gives you $650M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] first_light/engineer"
+ },
+ {
+  "id": "hassan_b869f6ce",
+  "speaker": "hassan",
+  "text": "The agency gives you $585M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] first_light/director"
+ },
+ {
+  "id": "hassan_895b99c8",
+  "speaker": "hassan",
+  "text": "The agency gives you $2,400M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] sandbox/cadet"
+ },
+ {
+  "id": "hassan_942aedd4",
+  "speaker": "hassan",
+  "text": "The agency gives you $2,000M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] sandbox/engineer"
+ },
+ {
+  "id": "hassan_b508d6df",
+  "speaker": "hassan",
+  "text": "The agency gives you $1,800M. Here is a suggested split between your four roles — adjust it if you like.",
+  "from": "dialog.council_solo[0] sandbox/director"
+ },
+ {
+  "id": "hassan_317533b9",
+  "speaker": "hassan",
+  "text": "We still have NO-GO items. Launching now will probably end badly. Are you sure?",
+  "from": "dialog.launch_nogo[0]"
+ },
+ {
+  "id": "hassan_a40011cd",
+  "speaker": "hassan",
+  "text": "All stations GO. Good luck, crew!",
+  "from": "dialog.launch_go[0]"
+ },
+ {
+  "id": "hassan_c3f5b092",
+  "speaker": "hassan",
+  "text": "Mission accomplished! Read the report — even a success has lessons.",
+  "from": "dialog.report_success[0]"
+ },
+ {
+  "id": "hassan_02dd304c",
+  "speaker": "hassan",
+  "text": "We got some science home, but not everything. Let's see what to change.",
+  "from": "dialog.report_partial[0]"
+ },
+ {
+  "id": "hassan_a4aa9bf0",
+  "speaker": "hassan",
+  "text": "Every space agency has lost missions. What matters is understanding why — let's read the report.",
+  "from": "dialog.report_failure[0]"
+ },
+ {
+  "id": "hassan_3c9280f1",
+  "speaker": "hassan",
+  "text": "Point design reached: CML 4. This concept is mature enough to fly.",
+  "from": "dialog.review_cml4[0]"
+ },
+ {
+  "id": "hassan_6e6ff646",
+  "speaker": "hassan",
+  "text": "We're still exploring the trade space. Turn the yellows green before we commit.",
+  "from": "dialog.review_cml3[0]"
+ },
+ {
+  "id": "hassan_92fde354",
+  "speaker": "hassan",
+  "text": "This is still an early feasibility sketch. Let's fix the red items first.",
+  "from": "dialog.review_cml2[0]"
+ },
+ {
+  "id": "hassan_c095c442",
+  "speaker": "hassan",
+  "text": "Your design is a close cousin of a real mission:",
+  "from": "dialog.twin_intro[0]"
+ },
+ {
+  "id": "priya_573251f0",
+  "speaker": "priya",
+  "text": "Ground station here! We can only listen while your spacecraft is in view. A faster radio or a bigger network gets more of your data home.",
+  "from": "dialog.priya_tip[0]"
+ },
+ {
+  "id": "nour_dd3d19a0",
+  "speaker": "nour",
+  "text": "Right on budget and on time. That's how it's done.",
+  "from": "characters.nour.success"
+ },
+ {
+  "id": "nour_a476329d",
+  "speaker": "nour",
+  "text": "We'll plan smarter next time.",
+  "from": "characters.nour.failure"
+ },
+ {
+  "id": "nour_8e77a230",
+  "speaker": "nour",
+  "text": "Our reserve is getting thin.",
+  "from": "characters.nour.warning"
+ },
+ {
+  "id": "lucas_5c694ba9",
+  "speaker": "lucas",
+  "text": "Textbook mission.",
+  "from": "characters.lucas.success"
+ },
+ {
+  "id": "lucas_903147bb",
+  "speaker": "lucas",
+  "text": "Debrief time. What did we miss?",
+  "from": "characters.lucas.failure"
+ },
+ {
+  "id": "lucas_c992a18b",
+  "speaker": "lucas",
+  "text": "That rocket is costing us a fortune.",
+  "from": "characters.lucas.warning"
+ },
+ {
+  "id": "diaa_2dcecab4",
+  "speaker": "diaa",
+  "text": "Bold idea, solid plan, perfect launch. Well done, team.",
+  "from": "characters.diaa.success"
+ },
+ {
+  "id": "diaa_c17bf020",
+  "speaker": "diaa",
+  "text": "Every great mission comes back stronger. Back to the drawing board.",
+  "from": "characters.diaa.failure"
+ },
+ {
+  "id": "diaa_bb8131fd",
+  "speaker": "diaa",
+  "text": "Let's check the numbers before we commit.",
+  "from": "characters.diaa.warning"
+ },
+ {
+  "id": "omar_28ee5bef",
+  "speaker": "omar",
+  "text": "Every bolt held. Beautiful.",
+  "from": "characters.omar.success"
+ },
+ {
+  "id": "omar_8e708251",
+  "speaker": "omar",
+  "text": "I'll find the weak part and fix it.",
+  "from": "characters.omar.failure"
+ },
+ {
+  "id": "omar_bd6a4072",
+  "speaker": "omar",
+  "text": "We're too close to the limit — I need margin!",
+  "from": "characters.omar.warning"
+ },
+ {
+  "id": "elena_e689303b",
+  "speaker": "elena",
+  "text": "Margins saved us. They always do.",
+  "from": "characters.elena.success"
+ },
+ {
+  "id": "elena_36aa45f0",
+  "speaker": "elena",
+  "text": "The numbers told us. We should have listened.",
+  "from": "characters.elena.failure"
+ },
+ {
+  "id": "elena_c74e89f4",
+  "speaker": "elena",
+  "text": "Not enough delta-v. Physics does not negotiate.",
+  "from": "characters.elena.warning"
+ },
+ {
+  "id": "amara_589bcd22",
+  "speaker": "amara",
+  "text": "Look at this data! Papers for years.",
+  "from": "characters.amara.success"
+ },
+ {
+  "id": "amara_6b8ca0d1",
+  "speaker": "amara",
+  "text": "We'll get the science next time.",
+  "from": "characters.amara.failure"
+ },
+ {
+  "id": "amara_4a2363a9",
+  "speaker": "amara",
+  "text": "We're missing the instrument we need for this goal.",
+  "from": "characters.amara.warning"
+ },
+ {
+  "id": "hiroshi_09fed460",
+  "speaker": "hiroshi",
+  "text": "A clear view. Wonderful.",
+  "from": "characters.hiroshi.success"
+ },
+ {
+  "id": "hiroshi_004556cd",
+  "speaker": "hiroshi",
+  "text": "The sky will wait for us.",
+  "from": "characters.hiroshi.failure"
+ },
+ {
+  "id": "hiroshi_53d11efe",
+  "speaker": "hiroshi",
+  "text": "My instrument needs steadier pointing.",
+  "from": "characters.hiroshi.warning"
+ },
+ {
+  "id": "kwame_21fde91e",
+  "speaker": "kwame",
+  "text": "Every bit made it home.",
+  "from": "characters.kwame.success"
+ },
+ {
+  "id": "kwame_46b80046",
+  "speaker": "kwame",
+  "text": "Lost signal… we'll fix the link.",
+  "from": "characters.kwame.failure"
+ },
+ {
+  "id": "kwame_7f2b29ed",
+  "speaker": "kwame",
+  "text": "The radio can't keep up with the data.",
+  "from": "characters.kwame.warning"
+ },
+ {
+  "id": "layla_00a70ca0",
+  "speaker": "layla",
+  "text": "Downlink complete — 100%.",
+  "from": "characters.layla.success"
+ },
+ {
+  "id": "layla_8f5c6504",
+  "speaker": "layla",
+  "text": "We need a better link.",
+  "from": "characters.layla.failure"
+ },
+ {
+  "id": "layla_9a21b02d",
+  "speaker": "layla",
+  "text": "Data is piling up in memory.",
+  "from": "characters.layla.warning"
+ },
+ {
+  "id": "hassan_9c5a685a",
+  "speaker": "hassan",
+  "text": "Mission accomplished, crew.",
+  "from": "characters.hassan.success"
+ },
+ {
+  "id": "hassan_72739970",
+  "speaker": "hassan",
+  "text": "Failure is a teacher. Let's read the lesson.",
+  "from": "characters.hassan.failure"
+ },
+ {
+  "id": "hassan_87b90db1",
+  "speaker": "hassan",
+  "text": "Check the readiness review before we go.",
+  "from": "characters.hassan.warning"
+ },
+ {
+  "id": "priya_f795e8f2",
+  "speaker": "priya",
+  "text": "Signal strong and clear.",
+  "from": "characters.priya.success"
+ },
+ {
+  "id": "priya_24821949",
+  "speaker": "priya",
+  "text": "We lost contact.",
+  "from": "characters.priya.failure"
+ },
+ {
+  "id": "priya_22fa9d9b",
+  "speaker": "priya",
+  "text": "Your spacecraft is only in view for minutes a day.",
+  "from": "characters.priya.warning"
+ },
+ {
+  "id": "omar_3b9eba9a",
+  "speaker": "omar",
+  "text": "Safe mode protected the instruments. Three days of lost data is a small price compared with a damaged detector.",
+  "from": "events.solar_storm.safe_mode"
+ },
+ {
+  "id": "omar_3715d24f",
+  "speaker": "omar",
+  "text": "Lucky! The storm passed without damage and you kept collecting data.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "omar_86ce8475",
+  "speaker": "omar",
+  "text": "A particle strike damaged a detector. Science output is permanently reduced by 30%.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "omar_0277aff5",
+  "speaker": "omar",
+  "text": "Cutting the load kept the power budget positive. Engineers keep margins for exactly this.",
+  "from": "events.micrometeoroid.reduce_load"
+ },
+ {
+  "id": "omar_32210f5c",
+  "speaker": "omar",
+  "text": "Your power margin absorbed the hit; full operations continued.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "omar_d5acf7ad",
+  "speaker": "omar",
+  "text": "Without enough power margin the battery ran flat in the shadow. The spacecraft rebooted and lost 10 days of science.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "kwame_57ffaabc",
+  "speaker": "kwame",
+  "text": "Renting backup time kept the data flowing. Real missions sign backup agreements for this reason.",
+  "from": "events.ground_outage.rent_backup"
+ },
+ {
+  "id": "kwame_89b01a36",
+  "speaker": "kwame",
+  "text": "Memory held the data until contact returned (if your memory was big enough).",
+  "from": "events.ground_outage.wait"
+ },
+ {
+  "id": "omar_c1406e9c",
+  "speaker": "omar",
+  "text": "The spare took over. Carrying a backup (redundancy) saved the mission's pointing.",
+  "from": "events.wheel_failure.spare_wheel"
+ },
+ {
+  "id": "omar_e85c5a63",
+  "speaker": "omar",
+  "text": "The magnetorquers hold the spacecraft steady, but less precisely.",
+  "from": "events.wheel_failure.magnetorquer_mode"
+ },
+ {
+  "id": "omar_71b95495",
+  "speaker": "omar",
+  "text": "The spacecraft wobbles more now, so sharp instruments lose quality.",
+  "from": "events.wheel_failure.accept"
+ },
+ {
+  "id": "nour_b8f1f718",
+  "speaker": "nour",
+  "text": "Your reserve absorbed the cut. That is exactly why planners keep one.",
+  "from": "events.budget_cut.pay_reserve"
+ },
+ {
+  "id": "nour_3a63e76d",
+  "speaker": "nour",
+  "text": "Ending early saves operations money but costs a year of science.",
+  "from": "events.budget_cut.shorten"
+ },
+ {
+  "id": "nour_829b1fa9",
+  "speaker": "nour",
+  "text": "Cheaper ground stations save money but give fewer contact hours, so less data comes home.",
+  "from": "events.budget_cut.cheaper_ground"
+ },
+ {
+  "id": "kwame_0e08f02a",
+  "speaker": "kwame",
+  "text": "The team reloaded the software; one day of science was lost.",
+  "from": "events.computer_reset.reload"
+ },
+ {
+  "id": "kwame_0b3bcbc0",
+  "speaker": "kwame",
+  "text": "The patch adds memory error checking, so this will not happen again.",
+  "from": "events.computer_reset.patch"
+ },
+ {
+  "id": "nour_f08d714d",
+  "speaker": "nour",
+  "text": "A 2 m/s burn moved you safely aside. Operators perform thousands of these every year.",
+  "from": "events.debris_conjunction.avoid"
+ },
+ {
+  "id": "nour_0bd55470",
+  "speaker": "nour",
+  "text": "The debris passed by. The odds were low, but not zero.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "nour_c3b8dd7c",
+  "speaker": "nour",
+  "text": "The debris hit the spacecraft. The mission is over, and the collision created even more debris.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "amara_58bf9c33",
+  "speaker": "amara",
+  "text": "The follow-up produced a bonus result. Flexible plans let missions chase surprises (if your downlink can handle the extra data).",
+  "from": "events.discovery.follow_up"
+ },
+ {
+  "id": "amara_822de6d6",
+  "speaker": "amara",
+  "text": "Routine continued. Safe, but the surprise stays a mystery.",
+  "from": "events.discovery.stick_to_plan"
+ },
+ {
+  "id": "amara_123d5982",
+  "speaker": "amara",
+  "text": "Your orbiter recorded the storm from above: a rare dataset. The rovers were sending less anyway.",
+  "from": "events.dust_storm.observe"
+ },
+ {
+  "id": "amara_8e06aac7",
+  "speaker": "amara",
+  "text": "You kept the relay channel ready, but most rovers were asleep to save power.",
+  "from": "events.dust_storm.relay_focus"
+ },
+ {
+  "id": "omar_53111b1a",
+  "speaker": "omar",
+  "text": "Saving power in the shadow protects the aging battery.",
+  "from": "events.battery_aging.eclipse_saving"
+ },
+ {
+  "id": "omar_f256e76a",
+  "speaker": "omar",
+  "text": "The battery still had enough capacity; operations continued.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "omar_d6100471",
+  "speaker": "omar",
+  "text": "The battery ran out in eclipse and the spacecraft spent 15 days in emergency safe mode.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "nour_3b9eba9a",
+  "speaker": "nour",
+  "text": "Safe mode protected the instruments. Three days of lost data is a small price compared with a damaged detector.",
+  "from": "events.solar_storm.safe_mode"
+ },
+ {
+  "id": "lucas_3b9eba9a",
+  "speaker": "lucas",
+  "text": "Safe mode protected the instruments. Three days of lost data is a small price compared with a damaged detector.",
+  "from": "events.solar_storm.safe_mode"
+ },
+ {
+  "id": "diaa_3b9eba9a",
+  "speaker": "diaa",
+  "text": "Safe mode protected the instruments. Three days of lost data is a small price compared with a damaged detector.",
+  "from": "events.solar_storm.safe_mode"
+ },
+ {
+  "id": "elena_3b9eba9a",
+  "speaker": "elena",
+  "text": "Safe mode protected the instruments. Three days of lost data is a small price compared with a damaged detector.",
+  "from": "events.solar_storm.safe_mode"
+ },
+ {
+  "id": "amara_3b9eba9a",
+  "speaker": "amara",
+  "text": "Safe mode protected the instruments. Three days of lost data is a small price compared with a damaged detector.",
+  "from": "events.solar_storm.safe_mode"
+ },
+ {
+  "id": "hiroshi_3b9eba9a",
+  "speaker": "hiroshi",
+  "text": "Safe mode protected the instruments. Three days of lost data is a small price compared with a damaged detector.",
+  "from": "events.solar_storm.safe_mode"
+ },
+ {
+  "id": "kwame_3b9eba9a",
+  "speaker": "kwame",
+  "text": "Safe mode protected the instruments. Three days of lost data is a small price compared with a damaged detector.",
+  "from": "events.solar_storm.safe_mode"
+ },
+ {
+  "id": "layla_3b9eba9a",
+  "speaker": "layla",
+  "text": "Safe mode protected the instruments. Three days of lost data is a small price compared with a damaged detector.",
+  "from": "events.solar_storm.safe_mode"
+ },
+ {
+  "id": "nour_3715d24f",
+  "speaker": "nour",
+  "text": "Lucky! The storm passed without damage and you kept collecting data.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "lucas_3715d24f",
+  "speaker": "lucas",
+  "text": "Lucky! The storm passed without damage and you kept collecting data.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "diaa_3715d24f",
+  "speaker": "diaa",
+  "text": "Lucky! The storm passed without damage and you kept collecting data.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "elena_3715d24f",
+  "speaker": "elena",
+  "text": "Lucky! The storm passed without damage and you kept collecting data.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "amara_3715d24f",
+  "speaker": "amara",
+  "text": "Lucky! The storm passed without damage and you kept collecting data.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "hiroshi_3715d24f",
+  "speaker": "hiroshi",
+  "text": "Lucky! The storm passed without damage and you kept collecting data.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "kwame_3715d24f",
+  "speaker": "kwame",
+  "text": "Lucky! The storm passed without damage and you kept collecting data.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "layla_3715d24f",
+  "speaker": "layla",
+  "text": "Lucky! The storm passed without damage and you kept collecting data.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "nour_86ce8475",
+  "speaker": "nour",
+  "text": "A particle strike damaged a detector. Science output is permanently reduced by 30%.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "lucas_86ce8475",
+  "speaker": "lucas",
+  "text": "A particle strike damaged a detector. Science output is permanently reduced by 30%.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "diaa_86ce8475",
+  "speaker": "diaa",
+  "text": "A particle strike damaged a detector. Science output is permanently reduced by 30%.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "elena_86ce8475",
+  "speaker": "elena",
+  "text": "A particle strike damaged a detector. Science output is permanently reduced by 30%.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "amara_86ce8475",
+  "speaker": "amara",
+  "text": "A particle strike damaged a detector. Science output is permanently reduced by 30%.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "hiroshi_86ce8475",
+  "speaker": "hiroshi",
+  "text": "A particle strike damaged a detector. Science output is permanently reduced by 30%.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "kwame_86ce8475",
+  "speaker": "kwame",
+  "text": "A particle strike damaged a detector. Science output is permanently reduced by 30%.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "layla_86ce8475",
+  "speaker": "layla",
+  "text": "A particle strike damaged a detector. Science output is permanently reduced by 30%.",
+  "from": "events.solar_storm.keep_observing"
+ },
+ {
+  "id": "nour_0277aff5",
+  "speaker": "nour",
+  "text": "Cutting the load kept the power budget positive. Engineers keep margins for exactly this.",
+  "from": "events.micrometeoroid.reduce_load"
+ },
+ {
+  "id": "lucas_0277aff5",
+  "speaker": "lucas",
+  "text": "Cutting the load kept the power budget positive. Engineers keep margins for exactly this.",
+  "from": "events.micrometeoroid.reduce_load"
+ },
+ {
+  "id": "diaa_0277aff5",
+  "speaker": "diaa",
+  "text": "Cutting the load kept the power budget positive. Engineers keep margins for exactly this.",
+  "from": "events.micrometeoroid.reduce_load"
+ },
+ {
+  "id": "elena_0277aff5",
+  "speaker": "elena",
+  "text": "Cutting the load kept the power budget positive. Engineers keep margins for exactly this.",
+  "from": "events.micrometeoroid.reduce_load"
+ },
+ {
+  "id": "amara_0277aff5",
+  "speaker": "amara",
+  "text": "Cutting the load kept the power budget positive. Engineers keep margins for exactly this.",
+  "from": "events.micrometeoroid.reduce_load"
+ },
+ {
+  "id": "hiroshi_0277aff5",
+  "speaker": "hiroshi",
+  "text": "Cutting the load kept the power budget positive. Engineers keep margins for exactly this.",
+  "from": "events.micrometeoroid.reduce_load"
+ },
+ {
+  "id": "kwame_0277aff5",
+  "speaker": "kwame",
+  "text": "Cutting the load kept the power budget positive. Engineers keep margins for exactly this.",
+  "from": "events.micrometeoroid.reduce_load"
+ },
+ {
+  "id": "layla_0277aff5",
+  "speaker": "layla",
+  "text": "Cutting the load kept the power budget positive. Engineers keep margins for exactly this.",
+  "from": "events.micrometeoroid.reduce_load"
+ },
+ {
+  "id": "nour_32210f5c",
+  "speaker": "nour",
+  "text": "Your power margin absorbed the hit; full operations continued.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "lucas_32210f5c",
+  "speaker": "lucas",
+  "text": "Your power margin absorbed the hit; full operations continued.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "diaa_32210f5c",
+  "speaker": "diaa",
+  "text": "Your power margin absorbed the hit; full operations continued.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "elena_32210f5c",
+  "speaker": "elena",
+  "text": "Your power margin absorbed the hit; full operations continued.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "amara_32210f5c",
+  "speaker": "amara",
+  "text": "Your power margin absorbed the hit; full operations continued.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "hiroshi_32210f5c",
+  "speaker": "hiroshi",
+  "text": "Your power margin absorbed the hit; full operations continued.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "kwame_32210f5c",
+  "speaker": "kwame",
+  "text": "Your power margin absorbed the hit; full operations continued.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "layla_32210f5c",
+  "speaker": "layla",
+  "text": "Your power margin absorbed the hit; full operations continued.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "nour_d5acf7ad",
+  "speaker": "nour",
+  "text": "Without enough power margin the battery ran flat in the shadow. The spacecraft rebooted and lost 10 days of science.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "lucas_d5acf7ad",
+  "speaker": "lucas",
+  "text": "Without enough power margin the battery ran flat in the shadow. The spacecraft rebooted and lost 10 days of science.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "diaa_d5acf7ad",
+  "speaker": "diaa",
+  "text": "Without enough power margin the battery ran flat in the shadow. The spacecraft rebooted and lost 10 days of science.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "elena_d5acf7ad",
+  "speaker": "elena",
+  "text": "Without enough power margin the battery ran flat in the shadow. The spacecraft rebooted and lost 10 days of science.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "amara_d5acf7ad",
+  "speaker": "amara",
+  "text": "Without enough power margin the battery ran flat in the shadow. The spacecraft rebooted and lost 10 days of science.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "hiroshi_d5acf7ad",
+  "speaker": "hiroshi",
+  "text": "Without enough power margin the battery ran flat in the shadow. The spacecraft rebooted and lost 10 days of science.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "kwame_d5acf7ad",
+  "speaker": "kwame",
+  "text": "Without enough power margin the battery ran flat in the shadow. The spacecraft rebooted and lost 10 days of science.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "layla_d5acf7ad",
+  "speaker": "layla",
+  "text": "Without enough power margin the battery ran flat in the shadow. The spacecraft rebooted and lost 10 days of science.",
+  "from": "events.micrometeoroid.full_ops"
+ },
+ {
+  "id": "nour_57ffaabc",
+  "speaker": "nour",
+  "text": "Renting backup time kept the data flowing. Real missions sign backup agreements for this reason.",
+  "from": "events.ground_outage.rent_backup"
+ },
+ {
+  "id": "lucas_57ffaabc",
+  "speaker": "lucas",
+  "text": "Renting backup time kept the data flowing. Real missions sign backup agreements for this reason.",
+  "from": "events.ground_outage.rent_backup"
+ },
+ {
+  "id": "diaa_57ffaabc",
+  "speaker": "diaa",
+  "text": "Renting backup time kept the data flowing. Real missions sign backup agreements for this reason.",
+  "from": "events.ground_outage.rent_backup"
+ },
+ {
+  "id": "omar_57ffaabc",
+  "speaker": "omar",
+  "text": "Renting backup time kept the data flowing. Real missions sign backup agreements for this reason.",
+  "from": "events.ground_outage.rent_backup"
+ },
+ {
+  "id": "elena_57ffaabc",
+  "speaker": "elena",
+  "text": "Renting backup time kept the data flowing. Real missions sign backup agreements for this reason.",
+  "from": "events.ground_outage.rent_backup"
+ },
+ {
+  "id": "amara_57ffaabc",
+  "speaker": "amara",
+  "text": "Renting backup time kept the data flowing. Real missions sign backup agreements for this reason.",
+  "from": "events.ground_outage.rent_backup"
+ },
+ {
+  "id": "hiroshi_57ffaabc",
+  "speaker": "hiroshi",
+  "text": "Renting backup time kept the data flowing. Real missions sign backup agreements for this reason.",
+  "from": "events.ground_outage.rent_backup"
+ },
+ {
+  "id": "layla_57ffaabc",
+  "speaker": "layla",
+  "text": "Renting backup time kept the data flowing. Real missions sign backup agreements for this reason.",
+  "from": "events.ground_outage.rent_backup"
+ },
+ {
+  "id": "nour_89b01a36",
+  "speaker": "nour",
+  "text": "Memory held the data until contact returned (if your memory was big enough).",
+  "from": "events.ground_outage.wait"
+ },
+ {
+  "id": "lucas_89b01a36",
+  "speaker": "lucas",
+  "text": "Memory held the data until contact returned (if your memory was big enough).",
+  "from": "events.ground_outage.wait"
+ },
+ {
+  "id": "diaa_89b01a36",
+  "speaker": "diaa",
+  "text": "Memory held the data until contact returned (if your memory was big enough).",
+  "from": "events.ground_outage.wait"
+ },
+ {
+  "id": "omar_89b01a36",
+  "speaker": "omar",
+  "text": "Memory held the data until contact returned (if your memory was big enough).",
+  "from": "events.ground_outage.wait"
+ },
+ {
+  "id": "elena_89b01a36",
+  "speaker": "elena",
+  "text": "Memory held the data until contact returned (if your memory was big enough).",
+  "from": "events.ground_outage.wait"
+ },
+ {
+  "id": "amara_89b01a36",
+  "speaker": "amara",
+  "text": "Memory held the data until contact returned (if your memory was big enough).",
+  "from": "events.ground_outage.wait"
+ },
+ {
+  "id": "hiroshi_89b01a36",
+  "speaker": "hiroshi",
+  "text": "Memory held the data until contact returned (if your memory was big enough).",
+  "from": "events.ground_outage.wait"
+ },
+ {
+  "id": "layla_89b01a36",
+  "speaker": "layla",
+  "text": "Memory held the data until contact returned (if your memory was big enough).",
+  "from": "events.ground_outage.wait"
+ },
+ {
+  "id": "nour_c1406e9c",
+  "speaker": "nour",
+  "text": "The spare took over. Carrying a backup (redundancy) saved the mission's pointing.",
+  "from": "events.wheel_failure.spare_wheel"
+ },
+ {
+  "id": "lucas_c1406e9c",
+  "speaker": "lucas",
+  "text": "The spare took over. Carrying a backup (redundancy) saved the mission's pointing.",
+  "from": "events.wheel_failure.spare_wheel"
+ },
+ {
+  "id": "diaa_c1406e9c",
+  "speaker": "diaa",
+  "text": "The spare took over. Carrying a backup (redundancy) saved the mission's pointing.",
+  "from": "events.wheel_failure.spare_wheel"
+ },
+ {
+  "id": "elena_c1406e9c",
+  "speaker": "elena",
+  "text": "The spare took over. Carrying a backup (redundancy) saved the mission's pointing.",
+  "from": "events.wheel_failure.spare_wheel"
+ },
+ {
+  "id": "amara_c1406e9c",
+  "speaker": "amara",
+  "text": "The spare took over. Carrying a backup (redundancy) saved the mission's pointing.",
+  "from": "events.wheel_failure.spare_wheel"
+ },
+ {
+  "id": "hiroshi_c1406e9c",
+  "speaker": "hiroshi",
+  "text": "The spare took over. Carrying a backup (redundancy) saved the mission's pointing.",
+  "from": "events.wheel_failure.spare_wheel"
+ },
+ {
+  "id": "kwame_c1406e9c",
+  "speaker": "kwame",
+  "text": "The spare took over. Carrying a backup (redundancy) saved the mission's pointing.",
+  "from": "events.wheel_failure.spare_wheel"
+ },
+ {
+  "id": "layla_c1406e9c",
+  "speaker": "layla",
+  "text": "The spare took over. Carrying a backup (redundancy) saved the mission's pointing.",
+  "from": "events.wheel_failure.spare_wheel"
+ },
+ {
+  "id": "nour_e85c5a63",
+  "speaker": "nour",
+  "text": "The magnetorquers hold the spacecraft steady, but less precisely.",
+  "from": "events.wheel_failure.magnetorquer_mode"
+ },
+ {
+  "id": "lucas_e85c5a63",
+  "speaker": "lucas",
+  "text": "The magnetorquers hold the spacecraft steady, but less precisely.",
+  "from": "events.wheel_failure.magnetorquer_mode"
+ },
+ {
+  "id": "diaa_e85c5a63",
+  "speaker": "diaa",
+  "text": "The magnetorquers hold the spacecraft steady, but less precisely.",
+  "from": "events.wheel_failure.magnetorquer_mode"
+ },
+ {
+  "id": "elena_e85c5a63",
+  "speaker": "elena",
+  "text": "The magnetorquers hold the spacecraft steady, but less precisely.",
+  "from": "events.wheel_failure.magnetorquer_mode"
+ },
+ {
+  "id": "amara_e85c5a63",
+  "speaker": "amara",
+  "text": "The magnetorquers hold the spacecraft steady, but less precisely.",
+  "from": "events.wheel_failure.magnetorquer_mode"
+ },
+ {
+  "id": "hiroshi_e85c5a63",
+  "speaker": "hiroshi",
+  "text": "The magnetorquers hold the spacecraft steady, but less precisely.",
+  "from": "events.wheel_failure.magnetorquer_mode"
+ },
+ {
+  "id": "kwame_e85c5a63",
+  "speaker": "kwame",
+  "text": "The magnetorquers hold the spacecraft steady, but less precisely.",
+  "from": "events.wheel_failure.magnetorquer_mode"
+ },
+ {
+  "id": "layla_e85c5a63",
+  "speaker": "layla",
+  "text": "The magnetorquers hold the spacecraft steady, but less precisely.",
+  "from": "events.wheel_failure.magnetorquer_mode"
+ },
+ {
+  "id": "nour_71b95495",
+  "speaker": "nour",
+  "text": "The spacecraft wobbles more now, so sharp instruments lose quality.",
+  "from": "events.wheel_failure.accept"
+ },
+ {
+  "id": "lucas_71b95495",
+  "speaker": "lucas",
+  "text": "The spacecraft wobbles more now, so sharp instruments lose quality.",
+  "from": "events.wheel_failure.accept"
+ },
+ {
+  "id": "diaa_71b95495",
+  "speaker": "diaa",
+  "text": "The spacecraft wobbles more now, so sharp instruments lose quality.",
+  "from": "events.wheel_failure.accept"
+ },
+ {
+  "id": "elena_71b95495",
+  "speaker": "elena",
+  "text": "The spacecraft wobbles more now, so sharp instruments lose quality.",
+  "from": "events.wheel_failure.accept"
+ },
+ {
+  "id": "amara_71b95495",
+  "speaker": "amara",
+  "text": "The spacecraft wobbles more now, so sharp instruments lose quality.",
+  "from": "events.wheel_failure.accept"
+ },
+ {
+  "id": "hiroshi_71b95495",
+  "speaker": "hiroshi",
+  "text": "The spacecraft wobbles more now, so sharp instruments lose quality.",
+  "from": "events.wheel_failure.accept"
+ },
+ {
+  "id": "kwame_71b95495",
+  "speaker": "kwame",
+  "text": "The spacecraft wobbles more now, so sharp instruments lose quality.",
+  "from": "events.wheel_failure.accept"
+ },
+ {
+  "id": "layla_71b95495",
+  "speaker": "layla",
+  "text": "The spacecraft wobbles more now, so sharp instruments lose quality.",
+  "from": "events.wheel_failure.accept"
+ },
+ {
+  "id": "lucas_b8f1f718",
+  "speaker": "lucas",
+  "text": "Your reserve absorbed the cut. That is exactly why planners keep one.",
+  "from": "events.budget_cut.pay_reserve"
+ },
+ {
+  "id": "diaa_b8f1f718",
+  "speaker": "diaa",
+  "text": "Your reserve absorbed the cut. That is exactly why planners keep one.",
+  "from": "events.budget_cut.pay_reserve"
+ },
+ {
+  "id": "omar_b8f1f718",
+  "speaker": "omar",
+  "text": "Your reserve absorbed the cut. That is exactly why planners keep one.",
+  "from": "events.budget_cut.pay_reserve"
+ },
+ {
+  "id": "elena_b8f1f718",
+  "speaker": "elena",
+  "text": "Your reserve absorbed the cut. That is exactly why planners keep one.",
+  "from": "events.budget_cut.pay_reserve"
+ },
+ {
+  "id": "amara_b8f1f718",
+  "speaker": "amara",
+  "text": "Your reserve absorbed the cut. That is exactly why planners keep one.",
+  "from": "events.budget_cut.pay_reserve"
+ },
+ {
+  "id": "hiroshi_b8f1f718",
+  "speaker": "hiroshi",
+  "text": "Your reserve absorbed the cut. That is exactly why planners keep one.",
+  "from": "events.budget_cut.pay_reserve"
+ },
+ {
+  "id": "kwame_b8f1f718",
+  "speaker": "kwame",
+  "text": "Your reserve absorbed the cut. That is exactly why planners keep one.",
+  "from": "events.budget_cut.pay_reserve"
+ },
+ {
+  "id": "layla_b8f1f718",
+  "speaker": "layla",
+  "text": "Your reserve absorbed the cut. That is exactly why planners keep one.",
+  "from": "events.budget_cut.pay_reserve"
+ },
+ {
+  "id": "lucas_3a63e76d",
+  "speaker": "lucas",
+  "text": "Ending early saves operations money but costs a year of science.",
+  "from": "events.budget_cut.shorten"
+ },
+ {
+  "id": "diaa_3a63e76d",
+  "speaker": "diaa",
+  "text": "Ending early saves operations money but costs a year of science.",
+  "from": "events.budget_cut.shorten"
+ },
+ {
+  "id": "omar_3a63e76d",
+  "speaker": "omar",
+  "text": "Ending early saves operations money but costs a year of science.",
+  "from": "events.budget_cut.shorten"
+ },
+ {
+  "id": "elena_3a63e76d",
+  "speaker": "elena",
+  "text": "Ending early saves operations money but costs a year of science.",
+  "from": "events.budget_cut.shorten"
+ },
+ {
+  "id": "amara_3a63e76d",
+  "speaker": "amara",
+  "text": "Ending early saves operations money but costs a year of science.",
+  "from": "events.budget_cut.shorten"
+ },
+ {
+  "id": "hiroshi_3a63e76d",
+  "speaker": "hiroshi",
+  "text": "Ending early saves operations money but costs a year of science.",
+  "from": "events.budget_cut.shorten"
+ },
+ {
+  "id": "kwame_3a63e76d",
+  "speaker": "kwame",
+  "text": "Ending early saves operations money but costs a year of science.",
+  "from": "events.budget_cut.shorten"
+ },
+ {
+  "id": "layla_3a63e76d",
+  "speaker": "layla",
+  "text": "Ending early saves operations money but costs a year of science.",
+  "from": "events.budget_cut.shorten"
+ },
+ {
+  "id": "lucas_829b1fa9",
+  "speaker": "lucas",
+  "text": "Cheaper ground stations save money but give fewer contact hours, so less data comes home.",
+  "from": "events.budget_cut.cheaper_ground"
+ },
+ {
+  "id": "diaa_829b1fa9",
+  "speaker": "diaa",
+  "text": "Cheaper ground stations save money but give fewer contact hours, so less data comes home.",
+  "from": "events.budget_cut.cheaper_ground"
+ },
+ {
+  "id": "omar_829b1fa9",
+  "speaker": "omar",
+  "text": "Cheaper ground stations save money but give fewer contact hours, so less data comes home.",
+  "from": "events.budget_cut.cheaper_ground"
+ },
+ {
+  "id": "elena_829b1fa9",
+  "speaker": "elena",
+  "text": "Cheaper ground stations save money but give fewer contact hours, so less data comes home.",
+  "from": "events.budget_cut.cheaper_ground"
+ },
+ {
+  "id": "amara_829b1fa9",
+  "speaker": "amara",
+  "text": "Cheaper ground stations save money but give fewer contact hours, so less data comes home.",
+  "from": "events.budget_cut.cheaper_ground"
+ },
+ {
+  "id": "hiroshi_829b1fa9",
+  "speaker": "hiroshi",
+  "text": "Cheaper ground stations save money but give fewer contact hours, so less data comes home.",
+  "from": "events.budget_cut.cheaper_ground"
+ },
+ {
+  "id": "kwame_829b1fa9",
+  "speaker": "kwame",
+  "text": "Cheaper ground stations save money but give fewer contact hours, so less data comes home.",
+  "from": "events.budget_cut.cheaper_ground"
+ },
+ {
+  "id": "layla_829b1fa9",
+  "speaker": "layla",
+  "text": "Cheaper ground stations save money but give fewer contact hours, so less data comes home.",
+  "from": "events.budget_cut.cheaper_ground"
+ },
+ {
+  "id": "nour_0e08f02a",
+  "speaker": "nour",
+  "text": "The team reloaded the software; one day of science was lost.",
+  "from": "events.computer_reset.reload"
+ },
+ {
+  "id": "lucas_0e08f02a",
+  "speaker": "lucas",
+  "text": "The team reloaded the software; one day of science was lost.",
+  "from": "events.computer_reset.reload"
+ },
+ {
+  "id": "diaa_0e08f02a",
+  "speaker": "diaa",
+  "text": "The team reloaded the software; one day of science was lost.",
+  "from": "events.computer_reset.reload"
+ },
+ {
+  "id": "omar_0e08f02a",
+  "speaker": "omar",
+  "text": "The team reloaded the software; one day of science was lost.",
+  "from": "events.computer_reset.reload"
+ },
+ {
+  "id": "elena_0e08f02a",
+  "speaker": "elena",
+  "text": "The team reloaded the software; one day of science was lost.",
+  "from": "events.computer_reset.reload"
+ },
+ {
+  "id": "amara_0e08f02a",
+  "speaker": "amara",
+  "text": "The team reloaded the software; one day of science was lost.",
+  "from": "events.computer_reset.reload"
+ },
+ {
+  "id": "hiroshi_0e08f02a",
+  "speaker": "hiroshi",
+  "text": "The team reloaded the software; one day of science was lost.",
+  "from": "events.computer_reset.reload"
+ },
+ {
+  "id": "layla_0e08f02a",
+  "speaker": "layla",
+  "text": "The team reloaded the software; one day of science was lost.",
+  "from": "events.computer_reset.reload"
+ },
+ {
+  "id": "nour_0b3bcbc0",
+  "speaker": "nour",
+  "text": "The patch adds memory error checking, so this will not happen again.",
+  "from": "events.computer_reset.patch"
+ },
+ {
+  "id": "lucas_0b3bcbc0",
+  "speaker": "lucas",
+  "text": "The patch adds memory error checking, so this will not happen again.",
+  "from": "events.computer_reset.patch"
+ },
+ {
+  "id": "diaa_0b3bcbc0",
+  "speaker": "diaa",
+  "text": "The patch adds memory error checking, so this will not happen again.",
+  "from": "events.computer_reset.patch"
+ },
+ {
+  "id": "omar_0b3bcbc0",
+  "speaker": "omar",
+  "text": "The patch adds memory error checking, so this will not happen again.",
+  "from": "events.computer_reset.patch"
+ },
+ {
+  "id": "elena_0b3bcbc0",
+  "speaker": "elena",
+  "text": "The patch adds memory error checking, so this will not happen again.",
+  "from": "events.computer_reset.patch"
+ },
+ {
+  "id": "amara_0b3bcbc0",
+  "speaker": "amara",
+  "text": "The patch adds memory error checking, so this will not happen again.",
+  "from": "events.computer_reset.patch"
+ },
+ {
+  "id": "hiroshi_0b3bcbc0",
+  "speaker": "hiroshi",
+  "text": "The patch adds memory error checking, so this will not happen again.",
+  "from": "events.computer_reset.patch"
+ },
+ {
+  "id": "layla_0b3bcbc0",
+  "speaker": "layla",
+  "text": "The patch adds memory error checking, so this will not happen again.",
+  "from": "events.computer_reset.patch"
+ },
+ {
+  "id": "lucas_f08d714d",
+  "speaker": "lucas",
+  "text": "A 2 m/s burn moved you safely aside. Operators perform thousands of these every year.",
+  "from": "events.debris_conjunction.avoid"
+ },
+ {
+  "id": "diaa_f08d714d",
+  "speaker": "diaa",
+  "text": "A 2 m/s burn moved you safely aside. Operators perform thousands of these every year.",
+  "from": "events.debris_conjunction.avoid"
+ },
+ {
+  "id": "omar_f08d714d",
+  "speaker": "omar",
+  "text": "A 2 m/s burn moved you safely aside. Operators perform thousands of these every year.",
+  "from": "events.debris_conjunction.avoid"
+ },
+ {
+  "id": "elena_f08d714d",
+  "speaker": "elena",
+  "text": "A 2 m/s burn moved you safely aside. Operators perform thousands of these every year.",
+  "from": "events.debris_conjunction.avoid"
+ },
+ {
+  "id": "amara_f08d714d",
+  "speaker": "amara",
+  "text": "A 2 m/s burn moved you safely aside. Operators perform thousands of these every year.",
+  "from": "events.debris_conjunction.avoid"
+ },
+ {
+  "id": "hiroshi_f08d714d",
+  "speaker": "hiroshi",
+  "text": "A 2 m/s burn moved you safely aside. Operators perform thousands of these every year.",
+  "from": "events.debris_conjunction.avoid"
+ },
+ {
+  "id": "kwame_f08d714d",
+  "speaker": "kwame",
+  "text": "A 2 m/s burn moved you safely aside. Operators perform thousands of these every year.",
+  "from": "events.debris_conjunction.avoid"
+ },
+ {
+  "id": "layla_f08d714d",
+  "speaker": "layla",
+  "text": "A 2 m/s burn moved you safely aside. Operators perform thousands of these every year.",
+  "from": "events.debris_conjunction.avoid"
+ },
+ {
+  "id": "lucas_0bd55470",
+  "speaker": "lucas",
+  "text": "The debris passed by. The odds were low, but not zero.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "diaa_0bd55470",
+  "speaker": "diaa",
+  "text": "The debris passed by. The odds were low, but not zero.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "omar_0bd55470",
+  "speaker": "omar",
+  "text": "The debris passed by. The odds were low, but not zero.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "elena_0bd55470",
+  "speaker": "elena",
+  "text": "The debris passed by. The odds were low, but not zero.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "amara_0bd55470",
+  "speaker": "amara",
+  "text": "The debris passed by. The odds were low, but not zero.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "hiroshi_0bd55470",
+  "speaker": "hiroshi",
+  "text": "The debris passed by. The odds were low, but not zero.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "kwame_0bd55470",
+  "speaker": "kwame",
+  "text": "The debris passed by. The odds were low, but not zero.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "layla_0bd55470",
+  "speaker": "layla",
+  "text": "The debris passed by. The odds were low, but not zero.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "lucas_c3b8dd7c",
+  "speaker": "lucas",
+  "text": "The debris hit the spacecraft. The mission is over, and the collision created even more debris.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "diaa_c3b8dd7c",
+  "speaker": "diaa",
+  "text": "The debris hit the spacecraft. The mission is over, and the collision created even more debris.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "omar_c3b8dd7c",
+  "speaker": "omar",
+  "text": "The debris hit the spacecraft. The mission is over, and the collision created even more debris.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "elena_c3b8dd7c",
+  "speaker": "elena",
+  "text": "The debris hit the spacecraft. The mission is over, and the collision created even more debris.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "amara_c3b8dd7c",
+  "speaker": "amara",
+  "text": "The debris hit the spacecraft. The mission is over, and the collision created even more debris.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "hiroshi_c3b8dd7c",
+  "speaker": "hiroshi",
+  "text": "The debris hit the spacecraft. The mission is over, and the collision created even more debris.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "kwame_c3b8dd7c",
+  "speaker": "kwame",
+  "text": "The debris hit the spacecraft. The mission is over, and the collision created even more debris.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "layla_c3b8dd7c",
+  "speaker": "layla",
+  "text": "The debris hit the spacecraft. The mission is over, and the collision created even more debris.",
+  "from": "events.debris_conjunction.stay"
+ },
+ {
+  "id": "nour_58bf9c33",
+  "speaker": "nour",
+  "text": "The follow-up produced a bonus result. Flexible plans let missions chase surprises (if your downlink can handle the extra data).",
+  "from": "events.discovery.follow_up"
+ },
+ {
+  "id": "lucas_58bf9c33",
+  "speaker": "lucas",
+  "text": "The follow-up produced a bonus result. Flexible plans let missions chase surprises (if your downlink can handle the extra data).",
+  "from": "events.discovery.follow_up"
+ },
+ {
+  "id": "diaa_58bf9c33",
+  "speaker": "diaa",
+  "text": "The follow-up produced a bonus result. Flexible plans let missions chase surprises (if your downlink can handle the extra data).",
+  "from": "events.discovery.follow_up"
+ },
+ {
+  "id": "omar_58bf9c33",
+  "speaker": "omar",
+  "text": "The follow-up produced a bonus result. Flexible plans let missions chase surprises (if your downlink can handle the extra data).",
+  "from": "events.discovery.follow_up"
+ },
+ {
+  "id": "elena_58bf9c33",
+  "speaker": "elena",
+  "text": "The follow-up produced a bonus result. Flexible plans let missions chase surprises (if your downlink can handle the extra data).",
+  "from": "events.discovery.follow_up"
+ },
+ {
+  "id": "hiroshi_58bf9c33",
+  "speaker": "hiroshi",
+  "text": "The follow-up produced a bonus result. Flexible plans let missions chase surprises (if your downlink can handle the extra data).",
+  "from": "events.discovery.follow_up"
+ },
+ {
+  "id": "kwame_58bf9c33",
+  "speaker": "kwame",
+  "text": "The follow-up produced a bonus result. Flexible plans let missions chase surprises (if your downlink can handle the extra data).",
+  "from": "events.discovery.follow_up"
+ },
+ {
+  "id": "layla_58bf9c33",
+  "speaker": "layla",
+  "text": "The follow-up produced a bonus result. Flexible plans let missions chase surprises (if your downlink can handle the extra data).",
+  "from": "events.discovery.follow_up"
+ },
+ {
+  "id": "nour_822de6d6",
+  "speaker": "nour",
+  "text": "Routine continued. Safe, but the surprise stays a mystery.",
+  "from": "events.discovery.stick_to_plan"
+ },
+ {
+  "id": "lucas_822de6d6",
+  "speaker": "lucas",
+  "text": "Routine continued. Safe, but the surprise stays a mystery.",
+  "from": "events.discovery.stick_to_plan"
+ },
+ {
+  "id": "diaa_822de6d6",
+  "speaker": "diaa",
+  "text": "Routine continued. Safe, but the surprise stays a mystery.",
+  "from": "events.discovery.stick_to_plan"
+ },
+ {
+  "id": "omar_822de6d6",
+  "speaker": "omar",
+  "text": "Routine continued. Safe, but the surprise stays a mystery.",
+  "from": "events.discovery.stick_to_plan"
+ },
+ {
+  "id": "elena_822de6d6",
+  "speaker": "elena",
+  "text": "Routine continued. Safe, but the surprise stays a mystery.",
+  "from": "events.discovery.stick_to_plan"
+ },
+ {
+  "id": "hiroshi_822de6d6",
+  "speaker": "hiroshi",
+  "text": "Routine continued. Safe, but the surprise stays a mystery.",
+  "from": "events.discovery.stick_to_plan"
+ },
+ {
+  "id": "kwame_822de6d6",
+  "speaker": "kwame",
+  "text": "Routine continued. Safe, but the surprise stays a mystery.",
+  "from": "events.discovery.stick_to_plan"
+ },
+ {
+  "id": "layla_822de6d6",
+  "speaker": "layla",
+  "text": "Routine continued. Safe, but the surprise stays a mystery.",
+  "from": "events.discovery.stick_to_plan"
+ },
+ {
+  "id": "nour_123d5982",
+  "speaker": "nour",
+  "text": "Your orbiter recorded the storm from above: a rare dataset. The rovers were sending less anyway.",
+  "from": "events.dust_storm.observe"
+ },
+ {
+  "id": "lucas_123d5982",
+  "speaker": "lucas",
+  "text": "Your orbiter recorded the storm from above: a rare dataset. The rovers were sending less anyway.",
+  "from": "events.dust_storm.observe"
+ },
+ {
+  "id": "diaa_123d5982",
+  "speaker": "diaa",
+  "text": "Your orbiter recorded the storm from above: a rare dataset. The rovers were sending less anyway.",
+  "from": "events.dust_storm.observe"
+ },
+ {
+  "id": "omar_123d5982",
+  "speaker": "omar",
+  "text": "Your orbiter recorded the storm from above: a rare dataset. The rovers were sending less anyway.",
+  "from": "events.dust_storm.observe"
+ },
+ {
+  "id": "elena_123d5982",
+  "speaker": "elena",
+  "text": "Your orbiter recorded the storm from above: a rare dataset. The rovers were sending less anyway.",
+  "from": "events.dust_storm.observe"
+ },
+ {
+  "id": "hiroshi_123d5982",
+  "speaker": "hiroshi",
+  "text": "Your orbiter recorded the storm from above: a rare dataset. The rovers were sending less anyway.",
+  "from": "events.dust_storm.observe"
+ },
+ {
+  "id": "kwame_123d5982",
+  "speaker": "kwame",
+  "text": "Your orbiter recorded the storm from above: a rare dataset. The rovers were sending less anyway.",
+  "from": "events.dust_storm.observe"
+ },
+ {
+  "id": "layla_123d5982",
+  "speaker": "layla",
+  "text": "Your orbiter recorded the storm from above: a rare dataset. The rovers were sending less anyway.",
+  "from": "events.dust_storm.observe"
+ },
+ {
+  "id": "nour_8e06aac7",
+  "speaker": "nour",
+  "text": "You kept the relay channel ready, but most rovers were asleep to save power.",
+  "from": "events.dust_storm.relay_focus"
+ },
+ {
+  "id": "lucas_8e06aac7",
+  "speaker": "lucas",
+  "text": "You kept the relay channel ready, but most rovers were asleep to save power.",
+  "from": "events.dust_storm.relay_focus"
+ },
+ {
+  "id": "diaa_8e06aac7",
+  "speaker": "diaa",
+  "text": "You kept the relay channel ready, but most rovers were asleep to save power.",
+  "from": "events.dust_storm.relay_focus"
+ },
+ {
+  "id": "omar_8e06aac7",
+  "speaker": "omar",
+  "text": "You kept the relay channel ready, but most rovers were asleep to save power.",
+  "from": "events.dust_storm.relay_focus"
+ },
+ {
+  "id": "elena_8e06aac7",
+  "speaker": "elena",
+  "text": "You kept the relay channel ready, but most rovers were asleep to save power.",
+  "from": "events.dust_storm.relay_focus"
+ },
+ {
+  "id": "hiroshi_8e06aac7",
+  "speaker": "hiroshi",
+  "text": "You kept the relay channel ready, but most rovers were asleep to save power.",
+  "from": "events.dust_storm.relay_focus"
+ },
+ {
+  "id": "kwame_8e06aac7",
+  "speaker": "kwame",
+  "text": "You kept the relay channel ready, but most rovers were asleep to save power.",
+  "from": "events.dust_storm.relay_focus"
+ },
+ {
+  "id": "layla_8e06aac7",
+  "speaker": "layla",
+  "text": "You kept the relay channel ready, but most rovers were asleep to save power.",
+  "from": "events.dust_storm.relay_focus"
+ },
+ {
+  "id": "nour_53111b1a",
+  "speaker": "nour",
+  "text": "Saving power in the shadow protects the aging battery.",
+  "from": "events.battery_aging.eclipse_saving"
+ },
+ {
+  "id": "lucas_53111b1a",
+  "speaker": "lucas",
+  "text": "Saving power in the shadow protects the aging battery.",
+  "from": "events.battery_aging.eclipse_saving"
+ },
+ {
+  "id": "diaa_53111b1a",
+  "speaker": "diaa",
+  "text": "Saving power in the shadow protects the aging battery.",
+  "from": "events.battery_aging.eclipse_saving"
+ },
+ {
+  "id": "elena_53111b1a",
+  "speaker": "elena",
+  "text": "Saving power in the shadow protects the aging battery.",
+  "from": "events.battery_aging.eclipse_saving"
+ },
+ {
+  "id": "amara_53111b1a",
+  "speaker": "amara",
+  "text": "Saving power in the shadow protects the aging battery.",
+  "from": "events.battery_aging.eclipse_saving"
+ },
+ {
+  "id": "hiroshi_53111b1a",
+  "speaker": "hiroshi",
+  "text": "Saving power in the shadow protects the aging battery.",
+  "from": "events.battery_aging.eclipse_saving"
+ },
+ {
+  "id": "kwame_53111b1a",
+  "speaker": "kwame",
+  "text": "Saving power in the shadow protects the aging battery.",
+  "from": "events.battery_aging.eclipse_saving"
+ },
+ {
+  "id": "layla_53111b1a",
+  "speaker": "layla",
+  "text": "Saving power in the shadow protects the aging battery.",
+  "from": "events.battery_aging.eclipse_saving"
+ },
+ {
+  "id": "nour_f256e76a",
+  "speaker": "nour",
+  "text": "The battery still had enough capacity; operations continued.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "lucas_f256e76a",
+  "speaker": "lucas",
+  "text": "The battery still had enough capacity; operations continued.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "diaa_f256e76a",
+  "speaker": "diaa",
+  "text": "The battery still had enough capacity; operations continued.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "elena_f256e76a",
+  "speaker": "elena",
+  "text": "The battery still had enough capacity; operations continued.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "amara_f256e76a",
+  "speaker": "amara",
+  "text": "The battery still had enough capacity; operations continued.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "hiroshi_f256e76a",
+  "speaker": "hiroshi",
+  "text": "The battery still had enough capacity; operations continued.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "kwame_f256e76a",
+  "speaker": "kwame",
+  "text": "The battery still had enough capacity; operations continued.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "layla_f256e76a",
+  "speaker": "layla",
+  "text": "The battery still had enough capacity; operations continued.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "nour_d6100471",
+  "speaker": "nour",
+  "text": "The battery ran out in eclipse and the spacecraft spent 15 days in emergency safe mode.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "lucas_d6100471",
+  "speaker": "lucas",
+  "text": "The battery ran out in eclipse and the spacecraft spent 15 days in emergency safe mode.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "diaa_d6100471",
+  "speaker": "diaa",
+  "text": "The battery ran out in eclipse and the spacecraft spent 15 days in emergency safe mode.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "elena_d6100471",
+  "speaker": "elena",
+  "text": "The battery ran out in eclipse and the spacecraft spent 15 days in emergency safe mode.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "amara_d6100471",
+  "speaker": "amara",
+  "text": "The battery ran out in eclipse and the spacecraft spent 15 days in emergency safe mode.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "hiroshi_d6100471",
+  "speaker": "hiroshi",
+  "text": "The battery ran out in eclipse and the spacecraft spent 15 days in emergency safe mode.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "kwame_d6100471",
+  "speaker": "kwame",
+  "text": "The battery ran out in eclipse and the spacecraft spent 15 days in emergency safe mode.",
+  "from": "events.battery_aging.push_on"
+ },
+ {
+  "id": "layla_d6100471",
+  "speaker": "layla",
+  "text": "The battery ran out in eclipse and the spacecraft spent 15 days in emergency safe mode.",
+  "from": "events.battery_aging.push_on"
+ }
+]

@@ -262,7 +262,7 @@ function CommsTab({ can }: { can: boolean }) {
   const canPoint = adcs.pointingDeg <= k.hga.maxPointingDeg;
   return (
     <>
-      {dr && dr.severity !== 'pass' && tip && <Speech speaker={tip.speaker} expr="worried" text={tip.text} />}
+      {dr && dr.severity !== 'pass' && tip && <Speech speaker={tip.speaker} expr="worried" text={tip.text} voiceOnce={`priya:${s.meta.seed}:${s.meta.attempt ?? 0}`} />}
       <div className="section" data-tutorial="radio-cards">
         <h3>Radio <Help id="data_rate" /></h3>
         <div className="cards parts">
