@@ -23,7 +23,7 @@ export function Title() {
     ['Play Solo', '/solo', true],
     ['Agency Career', '/career'],
     ...(online ? [['Create Team Room', '/room/new'], ['Join Room', '/join']] as [string, string][] : [['Team Mode (same screen)', '/solo']] as [string, string][]),
-    ['Mission Academy', '/academy'], ['Saved & Compare', '/saved'], ['Leaderboard', '/leaderboard'], ['Settings', '/settings'], ['Credits', '/credits'],
+    ['Mission Academy', '/academy'], ['Saved & Compare', '/saved'], ['Leaderboard', '/leaderboard'], ['Settings', '/settings'], ['Credits', '/credits'], ['Idea Lab', '/lab'],
   ];
   return (
     <main className="screen bgcover" style={{ backgroundImage: `url(${bg('bg_title')})`, position: 'relative', overflow: 'hidden' }}>

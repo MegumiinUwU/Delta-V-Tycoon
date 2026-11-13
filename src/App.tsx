@@ -5,6 +5,7 @@ import { getCatalog } from './core';
 import { navigate, useRoute } from './router';
 import { startDiscoveryTracking } from './state/discoveries';
 import { useGame } from './state/store';
+import { Lab } from './lab/Lab';
 import { ErrorBoundary, GlossaryDrawer, Loading, Toasts } from './ui/components/common';
 import { Title } from './ui/screens/Title';
 
@@ -144,6 +145,8 @@ export function App() {
     case '/leaderboard': screen = <Leaderboard />; break;
     case '/settings': screen = <SettingsScreen />; break;
     case '/credits': screen = <Credits />; break;
+    case '/lab': screen = <Lab />; break;
+    case '/lab/:id': screen = <Lab id={route.params.id} />; break;
     default: screen = <Title />;
   }
   return (

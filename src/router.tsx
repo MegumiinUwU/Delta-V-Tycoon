@@ -5,7 +5,7 @@ import { firebaseConfigured } from './net/firebaseConfig';
 export interface Route { path: string; params: Record<string, string>; query: URLSearchParams }
 
 const PATTERNS = ['/', '/solo', '/room/new', '/room/:code', '/join', '/join/:code', '/play', '/academy', '/academy/:id',
-  '/saved', '/career', '/design/:code', '/leaderboard', '/settings', '/credits'];
+  '/saved', '/career', '/design/:code', '/leaderboard', '/settings', '/credits', '/lab', '/lab/:id'];
 
 export function parseHash(hash: string): Route {
   const raw = hash.replace(/^#/, '') || '/';

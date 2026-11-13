@@ -35,6 +35,16 @@ Short version of the team brief, Part A §A4–A7 (v1.1, 13 Nov 2026). The full 
 | Sandbox | No budget limit, all components unlocked, events optional | P1 |
 | Agency career ("Tycoon") | Play scenarios in order; reputation raises the next budget | P2 |
 
+### Idea Lab (prototypes, `#/lab`)
+
+Experiments that try ideas from player and community feedback without touching the core contract. All of them use the game's own crew, art and rules.
+
+| Prototype | Idea it tries |
+| --- | --- |
+| Crew cabin (hub) | A themed room: wooden furniture, pines on the walls, the game's solar system on the ceiling; flown missions light up |
+| Orbit poem | A keepsake of magnet lines; a game rule drives the art (lines drift at every loss of signal, two pins hold) |
+| Crew shorts | Four-panel comics about the crew's lives |
+
 ## 4. Roles (every mission has all four)
 
 | Role | Segment | Owns (design) | Owns (events) | Role goal (15 pts) |
