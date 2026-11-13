@@ -15,7 +15,7 @@ Every asset in the game, who made it and how. Generative tools are disclosed as 
 
 | Assets | Made by | How |
 | --- | --- | --- |
-| `public/assets/audio/voice_miku.wav` | Team with Claude (Anthropic) | Original synthesised chime for Miku's hover, not her voice |
+| `public/assets/audio/voice_miku.wav`, `voice_teto.wav`, `voice_neru.wav` | Team with Claude (Anthropic) | Original hover voices sung by a small formant synthesiser in `scripts/audio/crew_voices.py` (no samples, no voicebanks, no AI model) |
 | `public/assets/audio/sfx_*.mp3` (9) | Team with Claude (Anthropic) | Synthesised from square/sine waves and noise in `scripts/art/sfx.py` |
 | `public/assets/audio/music_menu.mp3`, `music_ops.mp3` | Team with Claude (Anthropic) | Chiptune loops synthesised in `scripts/art/music_chip.py` (no samples, no AI model). An ACE-Step 1.5 (MIT, AI music model) version can be generated with `scripts/art/music_acestep.py`; if it replaces these files, this row must say so |
 

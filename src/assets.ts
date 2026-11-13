@@ -15,6 +15,7 @@ export const sc = (name: string) => `${B}sc/${name}.png`;
 export const fx = (name: string) => `${B}fx/${name}.png`;
 export const ui = (name: string) => `${B}ui/${name}.png`;
 export const audio = (name: string) => `${B}audio/${name}.mp3`;
+export const audioFile = (file: string) => `${B}audio/${file}`;
 export const orbitIcon = (orbitId: string) => itemIcon(`orbit_${orbitId}`);
 export const groundIcon = (id: string) => itemIcon(`gs_${id}`);
 export const vehicleIcon = (id: string) => itemIcon(`lv_${id}`);

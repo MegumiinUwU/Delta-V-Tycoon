@@ -1,5 +1,5 @@
 // Sound manager: small pool per sound, respects mute/volume, ignores missing files and autoplay errors.
-import { audio } from '../assets';
+import { audio, audioFile } from '../assets';
 
 export type Sfx = 'sfx_click' | 'sfx_hover' | 'sfx_success' | 'sfx_fail' | 'sfx_warning' | 'sfx_launch' | 'sfx_event'
   | 'sfx_signoff' | 'sfx_coin';
@@ -48,35 +48,69 @@ export function playMusic(name: Music | null): void {
   music = a;
 }
 
-/** Characters that have a voice clip in assets/audio/voice_<id>.(mp3|wav). */
-export const VOICED = new Set(['miku']);
-const voiceSrc = new Map<string, string>();
-let voicePlaying: HTMLAudioElement | null = null;
-
 /**
- * Plays a character's voice clip (e.g. on hover). Prefers voice_<id>.mp3 and falls back to .wav, so a real clip can
- * be dropped in later without code changes. Ignored when muted, before the first user gesture, or if no file exists.
+ * Character hover voices, played through Web Audio so they start instantly: the files are fetched once (on the first
+ * user gesture), decoded once, and every hover just starts a ready buffer. To swap in a licensed clip, replace the
+ * file and, if its format changes, the file name here.
  */
+export const VOICE_FILES: Record<string, string> = { miku: 'voice_miku.wav', teto: 'voice_teto.wav', neru: 'voice_neru.wav' };
+export const VOICED = new Set(Object.keys(VOICE_FILES));
+let ctx: AudioContext | null = null;
+const voiceBuffers = new Map<string, AudioBuffer | null>();   // null = failed to load: stay silent
+let voiceNow: { id: string; src: AudioBufferSourceNode; gain: GainNode } | null = null;
+
+function audioContext(): AudioContext | null {
+  if (!ctx) {
+    const AC = typeof window !== 'undefined' ? (window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext) : undefined;
+    if (!AC) return null;
+    ctx = new AC();
+  }
+  if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+  return ctx;
+}
+
+function loadVoices(): void {
+  const c = audioContext();
+  if (!c) return;
+  for (const [id, file] of Object.entries(VOICE_FILES)) {
+    if (voiceBuffers.has(id)) continue;
+    voiceBuffers.set(id, null);
+    fetch(audioFile(file))
+      .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(String(r.status)))))
+      .then((data) => c.decodeAudioData(data))
+      .then((buf) => voiceBuffers.set(id, buf))
+      .catch(() => { /* missing or undecodable: this character stays silent */ });
+  }
+}
+
+/** Plays a character's voice (e.g. on hover). Switching to another character cuts the previous one short with a
+ *  quick fade; hovering the same character again while it is still talking does nothing. */
 export function playVoice(id: string): void {
-  if (muted || !unlocked || !VOICED.has(id) || typeof Audio === 'undefined') return;
-  if (voicePlaying && !voicePlaying.paused) return;          // don't stack while one is still playing
-  const tryPlay = (src: string, fallback?: string) => {
-    const a = new Audio(src);
-    a.volume = volume;
-    a.addEventListener('error', () => { if (fallback) tryPlay(fallback); else voiceSrc.set(id, ''); }, { once: true });
-    a.addEventListener('canplay', () => voiceSrc.set(id, src), { once: true });
-    a.play().catch(() => {});
-    voicePlaying = a;
-  };
-  const known = voiceSrc.get(id);
-  if (known === '') return;
-  const base = audio(`voice_${id}`).replace(/\.mp3$/, '');
-  if (known) tryPlay(known); else tryPlay(`${base}.mp3`, `${base}.wav`);
+  if (muted || !unlocked || !VOICED.has(id)) return;
+  const c = audioContext();
+  const buf = voiceBuffers.get(id);
+  if (!c || !buf) return;
+  if (voiceNow) {
+    if (voiceNow.id === id) return;
+    const old = voiceNow;
+    old.gain.gain.setTargetAtTime(0, c.currentTime, 0.015);
+    try { old.src.stop(c.currentTime + 0.08); } catch { /* already stopped */ }
+  }
+  const src = c.createBufferSource();
+  const gain = c.createGain();
+  gain.gain.value = volume;
+  src.buffer = buf;
+  src.connect(gain).connect(c.destination);
+  const now = { id, src, gain };
+  src.onended = () => { if (voiceNow === now) voiceNow = null; };
+  src.start();
+  voiceNow = now;
 }
 
 /** Browsers only allow audio after a user gesture: called once from the first click. */
 export function unlockAudio(): void {
   if (unlocked) return;
   unlocked = true;
+  loadVoices();
   if (wantedMusic) playMusic(wantedMusic);
 }

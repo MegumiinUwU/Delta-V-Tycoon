@@ -5,7 +5,8 @@ scripts/art/source/chibi_<id>.png hold the three sprites exactly as sent, recove
 background made transparent). Nothing is redrawn: every game file is those pixels, placed and scaled by whole
 numbers only.
 
-  sprite_<id>_idle.png  128x48  4 frames of 32x48, sprite at 1x on the frame floor, 1 px breathing bob on frames 2 and 4
+  sprite_<id>_idle.png  128x48  4 frames of 32x48, sprite at 1x on the frame floor; frames 2-3 breathe (upper body
+                                1 px down, feet planted), the same 0-1-1-0 rhythm as the rest of the crew
   sprite_<id>_suit.png   64x48  2 frames, the same sprite (these characters have no flight-suit art)
   portrait_<id>_<expr>.png 64x64  bust (head and shoulders) at 3x, centred on the face; the same for all three expressions
 
@@ -21,9 +22,21 @@ OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE.parent.parent / 'public' 
 IDS = ['teto', 'miku', 'neru']
 
 
-def frame(spr: Image.Image, w: int, h: int, dy: int = 0) -> Image.Image:
+FEET = 4  # bottom rows that stay planted while the upper body breathes
+
+
+def breathe(spr: Image.Image) -> Image.Image:
+    """Upper body 1 px down, feet unchanged (the top feet row is covered by the body's last row)."""
+    out = Image.new('RGBA', spr.size, (0, 0, 0, 0))
+    cut = spr.height - FEET
+    out.alpha_composite(spr.crop((0, cut, spr.width, spr.height)), (0, cut))
+    out.alpha_composite(spr.crop((0, 0, spr.width, cut)), (0, 1))
+    return out
+
+
+def frame(spr: Image.Image, w: int, h: int) -> Image.Image:
     f = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    f.alpha_composite(spr, ((w - spr.width) // 2, h - spr.height - 1 + dy))
+    f.alpha_composite(spr, ((w - spr.width) // 2, h - spr.height - 1))
     return f
 
 
@@ -55,7 +68,7 @@ def portrait(spr: Image.Image) -> Image.Image:
 for cid in IDS:
     spr = Image.open(HERE / 'source' / f'chibi_{cid}.png').convert('RGBA')
     assert spr.width <= 32 and spr.height <= 47, (cid, spr.size)
-    strip([frame(spr, 32, 48, d) for d in (0, 1, 0, 1)]).save(OUT / f'sprite_{cid}_idle.png')
+    strip([frame(s, 32, 48) for s in (spr, breathe(spr), breathe(spr), spr)]).save(OUT / f'sprite_{cid}_idle.png')
     strip([frame(spr, 32, 48), frame(spr, 32, 48)]).save(OUT / f'sprite_{cid}_suit.png')
     p = portrait(spr)
     for expr in ('neutral', 'happy', 'worried'):
