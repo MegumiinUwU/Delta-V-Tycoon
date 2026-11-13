@@ -3,10 +3,12 @@ import { bg, portrait, preload, scenarioArt, ui } from './assets';
 import { playMusic, unlockAudio } from './audio/sound';
 import { getCatalog } from './core';
 import { navigate, useRoute } from './router';
+import { startDiscoveryTracking } from './state/discoveries';
 import { useGame } from './state/store';
 import { ErrorBoundary, GlossaryDrawer, Loading, Toasts } from './ui/components/common';
 import { TopBar } from './ui/components/TopBar';
 import { Briefing } from './ui/screens/Briefing';
+import { Career } from './ui/screens/Career';
 import { Council } from './ui/screens/Council';
 import { DesignWorkshop } from './ui/screens/Design';
 import { LaunchScreen, OpsScreen } from './ui/screens/LaunchOps';
@@ -62,6 +64,7 @@ function PhaseShell({ code }: { code?: string }) {
 }
 
 export function App() {
+  useEffect(() => startDiscoveryTracking(), []);
   const route = useRoute();
   const settings = useGame((g) => g.settings);
   const [loaded, setLoaded] = useState(0);
@@ -95,6 +98,7 @@ export function App() {
     case '/academy': screen = <Academy />; break;
     case '/academy/:id': screen = <Academy focus={route.params.id} />; break;
     case '/saved': screen = <Saved />; break;
+    case '/career': screen = <Career />; break;
     case '/design/:code': screen = <OpenDesign code={route.params.code} />; break;
     case '/leaderboard': screen = <Leaderboard />; break;
     case '/settings': screen = <SettingsScreen />; break;

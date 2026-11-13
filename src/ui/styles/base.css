@@ -203,3 +203,8 @@ details.more > summary { cursor: pointer; color: var(--muted); padding: 6px 0; }
 details.more > summary:hover { color: var(--gold); }
 img.portrait, .scen img, .tile img { image-rendering: pixelated; }
 .card.part .ribbon { position: static; align-self: flex-start; font-size: 0.75em; display: inline-flex; align-items: center; gap: 2px; }
+
+/* Opening breadcrumb (Next step) */
+.nextstep { display: flex; align-items: center; gap: 8px; padding: 4px 8px; background: #262b44; border: 2px solid var(--border);
+  border-left: 4px solid var(--gold); }
+.nextstep b { font-weight: normal; color: var(--text); }

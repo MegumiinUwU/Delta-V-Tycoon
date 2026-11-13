@@ -13,5 +13,7 @@ export interface Settings { volume: number; muted: boolean; textScale: 1 | 1.25 
 const prefersReduced = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 export const DEFAULT_SETTINGS: Settings = { volume: 0.7, muted: false, textScale: 1, reducedMotion: prefersReduced };
 export interface SavedDesign { name: string; code: string; at: number; score?: number }
-export interface Attempt { at: number; score: number; designCode: string }
+export interface Attempt { at: number; score: number; designCode: string;
+  // added for attempt history (F-15); older saved attempts may lack them
+  scenarioId?: string; difficulty?: string; stars?: number; outcomeClass?: string }
 export const KEYS = { settings: 'dvt.settings', attempts: 'dvt.attempts', saved: 'dvt.saved', tutorial: 'dvt.tutorialDone' } as const;

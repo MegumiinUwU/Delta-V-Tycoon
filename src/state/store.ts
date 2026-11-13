@@ -7,6 +7,7 @@ import {
 } from '../core';
 import { createLocalRoom, createOnlineRoom, currentDecisions, joinOnlineRoom, type RoomApi, type RoomState } from '../net/roomApi';
 import { navigate } from '../router';
+import { recordCareerFlight } from './career';
 import { DEFAULT_SETTINGS, KEYS, load, save, type Attempt, type Settings } from './storage';
 
 export interface Toast { id: number; text: string; kind: 'info' | 'warn' | 'good' | 'bad'; action?: { label: string; run: () => void }[] }
@@ -22,6 +23,8 @@ interface GameStore {
   activeRole: Role; hover: Budgets | null; toasts: Toast[]; glossaryId: string | null; reviewOpen: boolean;
   requirementsOpen: boolean; briefingDone: boolean; failChecksAtLaunch: number; connected: boolean; chatOpen: boolean;
   chatSeen: number; tradeOpen: boolean; flash: string | null;
+  /** true while flying a mission started from the Agency career screen (F-31) */
+  career: boolean;
   // actions
   startSolo(o: StartOpts, design?: Design): void;
   createRoom(o: StartOpts): Promise<void>;
@@ -113,7 +116,7 @@ export const useGame = create<GameStore>((set, get) => {
   const attach = (room: RoomApi) => {
     unsub?.();
     memoKey = '';
-    set({ room, sim: null, score: null, briefingDone: false, activeRole: 'planner', reviewOpen: false, toasts: [], chatSeen: 0 });
+    set({ room, sim: null, score: null, briefingDone: false, activeRole: 'planner', reviewOpen: false, toasts: [], chatSeen: 0, career: false });
     unsub = room.subscribe(onState);
   };
 
@@ -121,7 +124,7 @@ export const useGame = create<GameStore>((set, get) => {
     room: null, state: null, budgets: null, checks: [], sim: null, simTick: 0, simSpeed: 1, paused: false, score: null,
     attempts: load<Attempt[]>(KEYS.attempts, []), settings,
     activeRole: 'planner', hover: null, toasts: [], glossaryId: null, reviewOpen: false, requirementsOpen: false,
-    briefingDone: false, failChecksAtLaunch: 0, connected: true, chatOpen: false, chatSeen: 0, tradeOpen: false, flash: null,
+    briefingDone: false, failChecksAtLaunch: 0, connected: true, chatOpen: false, chatSeen: 0, tradeOpen: false, flash: null, career: false,
 
     startSolo(o, design) {
       const room = createLocalRoom(o);
@@ -162,9 +165,14 @@ export const useGame = create<GameStore>((set, get) => {
       const reviewDone = state.reviewDone || Object.values(state.signoffs).every(Boolean);
       const score = scoreMission(input, sim.result(), { reviewDone, failChecksAtLaunch });
       const designCode = encodeDesign({ v: 1, ...input, teamName: state.meta.teamName, decisions: currentDecisions(state) });
-      const attempts = [...get().attempts, { at: Date.now(), score: score.total, designCode }].slice(-50);
+      const attempts = [...get().attempts, { at: Date.now(), score: score.total, designCode, scenarioId: input.scenarioId,
+        difficulty: input.difficulty, stars: score.stars, outcomeClass: score.outcomeClass }].slice(-50);
       save(KEYS.attempts, attempts);
       set({ score, attempts });
+      if (get().career) {
+        const unlocked = recordCareerFlight(input.scenarioId, score);
+        if (unlocked) get().toast('Career: a new mission is unlocked!', 'good', [{ label: 'Career', run: () => navigate('/career') }]);
+      }
       if (room && room.myUid === state.meta.hostUid && room.mode === 'online')
         room.setResult({ score: score.total, stars: score.stars, outcome: sim.result().outcome, designCode, at: Date.now() }).catch(() => {});
     },
