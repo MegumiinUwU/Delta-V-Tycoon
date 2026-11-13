@@ -1,10 +1,11 @@
 // Tiny hash router: refresh never 404s on GitHub Pages.
 import { useEffect, useState } from 'react';
+import { firebaseConfigured } from './net/firebaseConfig';
 
 export interface Route { path: string; params: Record<string, string>; query: URLSearchParams }
 
 const PATTERNS = ['/', '/solo', '/room/new', '/room/:code', '/join', '/join/:code', '/play', '/academy', '/academy/:id',
-  '/saved', '/design/:code', '/leaderboard', '/settings', '/credits'];
+  '/saved', '/career', '/design/:code', '/leaderboard', '/settings', '/credits'];
 
 export function parseHash(hash: string): Route {
   const raw = hash.replace(/^#/, '') || '/';
@@ -38,9 +39,12 @@ export function useRoute(): Route {
 export function navigate(path: string): void { location.hash = path; }
 
 /**
- * Online cutoff rule (A16): build with VITE_ONLINE=off to hide the online buttons; they come back with ?online=1.
+ * Online cutoff rule (A16): online buttons are hidden with VITE_ONLINE=off or while Firebase is unconfigured;
+ * ?online=1 shows them anyway (for testing).
  */
 export function onlineEnabled(): boolean {
-  if (import.meta.env.VITE_ONLINE !== 'off') return true;
-  return new URLSearchParams(location.search).get('online') === '1' || location.hash.includes('online=1');
+  const forced = new URLSearchParams(location.search).get('online') === '1' || location.hash.includes('online=1');
+  // Cutoff rule (A16): hidden when the build says so, or automatically while Firebase is not configured yet.
+  if (import.meta.env.VITE_ONLINE === 'off' || !firebaseConfigured) return forced;
+  return true;
 }

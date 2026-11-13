@@ -13,6 +13,7 @@ export function Title() {
   const crew = getCatalog().characters.map((c) => c.id);
   const items: [string, string, boolean?][] = [
     ['Play Solo', '/solo', true],
+    ['Agency Career', '/career'],
     ...(online ? [['Create Team Room', '/room/new'], ['Join Room', '/join']] as [string, string][] : [['Team Mode (same screen)', '/solo']] as [string, string][]),
     ['Mission Academy', '/academy'], ['Saved & Compare', '/saved'], ['Leaderboard', '/leaderboard'], ['Settings', '/settings'], ['Credits', '/credits'],
   ];
@@ -24,11 +25,11 @@ export function Title() {
           Design, launch and fly a space mission. Every choice has a consequence.
         </p>
         <nav className="col" style={{ width: 340, gap: 10 }} aria-label="Main menu">
-          {items.slice(0, online ? 3 : 2).map(([label, path, primary]) => (
+          {items.slice(0, online ? 4 : 3).map(([label, path, primary]) => (
             <button key={label} className={`btn big ${primary ? 'gold' : ''}`} onClick={() => navigate(path)}>{label}</button>
           ))}
           <div className="row center wrap" style={{ gap: 4 }}>
-            {items.slice(online ? 3 : 2).map(([label, path]) => (
+            {items.slice(online ? 4 : 3).map(([label, path]) => (
               <button key={label} className="btn small" onClick={() => navigate(path)}>{label.replace('Mission ', '').replace(' & Compare', '')}</button>
             ))}
           </div>

@@ -3,6 +3,7 @@ import { icon, idleSprite, portrait, type Expr } from '../../assets';
 import { play } from '../../audio/sound';
 import { getCatalog, type DialogLine, type Role, type Severity } from '../../core';
 import { navigate } from '../../router';
+import { useDiscoveries } from '../../state/discoveries';
 import { useGame } from '../../state/store';
 
 export const ROLE_COLOR: Record<Role, string> = {
@@ -155,9 +156,11 @@ export function GlossaryCard({ id, onOpen }: { id: string; onOpen?: (id: string)
   const g = getCatalog().glossary.find((x) => x.id === id);
   if (!g) return <p className="dim">No glossary entry "{id}".</p>;
   const all = getCatalog().glossary;
+  const found = useDiscoveries();
   return (
     <article className="panel dark col" id={`g-${g.id}`}>
-      <h3 className="gold">{g.term} <span className="chip">{g.category}</span></h3>
+      <h3 className="gold">{g.term} <span className="chip">{g.category}</span>
+        {found.has(g.id) && <span className="chip pass" title="You met this concept in a mission">✓ discovered</span>}</h3>
       <p><strong>{g.short}</strong></p>
       <p className="muted">{g.long}</p>
       {g.example && <p className="small"><span className="gold">Example: </span>{g.example}</p>}
@@ -166,7 +169,7 @@ export function GlossaryCard({ id, onOpen }: { id: string; onOpen?: (id: string)
           <span className="dim">Related:</span>
           {g.related.map((r) => {
             const t = all.find((x) => x.id === r);
-            return t ? <button key={r} className="btn small ghost" onClick={() => onOpen?.(r)}>{t.term}</button> : null;
+            return t ? <button key={r} className="btn small ghost" onClick={() => onOpen?.(r)}>{found.has(r) ? '✓ ' : ''}{t.term}</button> : null;
           })}
         </div>
       )}

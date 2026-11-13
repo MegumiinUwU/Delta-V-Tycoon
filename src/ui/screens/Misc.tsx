@@ -6,6 +6,7 @@ import { getScenario } from '../../core/catalog';
 import { listLocal, listOnline, type LeaderboardEntry } from '../../net/leaderboard';
 import { navigate, onlineEnabled } from '../../router';
 import { KEYS, load, save, type SavedDesign } from '../../state/storage';
+import { useDiscoveries } from '../../state/discoveries';
 import { useGame } from '../../state/store';
 import { GlossaryCard, Portrait, Stars, Speech } from '../components/common';
 
@@ -24,12 +25,23 @@ const CATS: [GlossaryEntry['category'] | 'all', string][] = [['all', 'All'], ['o
 export function Academy({ focus }: { focus?: string }) {
   const [q, setQ] = useState('');
   const [cat, setCat] = useState<string>('all');
+  const [only, setOnly] = useState<'all' | 'found' | 'new'>('all');
+  const found = useDiscoveries();
+  const total = getCatalog().glossary.length;
   const list = getCatalog().glossary.filter((g) => (cat === 'all' || g.category === cat)
+    && (only === 'all' || (only === 'found') === found.has(g.id))
     && (!q || `${g.term} ${g.short} ${g.long}`.toLowerCase().includes(q.toLowerCase())));
   useEffect(() => { if (focus) document.getElementById(`g-${focus}`)?.scrollIntoView(); }, [focus]);
   return (
     <Page title="Mission Academy">
+      <section className="panel dark col" aria-label="Discovery log">
+        <div className="row between"><span className="title" style={{ margin: 0 }}>Discovery log</span><span className="gold">{found.size} / {total} concepts</span></div>
+        <div style={{ height: 12, border: '2px solid var(--border)' }}><div style={{ width: `${(found.size / total) * 100}%`, height: '100%', background: 'var(--gold)' }} /></div>
+        <span className="small muted">Concepts are logged when a mission teaches them: a warning in the review, an event, or a lesson in the report. Everything here is open to read anytime.</span>
+      </section>
       <div className="row wrap">
+        <div className="seg">{([['all', 'All'], ['found', 'Discovered'], ['new', 'Not yet']] as const).map(([id, label]) =>
+          <button key={id} aria-pressed={only === id} onClick={() => setOnly(id)}>{label}</button>)}</div>
         <input type="search" placeholder="Search terms…" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search the glossary" />
         <div className="seg">{CATS.map(([id, label]) => <button key={id} aria-pressed={cat === id} onClick={() => setCat(id)}>{label}</button>)}</div>
       </div>
@@ -40,7 +52,8 @@ export function Academy({ focus }: { focus?: string }) {
   );
 }
 
-function summary(code: string) {
+/** Key numbers of a design code, as label/value rows (Saved & Compare, report attempt comparison). */
+export function summary(code: string) {
   const p = decodeDesign(code);
   if (!p) return null;
   const b = computeBudgets(p.design, p.scenarioId, p.difficulty, p.split);
@@ -54,6 +67,21 @@ function summary(code: string) {
     ['Delta-v', fmtMs(b.deltaV.capabilityMs)], ['Total cost', fmtM(b.cost.totalM)], ['Reserve', `${fmtNum(b.cost.reservePct)}%`],
     ['Launch month', String(b.time.launchMonth)],
   ] as [string, string][] };
+}
+
+/** Side-by-side comparison of two design codes; rows that differ are highlighted. */
+export function CompareTable({ a, b, labels = ['A', 'B'], scores }: { a: string; b: string; labels?: [string, string]; scores?: [number | undefined, number | undefined] }) {
+  const sa = summary(a), sb = summary(b);
+  if (!sa || !sb) return <p className="warn">! One of the codes is not a valid design code.</p>;
+  return (
+    <table className="grid">
+      <thead><tr><th></th><th>{labels[0]}</th><th>{labels[1]}</th></tr></thead>
+      <tbody>
+        {sa.rows.map(([k, v], i) => <tr key={k} className={v !== sb.rows[i][1] ? 'diff' : ''}><td>{k}</td><td>{v}</td><td>{sb.rows[i][1]}</td></tr>)}
+        {scores && <tr className={scores[0] !== scores[1] ? 'diff' : ''}><td>Score</td><td>{scores[0] ?? '—'}</td><td>{scores[1] ?? '—'}</td></tr>}
+      </tbody>
+    </table>
+  );
 }
 
 export function Saved() {

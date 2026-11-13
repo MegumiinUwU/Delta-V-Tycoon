@@ -8,9 +8,12 @@ import { addLocal, postOnline } from '../../net/leaderboard';
 import { currentDecisions } from '../../net/roomApi';
 import { navigate } from '../../router';
 import { KEYS, load, save, type SavedDesign } from '../../state/storage';
+import { useDiscoveries } from '../../state/discoveries';
 import { useGame, useIsHost } from '../../state/store';
 import { Help, Portrait, ROLE_COLOR, Speech, Stars } from '../components/common';
 import { TwinCard } from './LaunchOps';
+import { CareerBanner } from './CareerBanner';
+import { Attempts } from './Attempts';
 
 function CountUp({ to }: { to: number }) {
   const reduced = useGame((g) => g.settings.reducedMotion);
@@ -73,6 +76,7 @@ export function Report() {
           {dialog[`report_${score.outcomeClass}`]?.[0] && <Speech speaker="hassan" expr={score.outcomeClass === 'failure' ? 'worried' : 'happy'} text={dialog[`report_${score.outcomeClass}`][0].text} />}
         </div>
       </section>
+      <CareerBanner />
       <section className="cards" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
         {ROLES.map((r) => {
           const met = score.roleGoals[r].met;
@@ -100,6 +104,7 @@ export function Report() {
           ))}
         </section>
       )}
+      <Attempts />
       <details className="more" open={full} onToggle={(e) => setFull((e.target as HTMLDetailsElement).open)}>
         <summary>Full report: score breakdown, why, timeline, design</summary>
         <div className="col" style={{ gap: 12 }}>
@@ -115,6 +120,7 @@ export function Report() {
       </section>
       <section className="panel">
         <h2>Why</h2>
+        <DiscoveryLine />
         <div className="row wrap" style={{ alignItems: 'flex-start' }}>
           {([['What went well', good], ['What hurt', bad]] as const).map(([title, list]) => (
             <div key={title} className="col grow" style={{ minWidth: 300 }}>
@@ -174,5 +180,16 @@ export function Report() {
           <button className="btn small ghost" onClick={() => copy(`DVT-${s.meta.scenarioId}-${s.meta.difficulty}-${(s.meta.seed >>> 0).toString(36)}`, 'code')}>{copied === 'code' ? '✓' : 'copy'}</button></span>
       </section>
     </div>
+  );
+}
+
+/** Links the report's lessons to the player's growing discovery log (knowledge as progress). */
+function DiscoveryLine() {
+  const found = useDiscoveries();
+  const total = getCatalog().glossary.length;
+  return (
+    <p className="small muted no-print">
+      Every lesson below is logged in your <a href="#/academy">discovery log</a>: <span className="gold">{found.size} / {total}</span> concepts so far.
+    </p>
   );
 }

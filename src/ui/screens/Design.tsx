@@ -11,6 +11,7 @@ import { OrbitView } from '../../scenes/OrbitView';
 import { SpacecraftPreview } from '../../scenes/SpacecraftPreview';
 import { useGame, useMyRoles } from '../../state/store';
 import { Dashboard } from '../components/Dashboard';
+import { orbitRules } from '../orbitRules';
 import { Help, Icon, Modal, Portrait, ROLE_COLOR, Speech, Stats, Term } from '../components/common';
 import { ReviewPanel } from './Review';
 import { TradeSpace } from './TradeSpace';
@@ -96,12 +97,14 @@ function PlannerTab({ can }: { can: boolean }) {
           {orbits.map((o) => {
             const fit = sc.orbitFit[o.id];
             const badge = fit == null ? 'Not suitable' : fit >= 1 ? 'Best' : 'OK';
+            const rules = orbitRules(o);
             return (
               <Card key={o.id} selected={p.orbitId === o.id} disabled={!can} locked={fit == null} hover={hover('planner', { orbitId: o.id })}
-                onClick={() => edit('planner', { orbitId: o.id })} title={`${o.description}\n\n+ ${o.pros.join('\n+ ')}\n- ${o.cons.join('\n- ')}`}
+                onClick={() => edit('planner', { orbitId: o.id })} title={`${o.description}\n\nRules here:\n• ${rules.map((x) => x.text).join('\n• ')}`}
                 ribbon={diff.hints && o.id === sc.recommendedOrbit ? 'suggested' : undefined}>
                 <Head iconUrl={orbitIcon(o.id)} name={o.name} />
                 <span className={`small ${fit == null ? 'fail' : fit >= 1 ? 'pass' : 'warn'}`}>{fit == null ? '✕' : fit >= 1 ? '✓' : '!'} {badge}{fit != null && fit < 1 ? ` ${Math.round(fit * 100)}%` : ''}</span>
+                <Stats items={rules.slice(0, 2).map((x) => [x.icon, x.text] as [string, string])} />
               </Card>
             );
           })}
@@ -309,6 +312,39 @@ function CommsTab({ can }: { can: boolean }) {
   );
 }
 
+/**
+ * Opening breadcrumb (hints difficulties only): mission control always names the ONE most important fix, so a new
+ * player never wanders without progress. Fails first, then warnings (runChecks order); when all is GO it points to
+ * the review. "Show me" switches to the owning tab and flashes the selected part.
+ */
+function NextStep() {
+  const s = useGame((g) => g.state)!;
+  const checks = useGame((g) => g.checks);
+  const set = useGame((g) => g.set);
+  if (!getDifficulty(s.meta.difficulty).hints) return null;
+  const next = checks.find((c) => c.severity === 'fail') ?? checks.find((c) => c.severity === 'warn');
+  const left = checks.filter((c) => c.severity !== 'pass').length;
+  return (
+    <div className="nextstep" role="status" aria-live="polite">
+      <Portrait id="hassan" expr={next?.severity === 'fail' ? 'worried' : 'happy'} size={32} />
+      {next ? (
+        <>
+          <span className="grow small">
+            <span className={next.severity === 'fail' ? 'fail' : 'warn'}>{next.severity === 'fail' ? '✕ Next fix' : '! Next'}</span>{' '}
+            <b>{next.title}</b> — {next.fixHint} <span className="dim">({left} left)</span> <Help id={next.conceptId} />
+          </span>
+          <button className="btn small" onClick={() => { play('sfx_click'); set({ activeRole: next.role, flash: next.id }); setTimeout(() => set({ flash: null }), 1500); }}>Show me</button>
+        </>
+      ) : (
+        <>
+          <span className="grow small pass">✓ Every check is GO. Open the review, sign off and launch.</span>
+          <button className="btn small primary" onClick={() => { play('sfx_click'); set({ reviewOpen: true }); }}>Review ▶</button>
+        </>
+      )}
+    </div>
+  );
+}
+
 function FundsRequest({ fromRole, onClose }: { fromRole: Role; onClose: () => void }) {
   const room = useGame((g) => g.room)!;
   const [to, setTo] = useState<Role>(ROLES.find((r) => r !== fromRole)!);
@@ -383,6 +419,7 @@ export function DesignWorkshop() {
         <div className="row center">
           {view === 'craft' ? <SpacecraftPreview design={s.design} totalKg={b.mass.totalKg} scale={2} /> : <OrbitView orbitId={s.design.planner.orbitId} scale={2} />}
         </div>
+        <NextStep />
         {!can && <div className="banner">{holderName(active)} controls this tab</div>}
         <div className="panel dark" style={{ overflow: 'auto', maxHeight: 'calc(100vh - 420px)', minHeight: 260 }}>
           {active === 'planner' && <PlannerTab can={can} />}
