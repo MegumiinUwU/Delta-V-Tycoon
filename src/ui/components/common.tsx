@@ -1,4 +1,4 @@
-import { Component, useEffect, useRef, useState, type ReactNode } from 'react';
+import { Component, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { icon, idleSprite, portrait, type Expr } from '../../assets';
 import { play } from '../../audio/sound';
 import { useVoice } from '../../audio/voice';
@@ -126,15 +126,27 @@ export function Dialog({ lines, onDone, doneLabel = 'Continue', fill: vars }: { 
 
 export function Modal({ children, onClose, label, wide }: { children: ReactNode; onClose?: () => void; label: string; wide?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [closing, setClosing] = useState(false);
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
+  // Esc / backdrop: play the short close animation first (skipped with reduced motion), then close.
+  const requestClose = useCallback(() => {
+    const close = closeRef.current;
+    if (!close) return;
+    const reduced = document.documentElement.classList.contains('reduced-motion') || matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) { close(); return; }
+    setClosing(true);
+    setTimeout(() => closeRef.current?.(), 150);
+  }, []);
   useEffect(() => {
     const prev = document.activeElement as HTMLElement | null;
     ref.current?.querySelector<HTMLElement>('button, [href], input, select, [tabindex]')?.focus();
-    const key = (e: KeyboardEvent) => { if (e.key === 'Escape' && onClose) onClose(); };
+    const key = (e: KeyboardEvent) => { if (e.key === 'Escape') requestClose(); };
     addEventListener('keydown', key);
     return () => { removeEventListener('keydown', key); prev?.focus?.(); };
-  }, [onClose]);
+  }, [requestClose]);
   return (
-    <div className="overlay" onClick={onClose} role="presentation">
+    <div className={`overlay${closing ? ' closing' : ''}`} onClick={onClose && !closing ? requestClose : undefined} role="presentation">
       <div ref={ref} className="panel modal" style={wide ? { maxWidth: 1000 } : undefined} role="dialog" aria-modal="true" aria-label={label}
         onClick={(e) => e.stopPropagation()}>
         {children}

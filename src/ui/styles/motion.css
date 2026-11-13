@@ -1,0 +1,79 @@
+/* Motion layer: soft, quick feedback on everything you press, springy pop-ups and gentle screen entrances.
+   Only transform and opacity are animated (cheap for the browser, no layout work), durations stay short, and the
+   "Reduced motion" setting / OS preference turns all of it off (rules at the end of base.css). */
+:root {
+  --ease-out: cubic-bezier(.19, 1, .22, 1);      /* fast start, long soft landing */
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1); /* small overshoot, like a spring settling */
+  --ease-std: cubic-bezier(.4, 0, .2, 1);
+}
+
+/* ---- Press and hover: buttons, cards, avatars ---- */
+.btn, .card, .iconbtn, .av, .meter, .chip, details.more > summary {
+  transition: transform .22s var(--ease-out), filter .15s var(--ease-std), background-color .15s var(--ease-std),
+    border-color .15s var(--ease-std), color .15s var(--ease-std), box-shadow .15s var(--ease-std), opacity .15s var(--ease-std);
+}
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.btn:active:not(:disabled) { transform: scale(.95); transition-duration: .06s; }
+.card:hover:not(:disabled) { transform: translateY(-2px); }
+.card:active:not(:disabled) { transform: scale(.97); transition-duration: .06s; }
+.scen[aria-pressed=true]:hover { transform: translateY(-4px); }
+.av:hover { transform: translateY(-2px) scale(1.06); }
+.av:active { transform: scale(.92); transition-duration: .06s; }
+.av[aria-checked=true] { animation: pick .38s var(--ease-spring); }
+.iconbtn:active { transform: scale(.88); transition-duration: .06s; }
+.meter:active { transform: scale(.985); transition-duration: .06s; }
+@keyframes pick { from { transform: scale(.85); } to { transform: scale(1); } }
+
+/* Selected cards settle in with a little spring */
+.card[aria-pressed=true] { animation: pick-card .34s var(--ease-spring); }
+@keyframes pick-card { from { transform: scale(.96); } to { transform: none; } }
+.scen[aria-pressed=true] { animation: pick-scen .34s var(--ease-spring); }
+@keyframes pick-scen { from { transform: scale(.96); } to { transform: translateY(-3px); } }
+
+/* Bars glide to their new value instead of jumping */
+.meter .fill, .meter .ghost { transition: width .35s var(--ease-out); }
+
+/* ---- Pop-ups ---- */
+.overlay { animation: fade-in .18s var(--ease-std) backwards; }
+.overlay > .modal, .overlay > .panel { animation: pop-in .32s var(--ease-spring) backwards; }
+.overlay.closing { animation: fade-out .16s var(--ease-std) forwards; }
+.overlay.closing > .modal { animation: pop-out .16s var(--ease-std) forwards; }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes fade-out { to { opacity: 0; } }
+@keyframes pop-in { from { opacity: 0; transform: translateY(14px) scale(.94); } }
+@keyframes pop-out { to { opacity: 0; transform: translateY(8px) scale(.97); } }
+
+.drawer { animation: slide-right .32s var(--ease-out) backwards; }
+.drawer.left { animation-name: slide-left; }
+@keyframes slide-right { from { transform: translateX(48px); opacity: 0; } }
+@keyframes slide-left { from { transform: translateX(-48px); opacity: 0; } }
+
+.toast { animation: toast-in .38s var(--ease-spring) backwards; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(16px) scale(.96); } }
+
+.tut-box { animation: tut-in .36s var(--ease-spring) backwards; }
+@keyframes tut-in { from { opacity: 0; transform: translate(-50%, 16px) scale(.97); } }
+
+details.more[open] > :not(summary) { animation: enter .3s var(--ease-out) backwards; }
+
+/* ---- Screen entrances: content rises in, a few items at a time ---- */
+@keyframes enter { from { opacity: 0; transform: translateY(10px); } }
+.page > * { animation: enter .42s var(--ease-out) backwards; }
+.page > :nth-child(2) { animation-delay: .04s; }
+.page > :nth-child(3) { animation-delay: .08s; }
+.page > :nth-child(4) { animation-delay: .12s; }
+.page > :nth-child(5) { animation-delay: .16s; }
+.page > :nth-child(n+6) { animation-delay: .2s; }
+.cards > * { animation: enter .4s var(--ease-out) backwards; }
+.cards > :nth-child(2) { animation-delay: .03s; }
+.cards > :nth-child(3) { animation-delay: .06s; }
+.cards > :nth-child(4) { animation-delay: .09s; }
+.cards > :nth-child(5) { animation-delay: .12s; }
+.cards > :nth-child(n+6) { animation-delay: .15s; }
+.screen-fade { animation: fade-in .25s var(--ease-std) backwards; }
+
+/* keep the "look here" flash working on the selected card */
+.card[aria-pressed=true].flash { animation: flash .4s 3; }
+
+/* printed reports never wait on an animation */
+@media print { * { animation: none !important; transition: none !important; } }

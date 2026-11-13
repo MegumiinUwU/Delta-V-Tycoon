@@ -1,22 +1,52 @@
-import { useEffect, useState } from 'react';
-import { bg, portrait, preload, scenarioArt, ui } from './assets';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import { bg, idleSprite, portrait, preload, scenarioArt, ui } from './assets';
 import { playMusic, unlockAudio } from './audio/sound';
 import { getCatalog } from './core';
 import { navigate, useRoute } from './router';
 import { startDiscoveryTracking } from './state/discoveries';
 import { useGame } from './state/store';
 import { ErrorBoundary, GlossaryDrawer, Loading, Toasts } from './ui/components/common';
-import { TopBar } from './ui/components/TopBar';
-import { Briefing } from './ui/screens/Briefing';
-import { Career } from './ui/screens/Career';
-import { Council } from './ui/screens/Council';
-import { DesignWorkshop } from './ui/screens/Design';
-import { LaunchScreen, OpsScreen } from './ui/screens/LaunchOps';
-import { Academy, Credits, Leaderboard, OpenDesign, Saved, SettingsScreen, Tutorial } from './ui/screens/Misc';
-import { Report } from './ui/screens/Report';
-import { SoloSetup } from './ui/screens/SoloSetup';
-import { ChatDrawer, CreateRoom, Join, Lobby } from './ui/screens/Team';
 import { Title } from './ui/screens/Title';
+
+// Only the title screen ships in the first download. Every other screen is its own small file, fetched in the
+// background as soon as the title is showing, so it is already there by the time you click.
+const load = {
+  briefing: () => import('./ui/screens/Briefing'),
+  career: () => import('./ui/screens/Career'),
+  council: () => import('./ui/screens/Council'),
+  design: () => import('./ui/screens/Design'),
+  launchOps: () => import('./ui/screens/LaunchOps'),
+  misc: () => import('./ui/screens/Misc'),
+  report: () => import('./ui/screens/Report'),
+  solo: () => import('./ui/screens/SoloSetup'),
+  team: () => import('./ui/screens/Team'),
+  topBar: () => import('./ui/components/TopBar'),
+};
+const Briefing = lazy(() => load.briefing().then((m) => ({ default: m.Briefing })));
+const Career = lazy(() => load.career().then((m) => ({ default: m.Career })));
+const Council = lazy(() => load.council().then((m) => ({ default: m.Council })));
+const DesignWorkshop = lazy(() => load.design().then((m) => ({ default: m.DesignWorkshop })));
+const LaunchScreen = lazy(() => load.launchOps().then((m) => ({ default: m.LaunchScreen })));
+const OpsScreen = lazy(() => load.launchOps().then((m) => ({ default: m.OpsScreen })));
+const Academy = lazy(() => load.misc().then((m) => ({ default: m.Academy })));
+const Credits = lazy(() => load.misc().then((m) => ({ default: m.Credits })));
+const Leaderboard = lazy(() => load.misc().then((m) => ({ default: m.Leaderboard })));
+const OpenDesign = lazy(() => load.misc().then((m) => ({ default: m.OpenDesign })));
+const Saved = lazy(() => load.misc().then((m) => ({ default: m.Saved })));
+const SettingsScreen = lazy(() => load.misc().then((m) => ({ default: m.SettingsScreen })));
+const Tutorial = lazy(() => load.misc().then((m) => ({ default: m.Tutorial })));
+const Report = lazy(() => load.report().then((m) => ({ default: m.Report })));
+const SoloSetup = lazy(() => load.solo().then((m) => ({ default: m.SoloSetup })));
+const ChatDrawer = lazy(() => load.team().then((m) => ({ default: m.ChatDrawer })));
+const CreateRoom = lazy(() => load.team().then((m) => ({ default: m.CreateRoom })));
+const Join = lazy(() => load.team().then((m) => ({ default: m.Join })));
+const Lobby = lazy(() => load.team().then((m) => ({ default: m.Lobby })));
+const TopBar = lazy(() => load.topBar().then((m) => ({ default: m.TopBar })));
+
+const whenIdle = (f: () => void): void => {
+  if (typeof requestIdleCallback === 'function') requestIdleCallback(f, { timeout: 1500 });
+  else setTimeout(f, 300);
+};
 
 /** Renders the current phase for #/play and #/room/:code. */
 function PhaseShell({ code }: { code?: string }) {
@@ -55,10 +85,12 @@ function PhaseShell({ code }: { code?: string }) {
   else body = <Report />;
   return (
     <main className="screen">
-      <TopBar />
-      {body}
-      <Tutorial />
-      <ChatDrawer />
+      <Suspense fallback={null}>
+        <TopBar />
+        {body}
+        <Tutorial />
+        <ChatDrawer />
+      </Suspense>
     </main>
   );
 }
@@ -74,9 +106,18 @@ export function App() {
     document.documentElement.classList.toggle('reduced-motion', settings.reducedMotion);
   }, [settings.textScale, settings.reducedMotion]);
   useEffect(() => {
-    const c = getCatalog();
-    const urls = [bg('bg_title'), ui('logo_deltav'), ...c.characters.map((x) => portrait(x.id)), ...c.scenarios.map((s) => scenarioArt(s.id))];
-    preload(urls, setLoaded, 5000).then(() => setReady(true));
+    // Wait only for what the title screen shows (short cap), then warm up everything else in the background:
+    // the other screens' code, crew portraits, mission art and the pressed-button frames (no flicker on first press).
+    preload([bg('bg_title'), ui('logo_deltav')], setLoaded, 1500).then(() => {
+      setReady(true);
+      whenIdle(() => {
+        Object.values(load).forEach((f) => { f().catch(() => { /* retried when the screen is opened */ }); });
+        const c = getCatalog();
+        preload([ui('ui_button_hover'), ui('ui_button_pressed'), ui('ui_button_disabled'),
+          ...c.characters.map((x) => portrait(x.id)), ...c.scenarios.map((x) => scenarioArt(x.id)),
+          ...c.characters.map((x) => idleSprite(x.id))], undefined, 15000);
+      });
+    });
     const unlock = () => { unlockAudio(); removeEventListener('pointerdown', unlock); removeEventListener('keydown', unlock); };
     addEventListener('pointerdown', unlock); addEventListener('keydown', unlock);
     // Online presence → "Reconnecting…" banner after 3 s offline
@@ -107,7 +148,7 @@ export function App() {
   }
   return (
     <ErrorBoundary>
-      {screen}
+      <Suspense fallback={<main className="screen" />}>{screen}</Suspense>
       <GlossaryDrawer />
       <Toasts />
     </ErrorBoundary>
