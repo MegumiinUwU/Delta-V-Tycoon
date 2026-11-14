@@ -2,7 +2,7 @@
 
 Design, launch and fly a space mission, alone or with up to 3 friends online.
 
-**Play:** https://megumiinuwu.github.io/Delta-V-Tycoon/ · **Video:** _TBD_ · **Challenge:** NASA Space Apps 2026: Space Mission Design Game (NASA Space Apps Cairo 2026)
+**Play:** https://megumiinuwu.github.io/Delta-V-Tycoon/ · **Video:** 30-second demo and gameplay showcase linked on our NASA Space Apps project page · **Challenge:** NASA Space Apps 2026: Space Mission Design Game (NASA Space Apps Cairo 2026) · **Team:** Clair Obscur: Expedition 67
 
 ![The Delta-V crew](docs/art/crew_sheet.png)
 
@@ -56,15 +56,18 @@ Disclosed as required by the NASA Space Apps code of ethics.
 
 - **Claude (Anthropic), via Claude Code**: turned the team brief into the `src/data/*.json` content files and drafted README / GDD / SOURCES; wrote a Python + Pillow script that draws the crew sprites and portraits pixel by pixel on the 32-colour ENDESGA 32 palette (no image-generation model; every pixel is placed on the grid from the character sheets).
 - **Claude (Anthropic), via Claude Code** also wrote `scripts/art/env_art.py`, which draws the environment art procedurally (backgrounds, planets, rockets, effects, spacecraft parts, event and scenario illustrations, logo). Every pixel comes from code shapes and the ENDESGA 32 palette; no image-generation model was used. It also wrote `scripts/art/sfx.py`, which synthesises the sound effects from sine/square waves and noise (no samples). Claude also simplified the UI (fewer words, icon stats, GO/NO-GO poll), guided by the UX / game-design skills of [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) (MIT).
-- **ACE-Step 1.5** ([github.com/ace-step/ACE-Step-1.5](https://github.com/ace-step/ACE-Step-1.5), MIT): an open-source AI music model, set up to generate the background-music loops (`scripts/art/music_acestep.py`). Until those land, the music is the synthesised chiptune from `scripts/art/music_chip.py`; if the ACE-Step tracks are used, the music is AI-generated.
+- **Claude (Anthropic), via Claude Code** also helped write and fix parts of the TypeScript / React game code (simulation, budgets and checks, user interface, online rooms, tests). The team designed the game, reviewed this code, and played and tested every feature.
+- **ACE-Step 1.5** ([github.com/ace-step/ACE-Step-1.5](https://github.com/ace-step/ACE-Step-1.5), MIT): an open-source AI music model, set up to generate background-music loops (`scripts/art/music_acestep.py`) but **not used in the final game**. The music you hear is the synthesised chiptune from `scripts/art/music_chip.py` (no samples, no AI model).
 - **Kokoro-82M** ([huggingface.co/hexgrad/Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M), Apache-2.0) through **kokoro-onnx** (MIT): an open-source AI text-to-speech model, run locally on the CPU, speaks every character line (`public/assets/voice/`). The voices are **AI-generated speech** from Kokoro's stock voices, one per character; no real person's voice was recorded or cloned. Claude wrote the pipeline: `scripts/voice-lines.ts` lists every spoken line and `scripts/art/voice_kokoro.py` records it (`npm run voice` after changing any dialog text).
 - Item and UI icons: drawn by the team's asset artist; recovered to exact pixels and palette by `scripts/art/recover_previews.py`.
 - Python 3 + Pillow + NumPy (art generation and palette / size validation), ffmpeg (audio encoding).
-- _Add every other tool the team uses (editors, OBS, video editor, …)._
+- **Demo videos**: OBS Studio recorded our online play session; Playwright with Microsoft Edge recorded scripted gameplay from the live site; [Remotion](https://www.remotion.dev/) edited the videos, with the editing code written using Claude Code. All footage is real gameplay. The character voices heard in the videos are the AI-generated Kokoro speech described above, and the video descriptions and file metadata say so.
 
 ## Team
 
-_Names and roles: Team Lead · Programmer A (core & rooms) · Programmer B (UI & build) · Character Artist · Environment & Asset Artist · QA & Playtest._
+**Clair Obscur: Expedition 67** · NASA Space Apps Cairo 2026
+
+Youssef (Team Lead) · Omar · Shady · Sherif · Abdullah · Ahmed
 
 ## Credits & licence
 
