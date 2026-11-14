@@ -75,7 +75,11 @@ export function LaunchScreen() {
 
 function AutoNext({ onNext, label, auto }: { onNext: () => void; label: string; auto: boolean }) {
   const reduced = useGame((g) => g.settings.reducedMotion);
-  useEffect(() => { if (!auto) return; const t = setTimeout(onNext, reduced ? 1500 : 5000); return () => clearTimeout(t); }, [auto, onNext, reduced]);
+  // onNext is a new function on every redraw of the launch screen (a chat message, a player joining): keep the latest
+  // in a ref so the countdown runs once instead of starting over each time.
+  const next = useRef(onNext);
+  next.current = onNext;
+  useEffect(() => { if (!auto) return; const t = setTimeout(() => next.current(), reduced ? 1500 : 5000); return () => clearTimeout(t); }, [auto, reduced]);
   return <div className="row center"><button className="btn big gold" onClick={onNext}>{label}</button></div>;
 }
 
@@ -181,7 +185,6 @@ export function OpsScreen() {
   const sc = getScenario(s.meta.scenarioId);
   const setSpeed = (v: 1 | 2 | 4 | 8) => { set({ simSpeed: v }); if (room.mode === 'online') room.setMeta({ opsSpeed: v }); };
   const togglePause = () => { set({ paused: !paused }); if (room.mode === 'online') room.setMeta({ opsPaused: !paused }); };
-  const chartH = 120;
   const lostCum = samples.map((x) => ({ ...x, lost: Math.max(0, x.dataGeneratedCum - x.dataReturnedCum - x.stored) }));
   return (
     <div className="workshop" style={{ gridTemplateColumns: 'minmax(0, 3fr) minmax(0, 2fr)' }}>
@@ -237,7 +240,7 @@ export function OpsScreen() {
             <ReferenceLine y={b.cost.budgetM} stroke="#e43b44" strokeDasharray="4 4" />
             <Line dataKey="costCum" stroke="#0099db" dot={false} isAnimationActive={false} /></LineChart>
         </ChartBox>
-        <span className="dim small" style={{ height: chartH ? undefined : 0 }}>Charts show up to 200 samples of the simulated mission.</span>
+        <span className="dim small">Charts show up to 200 samples of the simulated mission.</span>
       </section>
       {pending && !decision && <EventModal />}
       {result && <ResultModal r={result} onDone={() => setResult(null)} />}

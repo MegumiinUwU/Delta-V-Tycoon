@@ -6,6 +6,7 @@ import { getCatalog, type DialogLine, type Role, type Severity } from '../../cor
 import { navigate } from '../../router';
 import { useDiscoveries } from '../../state/discoveries';
 import { useGame } from '../../state/store';
+import { useShownStep } from '../steps';
 
 export const ROLE_COLOR: Record<Role, string> = {
   planner: 'var(--role-planner)', engineer: 'var(--role-engineer)', science: 'var(--role-science)', comms: 'var(--role-comms)',
@@ -233,10 +234,10 @@ export function Toasts() {
 }
 
 export function GlossaryCard({ id, onOpen }: { id: string; onOpen?: (id: string) => void }) {
+  const found = useDiscoveries();   // hooks first: an unknown id returns early below
   const g = getCatalog().glossary.find((x) => x.id === id);
   if (!g) return <p className="dim">No glossary entry "{id}".</p>;
   const all = getCatalog().glossary;
-  const found = useDiscoveries();
   return (
     <article className="panel dark col" id={`g-${g.id}`}>
       <h3 className="gold">{g.term} <span className="chip">{g.category}</span>
@@ -337,10 +338,12 @@ export function Stats({ items }: { items: ([string, ReactNode] | false | null | 
 export function CountUp({ to, from = 0, ms = 1200, format = (n: number) => String(Math.round(n)) }:
   { to: number; from?: number; ms?: number; format?: (n: number) => string }) {
   const reduced = useGame((g) => g.settings.reducedMotion);
+  const covered = useShownStep((s) => s.step !== null);   // a step transition is over the page: count once it lifts
   const [n, setN] = useState(reduced ? to : from);
   const shown = useRef(n);
   useEffect(() => {
     if (reduced) { shown.current = to; setN(to); return; }
+    if (covered) return;
     const start = performance.now();
     const a = shown.current;
     let raf = 0;
@@ -352,7 +355,7 @@ export function CountUp({ to, from = 0, ms = 1200, format = (n: number) => Strin
     };
     raf = requestAnimationFrame(f);
     return () => cancelAnimationFrame(raf);
-  }, [to, ms, reduced]);
+  }, [to, ms, reduced, covered]);
   return <>{format(n)}</>;
 }
 

@@ -107,7 +107,8 @@ export function Lobby() {
       <section className="panel col">
         <span className="dim">Room code</span>
         <span style={{ fontFamily: 'var(--font-title)', fontSize: 24 }} className="gold">{s.meta.code}</span>
-        <button className="btn small" onClick={async () => { try { await navigator.clipboard.writeText(link); setCopied(true); } catch { prompt('Invite link:', link); } }}>
+        <button className="btn small" onClick={async () => { try { await navigator.clipboard.writeText(link); setCopied(true); }
+          catch { try { prompt('Invite link:', link); } catch { useGame.getState().toast(`Couldn't copy. Invite link: ${link}`, 'warn'); } } }}>
           {copied ? '✓ Invite link copied' : 'Copy invite link'}</button>
         <h3>Crew ({players.filter((p) => p.connected).length}/4)</h3>
         {players.map((p) => (

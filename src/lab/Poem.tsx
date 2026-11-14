@@ -153,7 +153,7 @@ export function Poem() {
             <span className="title" style={{ margin: 0 }}>Spare magnets</span>
             <span className="small muted">Click one to swap it for the selected line.</span>
             {POOL.filter((l) => !lines.includes(l)).map((l) => <button key={l} className="lab-spare small" onClick={() => swapIn(l)}>{l}</button>)}
-            <button className="btn small" onClick={() => { navigator.clipboard?.writeText(lines.join('\n')); setCopied(true); setTimeout(() => setCopied(false), 1500); }}>
+            <button className="btn small" onClick={() => { navigator.clipboard?.writeText(lines.join('\n')).catch(() => {}); setCopied(true); setTimeout(() => setCopied(false), 1500); }}>
               {copied ? '✓ Copied' : 'Copy poem'}</button>
           </section>
         </div>

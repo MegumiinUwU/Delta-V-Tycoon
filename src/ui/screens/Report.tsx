@@ -33,6 +33,7 @@ export function Report() {
   const isHost = useIsHost();
   const lead = room.mode === 'local' || isHost;
   const [copied, setCopied] = useState('');
+  const [did, setDid] = useState<{ board?: boolean; saved?: boolean }>({});   // one-time actions for this report
   const [tab, setTab] = useState<Tab | null>(null);
   const [printAll, setPrintAll] = useState(false);
   useEffect(() => () => hush('crew'), []);
@@ -52,7 +53,11 @@ export function Report() {
     ['Efficiency', score.parts.efficiency, 200], ['Operations', score.parts.operations, 100], ['Teamwork', score.parts.teamwork, 100]];
   const d = s.design;
   const cml = conceptMaturity(checks);
-  const copy = async (text: string, what: string) => { try { await navigator.clipboard.writeText(text); setCopied(what); } catch { prompt('Copy this:', text); } };
+  // clipboard blocked (http, embedded frame): show the text to copy by hand; if dialogs are blocked too, say so
+  const copy = async (text: string, what: string) => {
+    try { await navigator.clipboard.writeText(text); setCopied(what); }
+    catch { try { prompt('Copy this:', text); } catch { useGame.getState().toast(`Couldn't copy. Copy it by hand: ${text}`, 'warn'); } }
+  };
   const entry = { teamName: s.meta.teamName.slice(0, 24), scenarioId: s.meta.scenarioId, difficulty: s.meta.difficulty, seed: s.meta.seed,
     score: score.total, stars: score.stars, outcome: res.outcome, designCode: code, at: Date.now() };
   const twin = findMissionTwin(s.design, s.meta.scenarioId);
@@ -115,8 +120,8 @@ export function Report() {
       <section className="rp-actions no-print">
         {lead && <button className="btn primary big" onClick={() => retry()}>↻ Retry</button>}
         <button className="btn big" onClick={async () => { await useGame.getState().leaveRoom(); navigate(room.mode === 'online' ? '/' : '/solo'); }}>New mission</button>
-        <button className="btn gold big" disabled={copied === 'board'} onClick={() => { addLocal(entry); postOnline(entry).catch(() => {}); setCopied('board'); }}>
-          {copied === 'board' ? '✓ On the board' : '★ Add to leaderboard'}</button>
+        <button className="btn gold big" disabled={did.board} onClick={() => { addLocal(entry); postOnline(entry).catch(() => {}); setDid((x) => ({ ...x, board: true })); }}>
+          {did.board ? '✓ On the board' : '★ Add to leaderboard'}</button>
       </section>
 
       <nav className="rp-tabs no-print" role="tablist" aria-label="Report details">
@@ -216,9 +221,9 @@ export function Report() {
         <section className="panel col rp-panel no-print" role="tabpanel" aria-label="Share and save">
           <div className="row wrap">
             <button className="btn" onClick={() => copy(link, 'link')}>{copied === 'link' ? '✓ Link copied' : 'Copy share link'}</button>
-            <button className="btn" onClick={() => { const list = load<SavedDesign[]>(KEYS.saved, []);
-              save(KEYS.saved, [...list, { name: `${sc.name} — ${s.meta.teamName}`, code, at: Date.now(), score: score.total }]); setCopied('saved'); }}>
-              {copied === 'saved' ? '✓ Saved' : 'Save design'}</button>
+            <button className="btn" disabled={did.saved} onClick={() => { const list = load<SavedDesign[]>(KEYS.saved, []);
+              save(KEYS.saved, [...list, { name: `${sc.name} — ${s.meta.teamName}`, code, at: Date.now(), score: score.total }]); setDid((x) => ({ ...x, saved: true })); }}>
+              {did.saved ? '✓ Saved' : 'Save design'}</button>
             <button className="btn" onClick={printReport}>Print / Save PDF</button>
           </div>
           <span className="small dim">Challenge code: {challenge}

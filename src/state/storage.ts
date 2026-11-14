@@ -1,8 +1,14 @@
 // localStorage helpers. Every access is wrapped: storage may be blocked, and nothing important lives only here.
+// A saved value that no longer has the fallback's shape (edited by hand, cut off, or from another version) is
+// ignored, so a damaged save can never stop the game from starting.
+const sameShape = (a: unknown, b: unknown): boolean =>
+  typeof a === typeof b && Array.isArray(a) === Array.isArray(b) && (a === null) === (b === null);
 export function load<T>(key: string, fallback: T): T {
   try {
     const raw = localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
+    if (!raw) return fallback;
+    const value = JSON.parse(raw) as T;
+    return sameShape(value, fallback) ? value : fallback;
   } catch { return fallback; }
 }
 export function save(key: string, value: unknown): void {
