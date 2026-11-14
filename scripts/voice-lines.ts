@@ -7,7 +7,11 @@ import { fmtM } from '../src/core/format';
 
 const cat = getCatalog();
 const lines = new Map<string, { id: string; speaker: string; text: string; from: string }>();
+// The guest crew only have their own short chime (src/audio/sound.ts VOICE_FILES) and are never given a synthetic
+// voice, so their lines are not listed: the recorder has no voice for them and would stop.
+const CHIME_ONLY = new Set(['miku', 'teto', 'neru']);
 const add = (speaker: string, text: string, from: string) => {
+  if (CHIME_ONLY.has(speaker)) return;
   const id = voiceId(speaker, text);
   const old = lines.get(id);
   if (old && old.text !== text) throw new Error(`hash collision: ${id}`);

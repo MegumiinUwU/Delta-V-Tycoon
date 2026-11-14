@@ -164,7 +164,7 @@ input[type=range]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--
 @keyframes sc-ghost { to { transform: translateY(-48px) scale(.96); opacity: .3; } }
 /* the new page: rises in once the gold sheet starts to lift, and waits on its first frame until then */
 .tab-panel.phase[data-reveal] { animation: sc-reveal .75s cubic-bezier(.22, 1, .36, 1) both; }
-.curtain-on .tab-panel.phase { animation-play-state: paused; }
+.curtain-on .tab-panel.phase, .curtain-on .tab-panel.phase * { animation-play-state: paused !important; }   /* stars, pops and bars on the new page wait too */
 @keyframes sc-reveal { from { opacity: 0; transform: translateY(64px); } }
 .sc-title { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; padding: 16px;
   animation: sc-title 1.4s linear both; }

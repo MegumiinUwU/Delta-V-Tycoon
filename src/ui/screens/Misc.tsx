@@ -9,6 +9,7 @@ import { KEYS, load, save, type SavedDesign } from '../../state/storage';
 import { useDiscoveries } from '../../state/discoveries';
 import { useGame } from '../../state/store';
 import { GlossaryCard, Portrait, rangeFill, SlideMarker, Speech, Stars, TabPanel } from '../components/common';
+import { useShownStep } from '../steps';
 
 function Page({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -104,7 +105,7 @@ export function Saved() {
               <button className="btn small" onClick={() => navigate(`/design/${d.code}`)}>Open</button>
               <button className="btn small" onClick={() => setA(d.code)}>Compare A</button>
               <button className="btn small" onClick={() => setB(d.code)}>Compare B</button>
-              <button className="btn small" onClick={() => navigator.clipboard?.writeText(`${location.origin}${location.pathname}#/design/${d.code}`)}>Copy link</button>
+              <button className="btn small" onClick={() => navigator.clipboard?.writeText(`${location.origin}${location.pathname}#/design/${d.code}`).catch(() => {})}>Copy link</button>
               <button className="btn small danger" onClick={() => update(list.filter((_, k) => k !== i))}>Delete</button>
             </span>
           </div>
@@ -168,7 +169,7 @@ export function Leaderboard() {
             {rows.length === 0 && <tr><td colSpan={7} className="dim">No entries yet.</td></tr>}
             {rows.map((e, i) => (
               <tr key={`${e.at}-${i}`}><td>{i + 1}</td><td>{e.teamName}</td><td>{e.score}</td><td><Stars n={e.stars} size={16} /></td><td>{e.outcome}</td>
-                <td>{getScenario(e.scenarioId).name} · {e.difficulty}</td><td><button className="btn small" onClick={() => navigate(`/design/${e.designCode}`)}>View design</button></td></tr>
+                <td>{getCatalog().scenarios.find((x) => x.id === e.scenarioId)?.name ?? e.scenarioId} · {e.difficulty}</td><td><button className="btn small" onClick={() => navigate(`/design/${e.designCode}`)}>View design</button></td></tr>
             ))}
           </tbody>
         </table>
@@ -192,7 +193,8 @@ export function SettingsScreen() {
         </div>
         <label className="row"><input type="checkbox" checked={settings.reducedMotion} onChange={() => setSettings({ reducedMotion: !settings.reducedMotion })} /> Reduced motion</label>
         <button className="btn" onClick={() => { save(KEYS.tutorial, false); setReset(true); }}>{reset ? '✓ Tutorial will show again' : 'Reset tutorial'}</button>
-        <button className="btn" onClick={() => history.back()}>Done</button>
+        {/* opened straight from a link there is no page to go back to: go to the title instead of leaving the game */}
+        <button className="btn" onClick={() => (history.length > 1 ? history.back() : navigate('/'))}>Done</button>
       </section>
     </Page>
   );
@@ -255,7 +257,8 @@ export function Tutorial() {
   const lines = getCatalog().dialog.tutorial ?? [];
   const [i, setI] = useState(0);
   const [done, setDone] = useState(() => load<boolean>(KEYS.tutorial, false));
-  const active = !done && !!s && s.meta.phase === 'design' && briefingDone && s.meta.difficulty === 'cadet' && s.meta.scenarioId === 'nile_watch' && lines.length > 0;
+  const covered = useShownStep((x) => x.step !== null);   // the step transition is playing: wait until the page shows
+  const active = !done && !covered && !!s && s.meta.phase === 'design' && briefingDone && s.meta.difficulty === 'cadet' && s.meta.scenarioId === 'nile_watch' && lines.length > 0;
   const line = lines[i];
   useLayoutEffect(() => {
     if (!active || !line?.target) return;

@@ -16,7 +16,10 @@ let memory: LeaderboardEntry[] = [];
 function readLocal(): LeaderboardEntry[] {
   try {
     const raw = globalThis.localStorage?.getItem(KEY);
-    if (raw) memory = JSON.parse(raw) as LeaderboardEntry[];
+    const list: unknown = raw ? JSON.parse(raw) : null;
+    // keep only well-formed rows: a damaged save must not break the leaderboard screen
+    if (Array.isArray(list)) memory = list.filter((e): e is LeaderboardEntry => !!e && typeof e === 'object'
+      && typeof e.score === 'number' && typeof e.scenarioId === 'string' && typeof e.designCode === 'string');
   } catch { /* private mode / blocked storage: keep the in-memory copy */ }
   return memory;
 }

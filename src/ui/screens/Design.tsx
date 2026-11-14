@@ -198,7 +198,7 @@ function EngineerTab({ can }: { can: boolean }) {
               <button className="btn small" disabled={!can || e.rtgCount >= 3} {...hover('engineer', { rtgCount: e.rtgCount + 1 })}
                 onClick={() => edit('engineer', { rtgCount: e.rtgCount + 1 })}>+</button>
             </div>
-            <span className="small muted">110 W, 45 kg, $60M each</span>
+            <span className="small muted">{fmtW(k.rtg.powerW)}, {fmtKg(k.rtg.massKg)}, {fmtM(k.rtg.costM)} each</span>
           </div>
         )}
       </div>
@@ -297,7 +297,7 @@ function CommsTab({ can }: { can: boolean }) {
       </div>
       <div className="section">
         <h3>High-gain antenna <Help id="antenna_gain" /></h3>
-        <label className="row" title={canPoint ? '' : `Your attitude control holds ±${adcs.pointingDeg}°; the dish needs ±0.1° or better.`}
+        <label className="row" title={canPoint ? '' : `Your attitude control holds ±${adcs.pointingDeg}°; the dish needs ±${k.hga.maxPointingDeg}° or better.`}
           {...hover('comms', { hga: !c.hga })}>
           <input type="checkbox" checked={c.hga} disabled={!can || (!canPoint && !c.hga)} onChange={() => edit('comms', { hga: !c.hga })} />
           {k.hga.name} <Stats items={[['res_comms', `×${k.hga.gain}`], ['res_budget', fmtM(k.hga.costM)]]} />

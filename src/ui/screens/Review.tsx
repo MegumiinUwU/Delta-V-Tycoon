@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { play } from '../../audio/sound';
 import { hush, sayNow } from '../../audio/voice';
 import { conceptMaturity, getCatalog, ROLE_TITLES, ROLES, type Role } from '../../core';
@@ -73,16 +73,18 @@ export function GoPoll() {
 export function Countdown({ onDone }: { onDone: () => void }) {
   const reduced = useGame((g) => g.settings.reducedMotion);
   const [n, setN] = useState(3);
+  const done = useRef(onDone);
+  done.current = onDone;
+  const fired = useRef(false);
+  // One tick per number. The launch itself is sent exactly once, whatever redraws happen in between.
   useEffect(() => {
-    if (reduced) { onDone(); return; }
-    play('sfx_warning');
-    const t = window.setInterval(() => setN((k) => {
-      if (k <= 1) { window.clearInterval(t); window.setTimeout(onDone, 250); return 0; }
-      play(k === 2 ? 'sfx_click' : 'sfx_warning');
-      return k - 1;
-    }), 800);
-    return () => window.clearInterval(t);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    const go = () => { if (!fired.current) { fired.current = true; done.current(); } };
+    if (reduced) { go(); return; }
+    if (n <= 0) { const t = window.setTimeout(go, 250); return () => window.clearTimeout(t); }
+    play(n === 1 ? 'sfx_click' : 'sfx_warning');
+    const t = window.setTimeout(() => setN(n - 1), 800);
+    return () => window.clearTimeout(t);
+  }, [n, reduced]);
   return <div className="countdown" role="alert" aria-live="assertive"><span key={n}>{n > 0 ? n : 'GO!'}</span></div>;
 }
 

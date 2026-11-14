@@ -40,8 +40,7 @@ export function TradeSpace({ onClose }: { onClose: () => void }) {
   const data = pts.map((p) => ({ ...p, costPct: budgetPct(p.totalCostM) }));
   const apply = (p: SweepPoint) => {
     if (!can || p.isCurrent) return;
-    const key = param === 'lifetimeYears' || param === 'deltaVMarginPct' || param === 'launchVehicleId' ? param : param;
-    room.updateDesign(role, { [key]: p.value } as never);
+    room.updateDesign(role, { [param]: p.value } as never);
   };
   return (
     <Modal label="Trade-Space Explorer" onClose={onClose} wide>
