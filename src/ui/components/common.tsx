@@ -329,3 +329,35 @@ export function Stats({ items }: { items: ([string, ReactNode] | false | null | 
     </span>
   );
 }
+
+/**
+ * A number that counts to its new value instead of jumping (ease-out over `ms`; the first showing counts up from
+ * `from`). One requestAnimationFrame loop while it moves, none at rest; reduced motion shows the value at once.
+ */
+export function CountUp({ to, from = 0, ms = 1200, format = (n: number) => String(Math.round(n)) }:
+  { to: number; from?: number; ms?: number; format?: (n: number) => string }) {
+  const reduced = useGame((g) => g.settings.reducedMotion);
+  const [n, setN] = useState(reduced ? to : from);
+  const shown = useRef(n);
+  useEffect(() => {
+    if (reduced) { shown.current = to; setN(to); return; }
+    const start = performance.now();
+    const a = shown.current;
+    let raf = 0;
+    const f = (now: number) => {
+      const k = Math.min(1, (now - start) / ms);
+      shown.current = a + (to - a) * (1 - (1 - k) ** 3);
+      setN(shown.current);
+      if (k < 1) raf = requestAnimationFrame(f);
+    };
+    raf = requestAnimationFrame(f);
+    return () => cancelAnimationFrame(raf);
+  }, [to, ms, reduced]);
+  return <>{format(n)}</>;
+}
+
+/** Wraps a value that can change: each time it changes, it gives a short pop (motion.css `.bump`). Not on first show. */
+export function Bump({ value, children }: { value: string | number; children?: ReactNode }) {
+  const first = useRef(value);
+  return <span key={String(value)} className={first.current === value ? undefined : 'bump'}>{children ?? value}</span>;
+}

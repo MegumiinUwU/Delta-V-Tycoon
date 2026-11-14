@@ -6,6 +6,8 @@ import { navigate, useRoute } from './router';
 import { startDiscoveryTracking } from './state/discoveries';
 import { useGame } from './state/store';
 import { ErrorBoundary, GlossaryDrawer, Loading, TabPanel, Toasts } from './ui/components/common';
+import { StepCurtain } from './ui/components/StepCurtain';
+import { installCardLight } from './ui/fx';
 import { Title } from './ui/screens/Title';
 
 // Only the title screen ships in the first download. Every other screen is its own small file, fetched in the
@@ -91,18 +93,21 @@ function PhaseShell({ code }: { code?: string }) {
   else body = <Report />;
   return (
     <main className="screen">
-      <Suspense fallback={null}>
-        <TopBar />
-        <TabPanel className="phase" id={briefing ? 'briefing' : phase} order={PHASE_ORDER.indexOf(phase) * 2 + (briefing ? 0 : 1)}>{body}</TabPanel>
-        <Tutorial />
-        <ChatDrawer />
-      </Suspense>
+      {/* Separate boundaries: the first visit to a step waits a moment for that screen's code, and only that
+          screen may blank while it does. One shared boundary hid the top bar too, so it blinked on every new step. */}
+      <Suspense fallback={null}><TopBar /></Suspense>
+      <TabPanel className="phase" id={briefing ? 'briefing' : phase} order={PHASE_ORDER.indexOf(phase) * 2 + (briefing ? 0 : 1)}>
+        <Suspense fallback={null}>{body}</Suspense>
+      </TabPanel>
+      <Suspense fallback={null}><Tutorial /><ChatDrawer /></Suspense>
+      <StepCurtain />
     </main>
   );
 }
 
 export function App() {
   useEffect(() => startDiscoveryTracking(), []);
+  useEffect(() => installCardLight(), []);
   const route = useRoute();
   const settings = useGame((g) => g.settings);
   const [loaded, setLoaded] = useState(0);

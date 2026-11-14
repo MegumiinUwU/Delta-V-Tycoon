@@ -234,6 +234,9 @@ table.grid tr.diff td { background: #3e2731; }
 .card.part { flex-direction: column; align-items: flex-start; gap: 4px; min-height: 0; transition: transform .08s, border-color .08s; }
 .card.part:hover:not(:disabled) { transform: translateY(-2px); }
 .card.part .name { font-weight: bold; }
+.card.part > * { max-width: 100%; }
+.card.part .stat { white-space: normal; align-items: flex-start; max-width: 100%; overflow-wrap: anywhere; }   /* long rules ("decays in 4 yr without deorbit kit") wrap inside the card */
+.card.part .stat img { flex-shrink: 0; }
 .cards.parts { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
 .tile { background: var(--panel-2); border: 2px solid var(--border); padding: 10px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }

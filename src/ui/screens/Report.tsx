@@ -12,27 +12,13 @@ import { navigate } from '../../router';
 import { KEYS, load, save, type SavedDesign } from '../../state/storage';
 import { useDiscoveries } from '../../state/discoveries';
 import { useGame, useIsHost } from '../../state/store';
-import { Help, Portrait, ROLE_COLOR, VoiceLine } from '../components/common';
+import { CountUp, Help, Portrait, ROLE_COLOR, VoiceLine } from '../components/common';
 import { TwinCard } from './LaunchOps';
 import { CareerBanner } from './CareerBanner';
 import { Attempts } from './Attempts';
 
 type Tab = 'fix' | 'why' | 'twin' | 'attempts' | 'full' | 'share';
 const OUTCOME_LABEL = { success: 'Mission success', partial: 'Partial success', failure: 'Mission lost' } as const;
-
-function CountUp({ to }: { to: number }) {
-  const reduced = useGame((g) => g.settings.reducedMotion);
-  const [n, setN] = useState(reduced ? to : 0);
-  useEffect(() => {
-    if (reduced) { setN(to); return; }
-    const start = performance.now();
-    let raf = 0;
-    const f = (now: number) => { const k = Math.min(1, (now - start) / 1200); setN(Math.round(to * k)); if (k < 1) raf = requestAnimationFrame(f); };
-    raf = requestAnimationFrame(f);
-    return () => cancelAnimationFrame(raf);
-  }, [to, reduced]);
-  return <>{n}</>;
-}
 
 export function Report() {
   const room = useGame((g) => g.room)!;

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { fmtDelay, fmtGbitDay, fmtKg, fmtM, fmtMonths, fmtMs, fmtNum, fmtW, ROLES, type Budgets, type Check, type Severity } from '../../core';
 import { getOrbit } from '../../core/catalog';
 import { useGame } from '../../state/store';
-import { Help, Icon, Modal, ROLE_COLOR, Status } from './common';
+import { Bump, Help, Icon, Modal, ROLE_COLOR, Status } from './common';
 
 interface MeterDef {
   id: 'mass' | 'power' | 'budget' | 'data' | 'comms' | 'time' | 'deltav'; label: string; icon: string; concept: string; checks: string[];
@@ -85,7 +85,7 @@ export function Dashboard() {
           <button key={m.id} className="meter" data-tutorial={`meter-${m.id}`} onClick={() => setOpen(m.id)} aria-label={`${m.label}: ${m.text(b)}. Open breakdown`}>
             <div className="row between">
               <span className="row" style={{ gap: 4 }}><Icon id={m.icon} size={24} /> {m.label} <Status s={sev} /></span>
-              <span className="small">{m.text(b)}{dl && <span className={`delta ${dl.better ? 'better' : 'worse'}`}>{dl.text}</span>}</span>
+              <span className="small"><Bump value={m.text(b)} />{dl && <span className={`delta ${dl.better ? 'better' : 'worse'}`}>{dl.text}</span>}</span>
             </div>
             <div className="bar">
               <div className="fill" style={{ width: `${Math.min(100, f * 100)}%`, background: COLOR[sev] }} />
@@ -99,7 +99,7 @@ export function Dashboard() {
         );
       })}
       <div className="row small" aria-label="Checks summary">
-        Checks: <span className="fail">{counts.fail}✗</span> <span className="warn">{counts.warn}!</span> <span className="pass">{counts.pass}✓</span>
+        Checks: <span className="fail"><Bump value={counts.fail} />✗</span> <span className="warn"><Bump value={counts.warn} />!</span> <span className="pass"><Bump value={counts.pass} />✓</span>
       </div>
       {open && <Breakdown id={open} b={b} onClose={() => setOpen(null)} />}
     </section>

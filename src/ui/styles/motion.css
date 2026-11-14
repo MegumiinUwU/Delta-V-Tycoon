@@ -141,3 +141,66 @@ input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px va
 input[type=range]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--blue); }
 .stepper.grow { flex: 0 1 auto; margin-right: auto; }
 .tab-panel.phase { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+
+/* ---- Step change: a full-page sweep (StepCurtain.tsx), in three stages set as classes by the component:
+   .is-in    the gold sheet (0-0.6 s) and then the dark one (0.15-0.75 s) sweep up over the old page, which sinks back
+   .is-hold  one card per step reached: number and name rise in, hold ~1 s, fade (1.4 s each)
+   .is-out   the dark sheet lifts, the gold one trails it, and the new page rises in behind them (0.72 s)
+   A mission opens (.opening) straight in .is-hold. Transform and opacity only. ---- */
+.step-curtain { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; overflow: hidden; pointer-events: auto; }
+.sc-ghost { position: absolute; inset: 0; overflow: hidden; pointer-events: none; background: var(--bg, #181425); }
+.sc-ghost > * { animation: sc-ghost .65s cubic-bezier(.76, 0, .24, 1) both; transform-origin: 50% 0; }  /* the old page sinks back */
+.step-curtain:not(.is-in) .sc-ghost { visibility: hidden; }   /* covered from here: the lift must show the NEW page */
+.sc-sheet { position: absolute; inset: 0; will-change: transform; backface-visibility: hidden; }
+.sc-sheet.gold { background: var(--gold); }
+.sc-sheet.dark { background: #181425; box-shadow: 0 -3px 0 var(--border);
+  display: flex; align-items: center; justify-content: center; }
+.is-in .sc-sheet.gold { animation: sc-cover .6s cubic-bezier(.76, 0, .24, 1) both; }
+.is-in .sc-sheet.dark { animation: sc-cover .6s .15s cubic-bezier(.76, 0, .24, 1) both; }
+.is-out .sc-sheet.dark { animation: sc-lift .5s cubic-bezier(.76, 0, .24, 1) both; }
+.is-out .sc-sheet.gold { animation: sc-lift .58s .14s cubic-bezier(.76, 0, .24, 1) both; }
+@keyframes sc-cover { from { transform: translateY(calc(100% + 4px)); } to { transform: translateY(0); } }
+@keyframes sc-lift { from { transform: translateY(0); } to { transform: translateY(-100%); } }
+@keyframes sc-ghost { to { transform: translateY(-48px) scale(.96); opacity: .3; } }
+/* the new page: rises in once the gold sheet starts to lift, and waits on its first frame until then */
+.tab-panel.phase[data-reveal] { animation: sc-reveal .75s cubic-bezier(.22, 1, .36, 1) both; }
+.curtain-on .tab-panel.phase { animation-play-state: paused; }
+@keyframes sc-reveal { from { opacity: 0; transform: translateY(64px); } }
+.sc-title { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; padding: 16px;
+  animation: sc-title 1.4s linear both; }
+@keyframes sc-title {
+  0% { opacity: 0; transform: translateY(32px); animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+  24% { opacity: 1; transform: translateY(0); }
+  84% { opacity: 1; transform: translateY(0); animation-timing-function: cubic-bezier(.5, 0, .75, 0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+.sc-num { font-size: clamp(56px, 11vw, 128px); line-height: 1; color: var(--gold); }
+.sc-of { font-size: .28em; color: var(--muted); }
+.sc-label { font-size: clamp(20px, 3.6vw, 40px); color: #fff; }
+.sc-cml { color: var(--blue); }
+.sc-dots { display: flex; gap: 6px; margin-top: 8px; }
+.sc-dots i { width: 22px; height: 6px; background: #3a4466; position: relative; overflow: hidden; }
+.sc-dots i.done { background: var(--muted); }
+.sc-dots i.on::after { content: ''; position: absolute; inset: 0; background: var(--gold); transform-origin: 0 50%;
+  animation: sc-fill .5s .35s var(--ease-out) both; }
+@keyframes sc-fill { from { transform: scaleX(0); } }
+
+/* ---- Phase bar: finished steps tick off with a pop, the current tile breathes a soft glow ---- */
+.stepper .step .tick { display: inline-block; color: var(--pass); animation: tick-pop .42s var(--ease-spring) backwards; }
+@keyframes tick-pop { from { transform: scale(0) rotate(-30deg); opacity: 0; } }
+.stepper .slide-marker::after { content: ''; position: absolute; inset: 0; box-shadow: 0 0 12px 1px #feae3455;
+  opacity: .25; animation: breathe 2.4s ease-in-out infinite alternate; }
+@keyframes breathe { to { opacity: 1; } }
+.stepper .step.on { animation: step-on .5s var(--ease-out) backwards; }
+@keyframes step-on { from { opacity: .4; } }
+
+/* ---- Small helpers ---- */
+/* <Bump>: a value that just changed gives a quick pop so your eye catches it */
+.bump { display: inline-block; animation: bump .36s var(--ease-spring); }
+@keyframes bump { 0% { transform: scale(1.18); color: #fff; } }
+/* cards: a soft gold light follows the mouse (fx.ts sets --mx/--my on the card under the pointer) */
+.card { isolation: isolate; }
+.card::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0;
+  background: radial-gradient(140px circle at var(--mx, 50%) var(--my, 50%), #feae341f, transparent 70%);
+  transition: opacity .25s var(--ease-std); }
+.card:hover:not(:disabled)::before { opacity: 1; }

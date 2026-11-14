@@ -6,7 +6,7 @@ import { getCatalog } from '../../core';
 import { navigate } from '../../router';
 import { agencyRank, CAREER_ORDER, isUnlocked, reputation, REPUTATION_MAX, resetCareer, useCareer } from '../../state/career';
 import { useGame } from '../../state/store';
-import { Icon, Stars } from '../components/common';
+import { CountUp, Icon, Stars } from '../components/common';
 import { CharacterSelect, CrewChip } from './CharacterSelect';
 
 export function Career() {
@@ -36,9 +36,9 @@ export function Career() {
       <section className="panel dark col">
         <div className="row between">
           <span className="title" style={{ margin: 0 }}>{agencyRank(rep)}</span>
-          <span className="gold">Reputation {rep} / {REPUTATION_MAX} ★</span>
+          <span className="gold">Reputation <CountUp to={rep} ms={700} /> / {REPUTATION_MAX} ★</span>
         </div>
-        <div style={{ height: 12, border: '2px solid var(--border)' }}><div style={{ width: `${(rep / REPUTATION_MAX) * 100}%`, height: '100%', background: 'var(--gold)' }} /></div>
+        <div style={{ height: 12, border: '2px solid var(--border)' }}><div style={{ width: `${(rep / REPUTATION_MAX) * 100}%`, height: '100%', background: 'var(--gold)', transition: 'width .7s var(--ease-out)' }} /></div>
         <span className="small muted">Grow from a garage team to a flagship agency. Fly each mission to a success to unlock the next one; your best stars on each mission make your reputation.</span>
       </section>
       <div className="cards" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
