@@ -1,9 +1,9 @@
-import { conceptMaturity, fmtM, tagGroupsWords, type Phase } from '../../core';
+import { conceptMaturity, fmtM, tagGroupsWords } from '../../core';
 import { getCatalog } from '../../core';
 import { getDifficulty, getScenario } from '../../core/catalog';
 import { navigate } from '../../router';
 import { useGame, useIsHost } from '../../state/store';
-import { STEPS, PHASES as ORDER } from '../steps';
+import { STEPS, PHASES as ORDER, useShownStep } from '../steps';
 import { Modal, Portrait, SlideMarker } from './common';
 
 export function TopBar() {
@@ -16,11 +16,12 @@ export function TopBar() {
   const chatSeen = useGame((g) => g.chatSeen);
   const connected = useGame((g) => g.connected);
   const isHost = useIsHost();
+  const shown = useShownStep((s) => s.step);
   if (!state || !room) return null;
   const sc = getScenario(state.meta.scenarioId);
   const diff = getDifficulty(state.meta.difficulty);
   const phase = state.meta.phase === 'council' && !briefingDone ? 'lobby' : state.meta.phase;
-  const idx = ORDER.indexOf(phase);
+  const idx = shown ?? ORDER.indexOf(phase);   // during a step transition, the step its card is showing
   const m = conceptMaturity(checks);
   const unread = Math.max(0, state.chat.length - chatSeen);
   const pending = state.requests.filter((r) => r.status === 'pending' && state.roles[r.toRole] === room.myUid);
@@ -36,8 +37,8 @@ export function TopBar() {
         </div>
         <nav className="stepper grow" aria-label="Mission phase">
           {STEPS.map((s, i) => {
-            const on = s.phases.includes(phase as Phase);
-            const done = ORDER.indexOf(s.phases[0]) < idx;
+            const on = i === idx;
+            const done = i < idx;
             const cml = s.label === 'Build & Verify' && idx >= 2 ? `CML ${m.cml}` : s.cml;
             return (
               <div key={s.label} className={`step ${on ? 'on' : done ? 'done' : ''}`} aria-current={on ? 'step' : undefined}>

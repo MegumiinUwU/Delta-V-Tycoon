@@ -93,12 +93,13 @@ function PhaseShell({ code }: { code?: string }) {
   else body = <Report />;
   return (
     <main className="screen">
-      <Suspense fallback={null}>
-        <TopBar />
-        <TabPanel className="phase" id={briefing ? 'briefing' : phase} order={PHASE_ORDER.indexOf(phase) * 2 + (briefing ? 0 : 1)}>{body}</TabPanel>
-        <Tutorial />
-        <ChatDrawer />
-      </Suspense>
+      {/* Separate boundaries: the first visit to a step waits a moment for that screen's code, and only that
+          screen may blank while it does. One shared boundary hid the top bar too, so it blinked on every new step. */}
+      <Suspense fallback={null}><TopBar /></Suspense>
+      <TabPanel className="phase" id={briefing ? 'briefing' : phase} order={PHASE_ORDER.indexOf(phase) * 2 + (briefing ? 0 : 1)}>
+        <Suspense fallback={null}>{body}</Suspense>
+      </TabPanel>
+      <Suspense fallback={null}><Tutorial /><ChatDrawer /></Suspense>
       <StepCurtain />
     </main>
   );

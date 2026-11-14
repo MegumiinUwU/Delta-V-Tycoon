@@ -142,36 +142,37 @@ input[type=range]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--
 .stepper.grow { flex: 0 1 auto; margin-right: auto; }
 .tab-panel.phase { display: flex; flex-direction: column; flex: 1; min-height: 0; }
 
-/* ---- Step change: a full-page sweep (StepCurtain.tsx). A gold sheet leads, a dark sheet follows with the next
-   step's number and name, then both lift away; 1.35 s in all, transform and opacity only ---- */
+/* ---- Step change: a full-page sweep (StepCurtain.tsx), in three stages set as classes by the component:
+   .is-in    the gold sheet (0-0.6 s) and then the dark one (0.15-0.75 s) sweep up over the old page, which sinks back
+   .is-hold  one card per step reached: number and name rise in, hold ~1 s, fade (1.4 s each)
+   .is-out   the dark sheet lifts, the gold one trails it, and the new page rises in behind them (0.72 s)
+   A mission opens (.opening) straight in .is-hold. Transform and opacity only. ---- */
 .step-curtain { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; overflow: hidden; pointer-events: auto; }
 .sc-ghost { position: absolute; inset: 0; overflow: hidden; pointer-events: none; background: var(--bg, #181425); }
-.sc-ghost > * { animation: sc-ghost .46s cubic-bezier(.76, 0, .24, 1) both; transform-origin: 50% 0; }  /* the old page sinks back */
-.sc-sheet { position: absolute; inset: 0; will-change: transform; }
-.sc-sheet.gold { background: var(--gold); animation: sc-gold 1.35s both; }
-.sc-sheet.dark { background: #181425; border-top: 3px solid var(--border); animation: sc-dark 1.35s both;
+.sc-ghost > * { animation: sc-ghost .65s cubic-bezier(.76, 0, .24, 1) both; transform-origin: 50% 0; }  /* the old page sinks back */
+.step-curtain:not(.is-in) .sc-ghost { visibility: hidden; }   /* covered from here: the lift must show the NEW page */
+.sc-sheet { position: absolute; inset: 0; will-change: transform; backface-visibility: hidden; }
+.sc-sheet.gold { background: var(--gold); }
+.sc-sheet.dark { background: #181425; box-shadow: 0 -3px 0 var(--border);
   display: flex; align-items: center; justify-content: center; }
-.curtain-on .tab-panel.phase { animation-play-state: paused; }   /* waits on its first frame under the sheets */
-@keyframes sc-ghost { to { transform: translateY(-40px) scale(.97); opacity: .35; } }
-@keyframes sc-gold {
-  0% { transform: translateY(100%); animation-timing-function: cubic-bezier(.76, 0, .24, 1); }
-  30% { transform: none; }
-  66% { transform: none; animation-timing-function: cubic-bezier(.76, 0, .24, 1); }
-  100% { transform: translateY(-100%); }
-}
-@keyframes sc-dark {
-  0%, 6% { transform: translateY(100%); animation-timing-function: cubic-bezier(.76, 0, .24, 1); }
-  34% { transform: none; }
-  58% { transform: none; animation-timing-function: cubic-bezier(.76, 0, .24, 1); }
-  88%, 100% { transform: translateY(-100%); }
-}
+.is-in .sc-sheet.gold { animation: sc-cover .6s cubic-bezier(.76, 0, .24, 1) both; }
+.is-in .sc-sheet.dark { animation: sc-cover .6s .15s cubic-bezier(.76, 0, .24, 1) both; }
+.is-out .sc-sheet.dark { animation: sc-lift .5s cubic-bezier(.76, 0, .24, 1) both; }
+.is-out .sc-sheet.gold { animation: sc-lift .58s .14s cubic-bezier(.76, 0, .24, 1) both; }
+@keyframes sc-cover { from { transform: translateY(calc(100% + 4px)); } to { transform: translateY(0); } }
+@keyframes sc-lift { from { transform: translateY(0); } to { transform: translateY(-100%); } }
+@keyframes sc-ghost { to { transform: translateY(-48px) scale(.96); opacity: .3; } }
+/* the new page: rises in once the gold sheet starts to lift, and waits on its first frame until then */
+.tab-panel.phase[data-reveal] { animation: sc-reveal .75s cubic-bezier(.22, 1, .36, 1) both; }
+.curtain-on .tab-panel.phase { animation-play-state: paused; }
+@keyframes sc-reveal { from { opacity: 0; transform: translateY(64px); } }
 .sc-title { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; padding: 16px;
-  animation: sc-title 1.35s both; }
+  animation: sc-title 1.4s linear both; }
 @keyframes sc-title {
-  0%, 30% { opacity: 0; transform: translateY(28px); animation-timing-function: var(--ease-out); }
-  42% { opacity: 1; transform: none; }
-  54% { opacity: 1; transform: none; animation-timing-function: cubic-bezier(.5, 0, .75, 0); }
-  62%, 100% { opacity: 0; transform: translateY(-18px); }
+  0% { opacity: 0; transform: translateY(32px); animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+  24% { opacity: 1; transform: translateY(0); }
+  84% { opacity: 1; transform: translateY(0); animation-timing-function: cubic-bezier(.5, 0, .75, 0); }
+  100% { opacity: 0; transform: translateY(-20px); }
 }
 .sc-num { font-size: clamp(56px, 11vw, 128px); line-height: 1; color: var(--gold); }
 .sc-of { font-size: .28em; color: var(--muted); }
@@ -181,7 +182,7 @@ input[type=range]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--
 .sc-dots i { width: 22px; height: 6px; background: #3a4466; position: relative; overflow: hidden; }
 .sc-dots i.done { background: var(--muted); }
 .sc-dots i.on::after { content: ''; position: absolute; inset: 0; background: var(--gold); transform-origin: 0 50%;
-  animation: sc-fill .3s .5s var(--ease-out) both; }
+  animation: sc-fill .5s .35s var(--ease-out) both; }
 @keyframes sc-fill { from { transform: scaleX(0); } }
 
 /* ---- Phase bar: finished steps tick off with a pop, the current tile breathes a soft glow ---- */
